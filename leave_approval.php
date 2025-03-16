@@ -48,7 +48,6 @@
         <div class="box-style">
             <div class="content-container1">
                 <input type="text" name="search" id="search" class="searchBar">
-                <button class="add-button-style" id="open">Add Employees</button>
             </div>
             <!-- Tabs -->
             <div class="tabs">
