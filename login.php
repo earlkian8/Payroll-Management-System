@@ -1,6 +1,8 @@
 <?php
 
-    include "db_connection.php";
+    session_start();
+    require_once "db_connection.php"; // Make sure this file contains the Database class
+
 ?>
 
 <!DOCTYPE html>
@@ -27,7 +29,7 @@
                 <p>We are thrilled to see you again!</p>
             </div>
             <form action="login.php" method="post">
-                <input type="text" name="username" id="username" placeholder="USERNAME"/> <!-- Replace this with email format -->
+                <input type="text" name="username" id="username" placeholder="USERNAME"/> <!-- Replace this with email format + Dapat wala mag labas yung suggestion thing when input -->
                 <input type="password" name="password" id="password" placeholder="PASSWORD"/>
                 <div class="btn-login">
                     <button type="submit" name="login"><a href="">Login</a></button>
@@ -45,24 +47,28 @@
 </html>
 
 <?php
-    if($_SERVER["REQUEST_METHOD"] == "POST" && isset($_POST["login"])){
+    
+    if ($_SERVER["REQUEST_METHOD"] === "POST" && isset($_POST["login"])) {
+        $conn = (new Database())->getConnection();
 
-        $username = $_POST["username"];
-        $password = $_POST["password"];
+        $username = trim($_POST["username"]);
+        $password = trim($_POST["password"]);
 
-        if(empty($_POST["username"]) || empty($_POST["password"])){
+        if (empty($username) || empty($password)) {
             die("Please input all the fields.");
         }
 
-        $statement = $conn->prepare("SELECT password FROM accounts WHERE username = ? AND password = ?");
-        $statement->bind_param("ss", $username, $username);
-        $statement->execute();
-        $result = $statement->get_result();
+        $stmt = $conn->prepare("SELECT id, password FROM accounts WHERE username = :username");
+        $stmt->bindParam(":username", $username, PDO::PARAM_STR);
+        $stmt->execute();
+        $user = $stmt->fetch(PDO::FETCH_ASSOC);
 
-        if($result->num_rows > 0){
+        if ($user && password_verify($password, $user["password"])) {
+            $_SESSION["user_id"] = $user["id"];
             header("Location: dashboard.php");
             exit();
+        } else {
+            echo "<script>alert('Get out');</script>";
         }
-        $statement->close();
     }
 ?>
