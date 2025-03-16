@@ -9,10 +9,9 @@ require_once "db_connection.php";
 <html lang="en">
 
 <head>
-    <meta charset="UTF-8" />
-    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>WageFlow | Sign In</title>
-    <link rel="stylesheet" href="css/login-style.css" />
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>SIGN UP</title>
 </head>
 
 <body>
@@ -26,20 +25,20 @@ require_once "db_connection.php";
             <h3 class="flow">Flow</h3>
         </div>
         <div class="sign-welcome">
-            <h2>SIGN IN</h2>
-            <p>We are thrilled to see you again!</p>
+            <h2>SIGN UP</h2>
         </div>
         <form action="login.php" method="post">
-            <input type="email" name="username" id="username" placeholder="EMAIL" autocomplete="off" /> <!-- Replace this with email format + Dapat wala mag labas yung suggestion thing when input -->
-            <input type="password" name="password" id="password" placeholder="PASSWORD" />
+            <input type="email" name="username" id="username" placeholder="USERNAME" autocomplete="off" required /> <!-- Replace this with email format + Dapat wala mag labas yung suggestion thing when input -->
+            <input type="password" name="password" id="password" placeholder="PASSWORD" required />
+            <input type="password" name="password" id="password" placeholder="PASSWORD" required />
             <div class="btn-login">
-                <button type="submit" name="login"><a href="">Login</a></button>
+                <button type="submit" name="login"><a href="">Sign Up</a></button>
             </div>
             <div class="forgot-password">
                 <a href="">Forgot Password?</a>
             </div>
             <div class="sign-up">
-                <p>Don't have an account?</p>
+                <p>Have an account? Sign In</p>
                 <a href="sign-up.php">Sign Up</a>
             </div>
         </form>
