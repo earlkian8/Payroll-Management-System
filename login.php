@@ -1,7 +1,7 @@
 <?php
 
     session_start();
-    require_once "db_connection.php"; // Make sure this file contains the Database class
+    require_once "db_connection.php";
 
 ?>
 
