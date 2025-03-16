@@ -30,7 +30,7 @@ require_once "db_connection.php";
             <p>We are thrilled to see you again!</p>
         </div>
         <form action="login.php" method="post">
-            <input type="email" name="username" id="username" placeholder="EMAIL" autocomplete="off" /> <!-- Replace this with email format + Dapat wala mag labas yung suggestion thing when input -->
+            <input type="email" name="username" id="username" placeholder="EMAIL" autocomplete="off" />
             <input type="password" name="password" id="password" placeholder="PASSWORD" />
             <div class="btn-login">
                 <button type="submit" name="login"><a href="">Login</a></button>
