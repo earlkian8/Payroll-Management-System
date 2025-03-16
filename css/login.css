@@ -1,0 +1,141 @@
+@import url("https://fonts.googleapis.com/css2?family=Poppins:ital,wght@0,100;0,200;0,300;0,400;0,500;0,600;0,700;0,800;0,900;1,100;1,200;1,300;1,400;1,500;1,600;1,700;1,800;1,900&display=swap");
+
+*,
+*::before,
+*::after {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+    font-family: "Poppins", "Helvetica Neue", Helvetica, Arial;
+}
+
+body {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    height: 100vh;
+    background-color: #1a1a1a;
+}
+
+.login-container {
+    width: 100%;
+    max-width: 550px;
+    background-color: #2a2a2a;
+    border-radius: 12px;
+    padding: 40px;
+    border-width: 1px;
+    border-style: none;
+    box-shadow: 0 4px 4px #00000040;
+}
+
+.login-header {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    margin-bottom: 30px;
+}
+
+.login-header img {
+    margin-right: 10px;
+}
+
+.login-header h3 {
+    font-size: 32px;
+    color: white;
+}
+
+.login-header .flow {
+    color: #3498db;
+}
+
+.sign-welcome {
+    text-align: center;
+    margin-bottom: 30px;
+}
+
+.sign-welcome h2 {
+    font-size: 28px;
+    font-weight: bold;
+    color: white;
+    margin-bottom: 15px;
+}
+
+.sign-welcome p {
+    color: white;
+    font-size: 16px;
+}
+
+form {
+    display: flex;
+    flex-direction: column;
+}
+
+input {
+    padding: 15px;
+    margin-bottom: 20px;
+    background-color: #3a3a3a;
+    border: none;
+    border-radius: 6px;
+    color: white;
+    font-size: 16px;
+}
+
+input:focus {
+    outline: none;
+    background-color: #404040;
+}
+
+.btn-login {
+    text-align: center;
+    width: 100%;
+    margin-bottom: 15px;
+}
+
+.btn-login button {
+    width: 80%;
+    padding: 12px;
+    border: none;
+    border-radius: 6px;
+    font-size: 18px;
+    background-color: #5bc0de;
+    transition: background-color 0.3s;
+    cursor: pointer;
+}
+
+.btn-login button a {
+    text-decoration: none;
+    color: white;
+}
+
+.btn-login button:hover {
+    background-color: #31b0d5;
+}
+
+.forgot-password {
+    text-align: right;
+    margin-bottom: 25px;
+}
+.forgot-password a {
+    color: #5bc0de;
+    text-decoration: none;
+    font-size: 14px;
+}
+
+.sign-up {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    margin-top: 20px;
+    gap: 5px;
+}
+
+.sign-up p {
+    color: #ccc;
+    font-size: 14px;
+}
+
+.sign-up a {
+    color: #5bc0de;
+    text-decoration: none;
+    font-weight: bold;
+}
