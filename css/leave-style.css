@@ -1,0 +1,29 @@
+.tabs{
+    display: flex;
+    flex-direction: row;
+
+}
+.tab {
+    padding: 10px 20px;
+    cursor: pointer;
+    background: #ffffff;
+    margin-right: 5px;
+    transition: 0.3s;
+    font-family: PoppinsMedium;
+    font-size: .90rem;
+}
+.tab:hover {
+    background: #c0c0c0;
+}
+.tab.active {
+    background: white;
+    border-top: 2px solid #61CCEF;
+    font-weight: bold;
+}
+.tab-content {
+    display: none;
+    padding: 10px;
+}
+.tab-content.active {
+    display: block;
+}

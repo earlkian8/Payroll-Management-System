@@ -42,7 +42,19 @@
     </aside>
 
     <!-- Content -->
-    <main class="main-style">
-    </main>
+    <div class="content-style">
+        <!-- Content -->
+        <div class="box-style">
+            <div class="content-container1">
+                <input type="text" name="search" id="search" class="searchBar">
+                <button class="add-button-style" id="open">Add Employees</button>
+            </div>
+            
+            <ul class="content-container2" id="content">
+                <!-- JavaScript -->
+                 
+            </ul>
+        </div>
+    </div>
 </body>
 </html>

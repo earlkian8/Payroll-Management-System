@@ -5,6 +5,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>WageFlow</title>
     <link rel="stylesheet" href="css/navigation-style.css">
+    <link rel="stylesheet" href="css/payroll-style.css">
 </head>
 <body>
     <!-- Side Bar -->
@@ -40,8 +41,42 @@
             </a>
         </div>
     </aside>
+
     <!-- Content -->
-    <main class="main-style">
-    </main>
+    <div class="content-style">
+        <!-- Content -->
+        <div class="box-style">
+            <div class="content-container1">
+                <input type="text" name="search" id="search" class="searchBar">
+                <button class="add-button-style" id="open">Add Employees</button>
+            </div>
+            <!-- Tabs -->
+            <div class="tabs">
+                <div class="tab active" onclick="openTab(0)">Pending</div>
+                <div class="tab" onclick="openTab(1)">Issued</div>
+            </div>
+            
+            <!-- Tab Content -->
+            <ul class="content-container2 tab-content active" id="pending-content">
+                <!-- Pending Employees -->
+            </ul>
+            <ul class="content-container2 tab-content" id="issued-content">
+                <!-- Issued Employees -->
+            </ul>
+        </div>
+    </div>
+
+    <script>
+        function openTab(index) {
+            let tabs = document.querySelectorAll(".tab");
+            let contents = document.querySelectorAll(".tab-content");
+
+            tabs.forEach(tab => tab.classList.remove("active"));
+            contents.forEach(content => content.classList.remove("active"));
+
+            tabs[index].classList.add("active");
+            contents[index].classList.add("active");
+        }
+    </script>
 </body>
 </html>

@@ -42,8 +42,5 @@
         </div>
     </aside>
 
-    <!-- Content -->
-    <main class="main-style">
-    </main>
 </body>
 </html>

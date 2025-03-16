@@ -21,7 +21,7 @@
 
 body{
     height: 100vh;
-    width: 100%;
+    width: 100vw;
     position: fixed;
 }
 
@@ -97,9 +97,12 @@ body{
     text-decoration-thickness: 2px;
 }
 
-.main-style{
-    width: 100%;
+.content-style{
+    width: 85%;
     height: 100%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
 }
 
 @media (max-width: 1200px) {
@@ -126,4 +129,66 @@ body{
         align-items: center;
         justify-content: center;
     }
+}
+
+.box-style{
+    width: 90%;
+    height: 80vh;
+    
+}
+
+.content-container1{
+    height: 15%;
+    width: 100%;
+    display: flex;
+    justify-content: space-between;
+    align-items: end;
+
+}
+
+.content-container2{
+    height: 85%;
+    width: 100%;
+    border-top-color: #383838;
+    border-top-style: solid;
+    border-top-width: 1px;
+    overflow-y: auto;
+    padding-right: 10px;
+}
+
+.searchBar, .add-button-style{
+    margin-bottom: 1em;
+}
+
+.searchBar{
+    margin-left: 1em;
+    width: 35%;
+    padding: .50em;
+    border-radius: 5px;
+    border-color: #c0c0c0;
+    border-width: 1px;
+    border-style: solid;
+    color: #383838;
+}
+
+.searchBar:focus{
+    outline: none;
+    border-color: #c0c0c0;
+}
+
+.add-button-style{
+    margin-right: 1em;
+    padding: .75em 2em;
+    border-style: none;
+    background-color: #519cff;
+    color: #ffffff;
+    border-radius: 5px;
+    font-family: PoppinsMedium;
+    cursor: pointer;
+    transition: .25s;
+}
+
+
+.add-button-style:hover{
+    background-color: #0d5ac0;
 }
