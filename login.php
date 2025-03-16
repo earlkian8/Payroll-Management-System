@@ -45,30 +45,3 @@
         </div>
     </body>
 </html>
-
-<?php
-    
-    if ($_SERVER["REQUEST_METHOD"] === "POST" && isset($_POST["login"])) {
-        $conn = (new Database())->getConnection();
-
-        $username = trim($_POST["username"]);
-        $password = trim($_POST["password"]);
-
-        if (empty($username) || empty($password)) {
-            die("Please input all the fields.");
-        }
-
-        $stmt = $conn->prepare("SELECT id, password FROM accounts WHERE username = :username");
-        $stmt->bindParam(":username", $username, PDO::PARAM_STR);
-        $stmt->execute();
-        $user = $stmt->fetch(PDO::FETCH_ASSOC);
-
-        if ($user && password_verify($password, $user["password"])) {
-            $_SESSION["user_id"] = $user["id"];
-            header("Location: dashboard.php");
-            exit();
-        } else {
-            echo "<script>alert('Get out');</script>";
-        }
-    }
-?>
