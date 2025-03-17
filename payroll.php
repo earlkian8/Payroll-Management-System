@@ -42,6 +42,7 @@
         </div>
     </aside>
 
+    
     <!-- Content -->
     <div class="content-style">
         <!-- Content -->
