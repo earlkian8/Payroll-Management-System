@@ -12,7 +12,7 @@ CREATE TABLE employees (
     last_name VARCHAR(50) NOT NULL,
     gender ENUM('Male', 'Female') NOT NULL,
     birthday DATE NOT NULL,
-    employement_type ENUM('Full Time', 'Part Time', 'Freelance') NOT NULL,
+    employment_type ENUM('Full Time', 'Part Time', 'Freelance') NOT NULL,
     designation VARCHAR(50) NOT NULL,
     salary DOUBLE(10, 2) NOT NULL,
     overtime_pay DOUBLE(10, 2) NOT NULL,

@@ -1,6 +1,9 @@
 <?php
 
-    include "db_connection.php";
+    require_once "db_connection.php";
+
+    $database = new Database();
+    $conn = $database->getConnection();
 
 ?>
 
@@ -85,7 +88,7 @@
                     </div>
                     <div class="input-container-subcontainer2">
                         <label for="birthday" class="label-style">Birthday</label>
-                        <input type="date" name="birthday" id="birthday" required placeholder="Date of Birth" pattern="^(19[0-9]{2}|20[0-9]{2})-(0[1-9]|1[0-2])-(0[1-9]|[12][0-9]|30)$">
+                        <input type="date" name="birthday" id="birthday" required placeholder="Date of Birth">
                     </div>
                     <div class="input-container-subcontainer2">
                         <label for="employmentType" class="label-style">Employment Type</label>
@@ -127,11 +130,97 @@
                 </div>
             </div>
             <div class="modal-button-container">
-                <button class="create-button-style" id="create" name="create">Create</button>
+                <button class="create-button-style" id="create" name="create" type="submit">Create</button>
                 <button class="discard-button-style" id="discard">Discard</button>
             </div>
         </form>
 
+        <!-- Employee Details -->
+        <form action="employee.php" method="post" class="employee-details" id="employee-details">
+            <div class="text-container-style">
+                <h1 class="h1-text-style">Employee Information</h1>
+                <img src="images/arrow-icon-383838.png" alt="Back" class="back-style" id="back">
+            </div>
+            <div class="information-container-style">
+                <div class="information-subcontainer1">
+                    <div class="employee-information-div">
+                        <div class="employee-subcontainer1-information">
+                            <h1 class="name-information-style" id="name-information">Earl Kian A. Bancayrin</h1>
+                            <p class="employeeId-information-style" id="employeeId-information">202330131</p>
+                        </div>
+                        <div class="employee-subcontainer2-information">
+                            <div class="left-employee-subcontainer2-information">
+                                <p class="information-style" id="gender-information-">Gender:</p>
+                                <p class="information-style" id="birthday-information-">Birthday:</p>
+                                <p class="information-style" id="employmentType-information-">Employment Type:</p>
+                                <p class="information-style" id="designation-information-">Designation:</p>
+                                <p class="information-style" id="salary-information-">Salary:</p>
+                                <p class="information-style" id="overtimePay-information-">Overtime Pay:</p>
+                                <p class="information-style" id="timeIn-information-">Time In:</p>
+                                <p class="information-style" id="timeOut-information-">Time Out:</p>
+                                <p class="information-style" id="dateHired-information-">Date Hired:</p>
+                            </div>
+                            <div class="right-employee-subcontainer2-information">
+                                <p class="value-style" id="gender-value"></p>
+                                <p class="value-style" id="birthday-value"></p>
+                                <p class="value-style" id="employmentType-value"></p>
+                                <p class="value-style" id="designation-value"></p>
+                                <p class="value-style" id="salary-value"></p>
+                                <p class="value-style" id="overtimePay-value"></p>
+                                <p class="value-style" id="timeIn-value"></p>
+                                <p class="value-style" id="timeOut-value"></p>
+                                <p class="value-style" id="dateHired-value"></p>
+                            </div>
+                            <div class="bottom-employee-subcontainer2-information">
+                                <button class="edit-button-style">Edit</button>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="information-subcontainer2">
+                    <div class="information-sub-subcontainer2">
+                        <div class="performance-information-div">
+                            <!-- Tabs -->
+                            <div class="tabs">
+                                <div class="tab active" onclick="openTab(0)">Salary</div>
+                                <div class="tab" onclick="openTab(1)">Attendance</div>
+                                <div class="tab" onclick="openTab(2)">Leave Request</div>
+                            </div>
+                            
+                            <!-- Tab Content -->
+                            <ul class="salary-content tab-content active" id="salary-content">
+                                <!-- Salary Content -->
+                            </ul>
+                            <ul class="attendance-content tab-content" id="attendance-content">
+                                <!-- Attendance Content -->
+                            </ul>
+                            <ul class="leave-content tab-content" id="leave-content">
+                                <!-- Leave Content -->
+                            </ul>
+                        </div>
+                        <div class="button-information-div">
+                            <button class="delete-button-style" id="delete-button-id">Delete</button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </form>
+
+         <!-- Confirm Delete -->
+         <form method="post" action="employee.php" class="confirm-delete-container" id="confirm-delete-container">
+        
+            <div class="delete-subcontainer">
+                <div class="delete-subcontainer-sub1">
+                    <h1 class="delete-h1-style">Confirm Deletion</h1>
+                    <p class="delete-p-style">This will delete the employee permanently. You cannot undo this action.</p>
+                </div>
+                <div class="delete-subcontainer-sub2">
+                    <input type="hidden" name="delete-employeeId" id="delete-employeeId">
+                    <button class="cancel-button-style" id="cancel-button-delete">Cancel</button>
+                    <button class="delete-button-style" id="delete-button-submit" name="delete-button-submit">Delete</button>
+                </div>
+            </div>
+        </form>
         <!-- Content -->
         <div class="box-style">
             <div class="content-container1">
@@ -141,7 +230,6 @@
             
             <ul class="content-container2" id="content">
                 <!-- JavaScript -->
-                 
             </ul>
         </div>
     </div>
@@ -167,8 +255,144 @@
         private $time_out;
         private $date_hired;
 
-    }
-    if($_SERVER["REQUEST_METHOD"] == "POST" && isset($_POST["create"])){
+        public function __construct($employee_id, $first_name, $middle_name, $last_name, $gender, $birthday, $employmentType, $designation, $salary, $overtime_pay, $time_in, $time_out, $date_hired){
+            $this->employee_id = $employee_id;
+            $this->first_name = $first_name;
+            $this->middle_name = $middle_name;
+            $this->last_name = $last_name;
+            $this->gender = $gender;
+            $this->birthday = $birthday;
+            $this->employmentType = $employmentType;
+            $this->designation = $designation;
+            $this->salary = $salary;
+            $this->overtime_pay = $overtime_pay;
+            $this->time_in = $time_in;
+            $this->time_out = $time_out;
+            $this->date_hired = $date_hired;       
+        }
 
+        public function getEmployeeId(){
+            return $this->employee_id;
+        }
+
+        public function setEmployeeId($s){
+            $this->employee_id = $s;
+        }
+
+        public function getFirstName(){
+            return $this->first_name;
+        }
+
+        public function setFirstName($s){
+            $this->first_name = $s;
+        }
+        
+        public function getMiddleName(){
+            return $this->middle_name;
+        }
+
+        public function setMiddleName($s){
+            $this->middle_name = $s;
+        }
+
+        public function getLastName(){
+            return $this->last_name;
+        }
+
+        public function setLastName($s){
+            $this->last_name = $s;
+        }
+
+        public function getGender(){
+            return $this->gender;
+        }
+
+        public function setGender($s){
+            $this->gender = $s;
+        }
+        
+        public function getBirthday(){
+            return $this->birthday;
+        }
+
+        public function setBirthday($s){
+            $this->birthday = $s;
+        }
+
+        public function getEmploymentType(){
+            return $this->employmentType;
+        }
+
+        public function setEmploymentType($s){
+            $this->employmentType = $s;
+        }
+
+        public function getDesignation(){
+            return $this->designation;
+        }
+
+        public function setDesignation($s){
+            $this->designation = $s;
+        }
+
+        public function getSalary(){
+            return $this->salary;
+        }
+
+        public function setSalary($s){
+            $this->salary = $s;
+        }
+
+        public function getOvertimePay(){
+            return $this->overtime_pay;
+        }
+
+        public function setOvertimePay($s){
+            $this->overtime_pay = $s;
+        }
+
+        public function getTimeIn(){
+            return $this->time_in;
+        }
+
+        public function setTimeIn($s){
+            $this->time_in = $s;
+        }
+
+        public function getTimeOut(){
+            return $this->time_out;
+        }
+
+        public function setTimeOut($s){
+            $this->time_out = $s;
+        }
+
+        public function getDateHired(){
+            return $this->date_hired;
+        }
+
+        public function setDateHired($s){
+            $this->date_hired = $s;
+        }
+    }
+
+    if($_SERVER["REQUEST_METHOD"] == "POST" && isset($_POST["create"])){
+        if(empty($_POST["employeeId"]) || empty($_POST["firstName"]) || empty($_POST["lastName"]) || empty($_POST["gender"]) || empty($_POST["birthday"]) || empty($_POST["employmentType"]) || empty($_POST["designation"]) || empty($_POST["salary"]) || empty($_POST["overtimePay"]) || empty($_POST["timeIn"]) || empty($_POST["timeOut"]) || empty($_POST["dateHired"])){
+            die("get out!");
+        }
+
+        $employee = new Employee($_POST["employeeId"], $_POST["firstName"], $_POST["middleName"] ?? '', $_POST["lastName"], $_POST["gender"], $_POST["birthday"], $_POST["employmentType"], $_POST["designation"], $_POST["salary"], $_POST["overtimePay"], $_POST["timeIn"], $_POST["timeOut"], $_POST["dateHired"]);
+
+        $sql = "INSERT INTO employees (employee_id, first_name, middle_name, last_name, gender, birthday, employment_type, designation, salary, overtime_pay, time_in, time_out, date_hired) VALUES (:employee_id, :first_name, :middle_name, :last_name, :gender, :birthday, :employment_type, :designation, :salary, :overtime_pay, :time_in, :time_out, :date_hired)";
+        $statement = $conn->prepare($sql);
+        $statement->execute([':employee_id' => $employee->getEmployeeId(), ':first_name' => $employee->getFirstName(), ':middle_name' => $employee->getMiddleName(), ':last_name' => $employee->getLastName(), ':gender' => $employee->getGender(), ':birthday' => $employee->getBirthday(), ':employment_type' => $employee->getEmploymentType(), ':designation' => $employee->getDesignation(), ':salary' => $employee->getSalary(), ':overtime_pay' => $employee->getOvertimePay(), ':time_in' => $employee->getTimeIn(), ':time_out' => $employee->getTimeOut(), ':date_hired' => $employee->getDateHired()]);
+    }
+
+    if($_SERVER["REQUEST_METHOD"] == "POST" && isset($_POST["delete-button-submit"])){
+        $delete_employee_id = $_POST["delete-employeeId"];
+
+        $sql = "DELETE FROM employees WHERE employee_id = :employee_id";
+        $statement = $conn->prepare($sql);
+        $statement->execute([':employee_id' => $delete_employee_id]);
     }
 ?>
