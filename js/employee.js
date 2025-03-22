@@ -22,7 +22,7 @@ document.addEventListener("DOMContentLoaded", function(){
 });
 
 function fetchEmployees(){
-    fetch("../fetch/fetch_employees.php")
+    fetch("fetch/fetch_employees.php")
     .then(response => response.json())
     .then(data => {
         const content = document.getElementById("content");
