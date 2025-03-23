@@ -1,19 +1,19 @@
 @font-face {
-    src: url(/fonts/Poppins-Bold.ttf);
+    src: url(../fonts/Poppins-Bold.ttf);
     font-family: PoppinsBold;
 }
 
 @font-face {
     font-family: PoppinsMedium;
-    src: url(/fonts/Poppins-Medium.ttf);
+    src: url(../fonts/Poppins-Medium.ttf);
 }
 
 @font-face {
     font-family: PoppinsLight;
-    src: url(/fonts/Poppins-Light.ttf);
+    src: url(../fonts/Poppins-Light.ttf);
 }
 
-.modal-container{
+.modal-container, .edit-modal-container{
     height: 80%;
     width: 80%;
     background-color: #ffffff;
@@ -28,7 +28,7 @@
     border-color: #c0c0c0;
 }
 
-.modal-container.show{
+.modal-container.show, .edit-modal-container.show{
     opacity: 1;
     visibility: visible;
 }
@@ -98,7 +98,7 @@
     height: auto;
 }
 
-#firstName, #middleName, #lastName{
+#firstName, #middleName, #lastName, #editFirstName, #editMiddleName, #editLastName{
     width: 100%;
     padding: 1em;
     margin-bottom: .25em;
@@ -117,7 +117,7 @@
     
 }
 
-#gender, #birthday, #employmentType, #designation, #salary, #overtimePay, #timeIn, #timeOut, #dateHired, #employeeId{
+#gender, #birthday, #employmentType, #designation, #salary, #overtimePay, #timeIn, #timeOut, #dateHired, #employeeId, #editGender, #editBirthday, #editEmploymentType, #editDesignation, #editSalary, #editOvertimePay, #editTimeIn, #editTimeOut, #editDateHired, #editEmployeeId{
     width: 100%;
     padding: 1em;
     margin-bottom: .25em;
@@ -519,4 +519,67 @@ li:hover .employment-type {
     background-color: #6DDC67;
     color: #ffffff;
     border-style: none;
+}
+
+.box-style{
+    width: 90%;
+    height: 80%;
+}
+
+.content-container1{
+    height: 15%;
+    width: 100%;
+    display: flex;
+    justify-content: space-between;
+    align-items: end;
+    
+}
+
+.table-style{
+    width: 100%;
+    border-top-color: #383838;
+    border-top-style: solid;
+    border-top-width: 1px;
+    overflow-y: auto;
+    max-height: 85%;
+    border-collapse: collapse;
+}
+
+.th-style{
+    text-align: left;
+    background-color: #383838;
+    color: #ffffff;
+    padding: .50em;
+    font-weight: lighter;
+    
+}
+#tableName{
+    width: 40%;
+}
+
+#tableDesignation{
+    width: 20%;
+}
+
+#tableEmploymentType{
+    width: 20%;
+}
+
+.td-style{
+    padding: .50em;
+}
+
+.tr-data-style{
+    border-style: solid;
+    border-width: 1px;
+    border-color: #c0c0c0;
+    border-left-style: none;
+    border-right-style: none;
+}
+
+
+.tr-data-style:hover{
+    background-color: #519cff;
+    color: #ffffff;
+    cursor: pointer;
 }

@@ -172,7 +172,7 @@
                                 <p class="value-style" id="dateHired-value"></p>
                             </div>
                             <div class="bottom-employee-subcontainer2-information">
-                                <button class="edit-button-style">Edit</button>
+                                <button class="edit-button-style" id="e">Edit</button>
                             </div>
                         </div>
                     </div>
@@ -206,6 +206,84 @@
             </div>
         </form>
 
+        <!-- Edit Modal -->
+        <form action="employee.php" method="post" class="edit-modal-container" id="edit-modal-container">
+            <div class="modal-text-container">
+                <h1 class="h1-style">Create Employee</h1>
+            </div>
+            <div class="modal-input-container">
+                <div class="modal-subcontainer1">
+                    <div class="input-container-subcontainer1">
+                        <label for="editFirstName" class="label-style">First Name</label>
+                        <input type="text" name="editFirstName" id="editFirstName" placeholder="First Name" required autocomplete="off">
+                    </div>
+                    <div class="input-container-subcontainer1">
+                        <label for="editMiddleName" class="label-style">Middle Name</label>
+                        <input type="text" name="editMiddleName" id="editMiddleName" placeholder="Middle Name" autocomplete="off">
+                    </div>
+                    <div class="input-container-subcontainer1">
+                        <label for="editLastName" class="label-style">Last Name</label>
+                        <input type="text" name="editLastName" id="editLastName" placeholder="Last Name" required autocomplete="off">
+                    </div>
+                </div>
+                <div class="modal-subcontainer2">
+                    <div class="input-container-subcontainer2">
+                        <label for="editGender" class="label-style">Gender</label>
+                        <select name="editGender" id="editGender" class="select-style">
+                            <option value="" class="option-style">Select Gender</option>
+                            <option value="Male" class="option-style">Male</option>
+                            <option value="Female" class="option-style">Female</option>
+                        </select>
+                    </div>
+                    <div class="input-container-subcontainer2">
+                        <label for="editBirthday" class="label-style">Birthday</label>
+                        <input type="date" name="editBirthday" id="editBirthday" required placeholder="Date of Birth">
+                    </div>
+                    <div class="input-container-subcontainer2">
+                        <label for="editEmploymentType" class="label-style">Employment Type</label>
+                        <select name="editEmploymentType" id="editEmploymentType" class="select-style">
+                            <option value="" class="option-style">Select One</option>
+                            <option value="Full Time" class="option-style">Full Time</option>
+                            <option value="Part Time" class="option-style">Part Time</option>
+                            <option value="Freelance" class="option-style">Freelance</option>
+                        </select>
+                    </div>
+                    <div class="input-container-subcontainer2">
+                        <label for="editDesignation" class="label-style">Designation</label>
+                        <input type="text" name="editDesignation" id="editDesignation" placeholder="Designation" required autocomplete="off">
+                    </div>
+                    <div class="input-container-subcontainer2">
+                        <label for="editSalary" class="label-style">Salary</label>
+                        <input type="number" name="editSalary" id="editSalary" placeholder="Salary" required autocomplete="off">
+                    </div>
+                    <div class="input-container-subcontainer2">
+                        <label for="editOvertimePay" class="label-style">Overtime Pay</label>
+                        <input type="number" name="editOvertimePay" id="editOvertimePay" placeholder="Overtime Pay" required autocomplete="off">
+                    </div>
+                    <div class="input-container-subcontainer2">
+                        <label for="editTimeIn" class="label-style">Time In</label>
+                        <input type="time" name="editTimeIn" id="editTimeIn" placeholder="Time In" required>
+                    </div>
+                    <div class="input-container-subcontainer2">
+                        <label for="editTimeOut" class="label-style">Time Out</label>
+                        <input type="time" name="editTimeOut" id="editTimeOut" placeholder="Time Out" required>
+                    </div>
+                    <div class="input-container-subcontainer2">
+                        <label for="editDateHired" class="label-style">Date Hired</label>
+                        <input type="date" name="editDateHired" id="editDateHired" required>
+                    </div>
+                    <div class="input-container-subcontainer2">
+                        <label for="editEmployeeId" class="label-style">Employee ID</label>
+                        <input type="number" name="editEmployeeId" id="editEmployeeId" required>
+                    </div>
+                </div>
+            </div>
+            <div class="modal-button-container">
+                <button class="create-button-style" id="edit" name="edit" type="submit">Save</button>
+                <button class="discard-button-style" id="editDiscard">Discard</button>
+            </div>
+        </form>
+
          <!-- Confirm Delete -->
          <form method="post" action="employee.php" class="confirm-delete-container" id="confirm-delete-container">
         
@@ -221,16 +299,52 @@
                 </div>
             </div>
         </form>
+
+        <!-- Confirm Save -->
+        <form method="post" action="employee.php" class="confirm-save-container" id="confirm-save-container">
+        
+            <div class="save-subcontainer">
+                <div class="save-subcontainer-sub1">
+                    <h1 class="save-h1-style">Save Changes</h1>
+                    <p class="save-p-style">You have made changes. Do you want to discard or save them?</p>
+                </div>
+                <div class="save-subcontainer-sub2">
+                    <input type="hidden" name="saveEmployeeId" id="saveEmployeeId">
+                    <input type="hidden" name="saveFirstName" id="saveFirstName">
+                    <input type="hidden" name="saveMiddleName" id="saveMiddleName">
+                    <input type="hidden" name="saveLastName" id="saveLastName">
+                    <input type="hidden" name="saveGender" id="saveGender">
+                    <input type="hidden" name="saveBirthday" id="saveBirthday">
+                    <input type="hidden" name="saveEmploymentType" id="saveEmploymentType">
+                    <input type="hidden" name="saveDesignation" id="saveDesignation">
+                    <input type="hidden" name="saveSalary" id="saveSalary">
+                    <input type="hidden" name="saveOvertimePay" id="saveOvertimePay">
+                    <input type="hidden" name="saveTimeIn" id="saveTimeIn">
+                    <input type="hidden" name="saveTimeOut" id="saveTimeOut">
+                    <input type="hidden" name="saveDateHired" id="saveDateHired">
+                    <button class="cancel-button-style" id="cancel-button-save">Cancel</button>
+                    <button class="confirm-save-button-style" id="save-button-submit" name="save-button-submit" type="submit">Save</button>
+                </div>
+            </div>
+        </form>
         <!-- Content -->
         <div class="box-style">
             <div class="content-container1">
                 <input type="text" name="search" id="search" class="searchBar">
                 <button class="add-button-style" id="open">Add Employees</button>
             </div>
-            
-            <ul class="content-container2" id="content">
-                <!-- JavaScript -->
-            </ul>
+            <table class="table-style" id="content1">
+                <thead>
+                    <tr class="tr-style">
+                        <th class="th-style" id="tableName">Name</th>
+                        <th class="th-style" id="tableDesignation">Designation</th>
+                        <th class="th-style" id="tableEmploymentType">Employment Type</th>
+                    </tr>
+                </thead>
+                <tbody id="content">
+                    
+                </tbody>
+            </table>
         </div>
     </div>
 
@@ -394,5 +508,14 @@
         $sql = "DELETE FROM employees WHERE employee_id = :employee_id";
         $statement = $conn->prepare($sql);
         $statement->execute([':employee_id' => $delete_employee_id]);
+    }
+
+    if($_SERVER["REQUEST_METHOD"] == "POST" && isset($_POST["save-button-submit"])){
+        
+        $employee = new Employee($_POST["saveEmployeeId"], $_POST["saveFirstName"], $_POST["saveMiddleName"] ?? '', $_POST["saveLastName"], $_POST["saveGender"], $_POST["saveBirthday"], $_POST["saveEmploymentType"], $_POST["saveDesignation"], $_POST["saveSalary"], $_POST["saveOvertimePay"], $_POST["saveTimeIn"], $_POST["saveTimeOut"], $_POST["saveDateHired"]);
+
+        $sql = "UPDATE employees SET first_name = :first_name, middle_name = :middle_name, last_name = :last_name, gender = :gender, birthday = :birthday, employment_type = :employment_type, designation = :designation, salary = :salary, overtime_pay = :overtime_pay, time_in = :time_in, time_out = :time_out, date_hired = :date_hired WHERE employee_id = :employee_id";
+        $statement = $conn->prepare($sql);
+        $statement->execute([':first_name' => $employee->getFirstName(), ':middle_name' => $employee->getMiddleName(), ':last_name' => $employee->getLastName(), ':gender' => $employee->getGender(), ':birthday' => $employee->getBirthday(), ':employment_type' => $employee->getEmploymentType(), ':designation' => $employee->getDesignation(), ':salary' => $employee->getSalary(), ':overtime_pay' => $employee->getOvertimePay(), ':time_in' => $employee->getTimeIn(), ':time_out' => $employee->getTimeOut(), ':date_hired' => $employee->getDateHired(), ':employee_id' => $employee->getEmployeeId()]);
     }
 ?>

@@ -4,7 +4,7 @@
     $database = new Database();
     $conn = $database->getConnection();
 
-    $sql = "SELECT * FROM employees";
+    $sql = "SELECT employee_id, CONCAT(first_name, ' ', middle_name, ' ', last_name) AS full_name, first_name, middle_name, last_name, gender, birthday, employment_type, designation, salary, overtime_pay, time_in, time_out, date_hired FROM employees";
     $stmt = $conn->prepare($sql);
     $stmt->execute();
 
