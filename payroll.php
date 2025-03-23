@@ -24,13 +24,13 @@
             <a href="employee.php" class="a-style">
                 <div class="a-container-style">
                     <img src="images/user-61CCEF.png" alt="Employee" class="logo-style">
-                    <p class="p-style" id="employee-underline">EMPLOYEE</p>
+                    <p class="p-style">EMPLOYEE</p>
                 </div>
             </a>
             <a href="payroll.php" class="a-style">
                 <div class="a-container-style">
                     <img src="images/payroll-61ccef.png" alt="Payroll" class="logo-style">
-                    <p class="p-style">PAYROLL</p>
+                    <p class="p-style" id="payroll-underline">PAYROLL</p>
                 </div>
             </a>
         </div>

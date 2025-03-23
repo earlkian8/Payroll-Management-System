@@ -18,13 +18,13 @@
             <a href="dashboard.php" class="a-style">
                 <div class="a-container-style">
                     <img src="images/home-61ccef.png" alt="Home" class="logo-style">
-                    <p class="p-style">DASHBOARD</p> 
+                    <p class="p-style" id="dashboard-underline">DASHBOARD</p> 
                 </div>
             </a>
             <a href="employee.php" class="a-style">
                 <div class="a-container-style">
                     <img src="images/user-61CCEF.png" alt="Employee" class="logo-style">
-                    <p class="p-style" id="employee-underline">EMPLOYEE</p>
+                    <p class="p-style">EMPLOYEE</p>
                 </div>
             </a>
             <a href="payroll.php" class="a-style">
