@@ -6,7 +6,7 @@ password VARCHAR(255) NOT NULL
 );
 
 CREATE TABLE employees (
-    employee_id INT PRIMARY KEY,
+    employee_id INT AUTO_INCREMENT PRIMARY KEY,
     first_name VARCHAR(50) NOT NULL,
     middle_name VARCHAR(50),
     last_name VARCHAR(50) NOT NULL,
@@ -14,9 +14,7 @@ CREATE TABLE employees (
     birthday DATE NOT NULL,
     employment_type ENUM('Full Time', 'Part Time', 'Freelance') NOT NULL,
     designation VARCHAR(50) NOT NULL,
-    salary DOUBLE(10, 2) NOT NULL,
-    overtime_pay DOUBLE(10, 2) NOT NULL,
-    time_in TIME NOT NULL,
-    time_out TIME NOT NULL,
-    date_hired DATE NOT NULL
+    date_hired DATE NOT NULL,
+    pay_frequency ENUM('Monthly', 'Bi-Weekly', 'Weekly') NOT NULL,
+    created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP
 );

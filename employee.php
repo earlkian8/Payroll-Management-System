@@ -36,12 +36,6 @@
                     <p class="p-style" id="employee-underline">EMPLOYEE</p>
                 </div>
             </a>
-            <a href="leave_approval.php" class="a-style">
-                <div class="a-container-style">
-                    <img src="images/leave-61ccef.png" alt="Leave" class="logo-style">
-                    <p class="p-style">LEAVE APPROVAL</p> 
-                </div>
-            </a>
             <a href="payroll.php" class="a-style">
                 <div class="a-container-style">
                     <img src="images/payroll-61ccef.png" alt="Payroll" class="logo-style">
@@ -50,9 +44,6 @@
             </a>
         </div>
     </aside>
-
-    
-
 
     <!-- Content -->
     <div class="content-style">
@@ -104,28 +95,17 @@
                         <input type="text" name="designation" id="designation" placeholder="Designation" required autocomplete="off">
                     </div>
                     <div class="input-container-subcontainer2">
-                        <label for="salary" class="label-style">Salary</label>
-                        <input type="number" name="salary" id="salary" placeholder="Salary" required autocomplete="off">
-                    </div>
-                    <div class="input-container-subcontainer2">
-                        <label for="overtimePay" class="label-style">Overtime Pay</label>
-                        <input type="number" name="overtimePay" id="overtimePay" placeholder="Overtime Pay" required autocomplete="off">
-                    </div>
-                    <div class="input-container-subcontainer2">
-                        <label for="timeIn" class="label-style">Time In</label>
-                        <input type="time" name="timeIn" id="timeIn" placeholder="Time In" required>
-                    </div>
-                    <div class="input-container-subcontainer2">
-                        <label for="timeOut" class="label-style">Time Out</label>
-                        <input type="time" name="timeOut" id="timeOut" placeholder="Time Out" required>
-                    </div>
-                    <div class="input-container-subcontainer2">
                         <label for="dateHired" class="label-style">Date Hired</label>
                         <input type="date" name="dateHired" id="dateHired" required>
                     </div>
                     <div class="input-container-subcontainer2">
-                        <label for="employeeId" class="label-style">Employee ID</label>
-                        <input type="number" name="employeeId" id="employeeId" required>
+                        <label for="payFrequency" class="label-style">Pay Frequency</label>
+                        <select name="payFrequency" id="payFrequency" class="select-style">
+                            <option value="" class="option-style">Select One</option>
+                            <option value="Monthly" class="option-style">Monthly</option>
+                            <option value="Bi-Weekly" class="option-style">Bi-Weekly</option>
+                            <option value="Weekly" class="option-style">Weekly</option>
+                        </select>
                     </div>
                 </div>
             </div>
@@ -146,7 +126,6 @@
                     <div class="employee-information-div">
                         <div class="employee-subcontainer1-information">
                             <h1 class="name-information-style" id="name-information">Earl Kian A. Bancayrin</h1>
-                            <p class="employeeId-information-style" id="employeeId-information">202330131</p>
                         </div>
                         <div class="employee-subcontainer2-information">
                             <div class="left-employee-subcontainer2-information">
@@ -154,22 +133,16 @@
                                 <p class="information-style" id="birthday-information-">Birthday:</p>
                                 <p class="information-style" id="employmentType-information-">Employment Type:</p>
                                 <p class="information-style" id="designation-information-">Designation:</p>
-                                <p class="information-style" id="salary-information-">Salary:</p>
-                                <p class="information-style" id="overtimePay-information-">Overtime Pay:</p>
-                                <p class="information-style" id="timeIn-information-">Time In:</p>
-                                <p class="information-style" id="timeOut-information-">Time Out:</p>
                                 <p class="information-style" id="dateHired-information-">Date Hired:</p>
+                                <p class="information-style" id="payFrequency-information">Pay Frequency</p>
                             </div>
                             <div class="right-employee-subcontainer2-information">
                                 <p class="value-style" id="gender-value"></p>
                                 <p class="value-style" id="birthday-value"></p>
                                 <p class="value-style" id="employmentType-value"></p>
                                 <p class="value-style" id="designation-value"></p>
-                                <p class="value-style" id="salary-value"></p>
-                                <p class="value-style" id="overtimePay-value"></p>
-                                <p class="value-style" id="timeIn-value"></p>
-                                <p class="value-style" id="timeOut-value"></p>
                                 <p class="value-style" id="dateHired-value"></p>
+                                <p class="value-style" id="payFrequency-value"></p>
                             </div>
                             <div class="bottom-employee-subcontainer2-information">
                                 <button class="edit-button-style" id="e">Edit</button>
@@ -183,19 +156,11 @@
                             <!-- Tabs -->
                             <div class="tabs">
                                 <div class="tab active" onclick="openTab(0)">Salary</div>
-                                <div class="tab" onclick="openTab(1)">Attendance</div>
-                                <div class="tab" onclick="openTab(2)">Leave Request</div>
                             </div>
                             
                             <!-- Tab Content -->
                             <ul class="salary-content tab-content active" id="salary-content">
                                 <!-- Salary Content -->
-                            </ul>
-                            <ul class="attendance-content tab-content" id="attendance-content">
-                                <!-- Attendance Content -->
-                            </ul>
-                            <ul class="leave-content tab-content" id="leave-content">
-                                <!-- Leave Content -->
                             </ul>
                         </div>
                         <div class="button-information-div">
@@ -214,6 +179,7 @@
             <div class="modal-input-container">
                 <div class="modal-subcontainer1">
                     <div class="input-container-subcontainer1">
+                        <input type="hidden" name="editEmployeeId" id="editEmployeeId">
                         <label for="editFirstName" class="label-style">First Name</label>
                         <input type="text" name="editFirstName" id="editFirstName" placeholder="First Name" required autocomplete="off">
                     </div>
@@ -253,28 +219,17 @@
                         <input type="text" name="editDesignation" id="editDesignation" placeholder="Designation" required autocomplete="off">
                     </div>
                     <div class="input-container-subcontainer2">
-                        <label for="editSalary" class="label-style">Salary</label>
-                        <input type="number" name="editSalary" id="editSalary" placeholder="Salary" required autocomplete="off">
-                    </div>
-                    <div class="input-container-subcontainer2">
-                        <label for="editOvertimePay" class="label-style">Overtime Pay</label>
-                        <input type="number" name="editOvertimePay" id="editOvertimePay" placeholder="Overtime Pay" required autocomplete="off">
-                    </div>
-                    <div class="input-container-subcontainer2">
-                        <label for="editTimeIn" class="label-style">Time In</label>
-                        <input type="time" name="editTimeIn" id="editTimeIn" placeholder="Time In" required>
-                    </div>
-                    <div class="input-container-subcontainer2">
-                        <label for="editTimeOut" class="label-style">Time Out</label>
-                        <input type="time" name="editTimeOut" id="editTimeOut" placeholder="Time Out" required>
-                    </div>
-                    <div class="input-container-subcontainer2">
                         <label for="editDateHired" class="label-style">Date Hired</label>
                         <input type="date" name="editDateHired" id="editDateHired" required>
                     </div>
                     <div class="input-container-subcontainer2">
-                        <label for="editEmployeeId" class="label-style">Employee ID</label>
-                        <input type="number" name="editEmployeeId" id="editEmployeeId" required>
+                        <label for="editPayFrequency" class="label-style">Pay Frequency</label>
+                        <select name="editPayFrequency" id="editPayFrequency" class="select-style">
+                            <option value="" class="option-style">Select One</option>
+                            <option value="Monthly" class="option-style">Monthly</option>
+                            <option value="Bi-Weekly" class="option-style">Bi-Weekly</option>
+                            <option value="Weekly" class="option-style">Weekly</option>
+                        </select>
                     </div>
                 </div>
             </div>
@@ -317,11 +272,8 @@
                     <input type="hidden" name="saveBirthday" id="saveBirthday">
                     <input type="hidden" name="saveEmploymentType" id="saveEmploymentType">
                     <input type="hidden" name="saveDesignation" id="saveDesignation">
-                    <input type="hidden" name="saveSalary" id="saveSalary">
-                    <input type="hidden" name="saveOvertimePay" id="saveOvertimePay">
-                    <input type="hidden" name="saveTimeIn" id="saveTimeIn">
-                    <input type="hidden" name="saveTimeOut" id="saveTimeOut">
                     <input type="hidden" name="saveDateHired" id="saveDateHired">
+                    <input type="hidden" name="savePayFrequency" id="savePayFrequency">
                     <button class="cancel-button-style" id="cancel-button-save">Cancel</button>
                     <button class="confirm-save-button-style" id="save-button-submit" name="save-button-submit" type="submit">Save</button>
                 </div>
@@ -363,14 +315,11 @@
         private $birthday;
         private $employmentType;
         private $designation;
-        private $salary;
-        private $overtime_pay;
-        private $time_in;
-        private $time_out;
+        private $pay_frequency;
+
         private $date_hired;
 
-        public function __construct($employee_id, $first_name, $middle_name, $last_name, $gender, $birthday, $employmentType, $designation, $salary, $overtime_pay, $time_in, $time_out, $date_hired){
-            $this->employee_id = $employee_id;
+        public function __construct($first_name, $middle_name, $last_name, $gender, $birthday, $employmentType, $designation, $date_hired, $pay_frequency, $employee_id = NULL){
             $this->first_name = $first_name;
             $this->middle_name = $middle_name;
             $this->last_name = $last_name;
@@ -378,128 +327,68 @@
             $this->birthday = $birthday;
             $this->employmentType = $employmentType;
             $this->designation = $designation;
-            $this->salary = $salary;
-            $this->overtime_pay = $overtime_pay;
-            $this->time_in = $time_in;
-            $this->time_out = $time_out;
-            $this->date_hired = $date_hired;       
+            $this->date_hired = $date_hired;   
+            $this->pay_frequency = $pay_frequency;  
+            $this->employee_id = $employee_id;  
         }
 
         public function getEmployeeId(){
             return $this->employee_id;
         }
-
-        public function setEmployeeId($s){
-            $this->employee_id = $s;
-        }
-
         public function getFirstName(){
             return $this->first_name;
         }
 
-        public function setFirstName($s){
-            $this->first_name = $s;
-        }
         
         public function getMiddleName(){
             return $this->middle_name;
         }
 
-        public function setMiddleName($s){
-            $this->middle_name = $s;
-        }
 
         public function getLastName(){
             return $this->last_name;
         }
 
-        public function setLastName($s){
-            $this->last_name = $s;
-        }
 
         public function getGender(){
             return $this->gender;
         }
 
-        public function setGender($s){
-            $this->gender = $s;
-        }
         
         public function getBirthday(){
             return $this->birthday;
         }
 
-        public function setBirthday($s){
-            $this->birthday = $s;
-        }
 
         public function getEmploymentType(){
             return $this->employmentType;
         }
 
-        public function setEmploymentType($s){
-            $this->employmentType = $s;
-        }
 
         public function getDesignation(){
             return $this->designation;
-        }
-
-        public function setDesignation($s){
-            $this->designation = $s;
-        }
-
-        public function getSalary(){
-            return $this->salary;
-        }
-
-        public function setSalary($s){
-            $this->salary = $s;
-        }
-
-        public function getOvertimePay(){
-            return $this->overtime_pay;
-        }
-
-        public function setOvertimePay($s){
-            $this->overtime_pay = $s;
-        }
-
-        public function getTimeIn(){
-            return $this->time_in;
-        }
-
-        public function setTimeIn($s){
-            $this->time_in = $s;
-        }
-
-        public function getTimeOut(){
-            return $this->time_out;
-        }
-
-        public function setTimeOut($s){
-            $this->time_out = $s;
         }
 
         public function getDateHired(){
             return $this->date_hired;
         }
 
-        public function setDateHired($s){
-            $this->date_hired = $s;
+        public function getPayFrequency(){
+            return $this->pay_frequency;
         }
+
     }
 
     if($_SERVER["REQUEST_METHOD"] == "POST" && isset($_POST["create"])){
-        if(empty($_POST["employeeId"]) || empty($_POST["firstName"]) || empty($_POST["lastName"]) || empty($_POST["gender"]) || empty($_POST["birthday"]) || empty($_POST["employmentType"]) || empty($_POST["designation"]) || empty($_POST["salary"]) || empty($_POST["overtimePay"]) || empty($_POST["timeIn"]) || empty($_POST["timeOut"]) || empty($_POST["dateHired"])){
+        if(empty($_POST["firstName"]) || empty($_POST["lastName"]) || empty($_POST["gender"]) || empty($_POST["birthday"]) || empty($_POST["employmentType"]) || empty($_POST["designation"]) || empty($_POST["dateHired"]) || empty($_POST["payFrequency"])){
             die("get out!");
         }
 
-        $employee = new Employee($_POST["employeeId"], $_POST["firstName"], $_POST["middleName"] ?? '', $_POST["lastName"], $_POST["gender"], $_POST["birthday"], $_POST["employmentType"], $_POST["designation"], $_POST["salary"], $_POST["overtimePay"], $_POST["timeIn"], $_POST["timeOut"], $_POST["dateHired"]);
+        $employee = new Employee($_POST["firstName"], $_POST["middleName"] ?? '', $_POST["lastName"], $_POST["gender"], $_POST["birthday"], $_POST["employmentType"], $_POST["designation"], $_POST["dateHired"], $_POST["payFrequency"]);
 
-        $sql = "INSERT INTO employees (employee_id, first_name, middle_name, last_name, gender, birthday, employment_type, designation, salary, overtime_pay, time_in, time_out, date_hired) VALUES (:employee_id, :first_name, :middle_name, :last_name, :gender, :birthday, :employment_type, :designation, :salary, :overtime_pay, :time_in, :time_out, :date_hired)";
+        $sql = "INSERT INTO employees (first_name, middle_name, last_name, gender, birthday, employment_type, designation, date_hired, pay_frequency) VALUES (:first_name, :middle_name, :last_name, :gender, :birthday, :employment_type, :designation, :date_hired, :pay_frequency)";
         $statement = $conn->prepare($sql);
-        $statement->execute([':employee_id' => $employee->getEmployeeId(), ':first_name' => $employee->getFirstName(), ':middle_name' => $employee->getMiddleName(), ':last_name' => $employee->getLastName(), ':gender' => $employee->getGender(), ':birthday' => $employee->getBirthday(), ':employment_type' => $employee->getEmploymentType(), ':designation' => $employee->getDesignation(), ':salary' => $employee->getSalary(), ':overtime_pay' => $employee->getOvertimePay(), ':time_in' => $employee->getTimeIn(), ':time_out' => $employee->getTimeOut(), ':date_hired' => $employee->getDateHired()]);
+        $statement->execute([':first_name' => $employee->getFirstName(), ':middle_name' => $employee->getMiddleName(), ':last_name' => $employee->getLastName(), ':gender' => $employee->getGender(), ':birthday' => $employee->getBirthday(), ':employment_type' => $employee->getEmploymentType(), ':designation' => $employee->getDesignation(), ':date_hired' => $employee->getDateHired(), ':pay_frequency' => $employee->getPayFrequency()]);
     }
 
     if($_SERVER["REQUEST_METHOD"] == "POST" && isset($_POST["delete-button-submit"])){
@@ -512,10 +401,10 @@
 
     if($_SERVER["REQUEST_METHOD"] == "POST" && isset($_POST["save-button-submit"])){
         
-        $employee = new Employee($_POST["saveEmployeeId"], $_POST["saveFirstName"], $_POST["saveMiddleName"] ?? '', $_POST["saveLastName"], $_POST["saveGender"], $_POST["saveBirthday"], $_POST["saveEmploymentType"], $_POST["saveDesignation"], $_POST["saveSalary"], $_POST["saveOvertimePay"], $_POST["saveTimeIn"], $_POST["saveTimeOut"], $_POST["saveDateHired"]);
+        $employee = new Employee($_POST["saveFirstName"], $_POST["saveMiddleName"] ?? '', $_POST["saveLastName"], $_POST["saveGender"], $_POST["saveBirthday"], $_POST["saveEmploymentType"], $_POST["saveDesignation"], $_POST["saveDateHired"], $_POST["savePayFrequency"], $_POST["saveEmployeeId"]);
 
-        $sql = "UPDATE employees SET first_name = :first_name, middle_name = :middle_name, last_name = :last_name, gender = :gender, birthday = :birthday, employment_type = :employment_type, designation = :designation, salary = :salary, overtime_pay = :overtime_pay, time_in = :time_in, time_out = :time_out, date_hired = :date_hired WHERE employee_id = :employee_id";
+        $sql = "UPDATE employees SET first_name = :first_name, middle_name = :middle_name, last_name = :last_name, gender = :gender, birthday = :birthday, employment_type = :employment_type, designation = :designation, date_hired = :date_hired, pay_frequency = :pay_frequency WHERE employee_id = :employee_id";
         $statement = $conn->prepare($sql);
-        $statement->execute([':first_name' => $employee->getFirstName(), ':middle_name' => $employee->getMiddleName(), ':last_name' => $employee->getLastName(), ':gender' => $employee->getGender(), ':birthday' => $employee->getBirthday(), ':employment_type' => $employee->getEmploymentType(), ':designation' => $employee->getDesignation(), ':salary' => $employee->getSalary(), ':overtime_pay' => $employee->getOvertimePay(), ':time_in' => $employee->getTimeIn(), ':time_out' => $employee->getTimeOut(), ':date_hired' => $employee->getDateHired(), ':employee_id' => $employee->getEmployeeId()]);
+        $statement->execute([':first_name' => $employee->getFirstName(), ':middle_name' => $employee->getMiddleName(), ':last_name' => $employee->getLastName(), ':gender' => $employee->getGender(), ':birthday' => $employee->getBirthday(), ':employment_type' => $employee->getEmploymentType(), ':designation' => $employee->getDesignation(), ':date_hired' => $employee->getDateHired(), ':pay_frequency' => $employee->getPayFrequency(), ':employee_id' => $employee->getEmployeeId()]);
     }
 ?>

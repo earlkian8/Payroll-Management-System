@@ -117,7 +117,7 @@
     
 }
 
-#gender, #birthday, #employmentType, #designation, #salary, #overtimePay, #timeIn, #timeOut, #dateHired, #employeeId, #editGender, #editBirthday, #editEmploymentType, #editDesignation, #editSalary, #editOvertimePay, #editTimeIn, #editTimeOut, #editDateHired, #editEmployeeId{
+#gender, #birthday, #employmentType, #designation, #dateHired, #payFrequency, #editGender, #editBirthday, #editEmploymentType, #editDesignation, #editDateHired, #editPayFrequency{
     width: 100%;
     padding: 1em;
     margin-bottom: .25em;

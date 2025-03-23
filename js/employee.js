@@ -83,30 +83,25 @@ function showModal(employee){
     const back = document.getElementById("back");
 
     const nameInformation = document.getElementById("name-information");
-    const employeeIdInformation = document.getElementById("employeeId-information");
     const genderValue = document.getElementById("gender-value");
     const birthdayValue = document.getElementById("birthday-value");
     const employmentTypeValue = document.getElementById("employmentType-value");
     const designationValue = document.getElementById("designation-value");
-    const salaryValue = document.getElementById("salary-value");
-    const overtimePayValue = document.getElementById("overtimePay-value");
-    const timeInValue = document.getElementById("timeIn-value");
-    const timeOutValue = document.getElementById("timeOut-value");
     const dateHiredValue = document.getElementById("dateHired-value");
+    const payFrequencyValue = document.getElementById("payFrequency-value");
 
-    nameInformation.textContent = `${employee.first_name} ${employee.middle_name ? employee.middle_name + " " : ""} ${employee.last_name}`;
-    employeeIdInformation.textContent = `${employee.employee_id}`;
-    genderValue.textContent = `${employee.gender}`;
-    birthdayValue.textContent = `${employee.birthday}`;
-    employmentTypeValue.textContent = `${employee.employment_type}`;
-    designationValue.textContent = `${employee.designation}`;
-    salaryValue.textContent = `₱${employee.salary}`;
-    overtimePayValue.textContent = `₱${employee.overtime_pay}`;
-    timeInValue.textContent = `${employee.time_in}`;
-    timeOutValue.textContent = `${employee.time_out}`;
-    dateHiredValue.textContent = `${employee.date_hired}`;
-    employeeDetails.classList.add("show");
-
+    if (nameInformation && genderValue && birthdayValue && employmentTypeValue && designationValue && dateHiredValue && payFrequencyValue) {
+        nameInformation.textContent = `${employee.first_name} ${employee.middle_name ? employee.middle_name + " " : ""} ${employee.last_name}`;
+        genderValue.textContent = `${employee.gender}`;
+        birthdayValue.textContent = `${employee.birthday}`;
+        employmentTypeValue.textContent = `${employee.employment_type}`;
+        designationValue.textContent = `${employee.designation}`;
+        dateHiredValue.textContent = `${employee.date_hired}`;
+        payFrequencyValue.textContent = `${employee.pay_frequency}`;
+        employeeDetails.classList.add("show");
+    } else {
+        console.error("One or more elements not found in the DOM");
+    }
     back.addEventListener("click", function(event){
         event.preventDefault();
         employeeDetails.classList.remove("show");
@@ -135,6 +130,7 @@ function showModal(employee){
     e.addEventListener("click", function(event){
         event.preventDefault();
 
+        document.getElementById("editEmployeeId").value = employee.employee_id;
         document.getElementById("editFirstName").value = employee.first_name;
         document.getElementById("editMiddleName").value = employee.middle_name;
         document.getElementById("editLastName").value = employee.last_name;
@@ -142,12 +138,8 @@ function showModal(employee){
         document.getElementById("editBirthday").value = employee.birthday;
         document.getElementById("editEmploymentType").value = employee.employment_type;
         document.getElementById("editDesignation").value = employee.designation;
-        document.getElementById("editSalary").value = employee.salary;
-        document.getElementById("editOvertimePay").value = employee.overtime_pay;
-        document.getElementById("editTimeIn").value = employee.time_in;
-        document.getElementById("editTimeOut").value = employee.time_out;
         document.getElementById("editDateHired").value = employee.date_hired;
-        document.getElementById("editEmployeeId").value = employee.employee_id;
+        document.getElementById("editPayFrequency").value = employee.pay_frequency;
         editModalContainer.classList.add("show");
     });
 
@@ -170,11 +162,8 @@ function showModal(employee){
         document.getElementById("saveBirthday").value = document.getElementById("editBirthday").value;
         document.getElementById("saveEmploymentType").value = document.getElementById("editEmploymentType").value;
         document.getElementById("saveDesignation").value = document.getElementById("editDesignation").value;
-        document.getElementById("saveSalary").value = document.getElementById("editSalary").value;
-        document.getElementById("saveOvertimePay").value = document.getElementById("editOvertimePay").value;
-        document.getElementById("saveTimeIn").value = document.getElementById("editTimeIn").value;
-        document.getElementById("saveTimeOut").value = document.getElementById("editTimeOut").value;
         document.getElementById("saveDateHired").value = document.getElementById("editDateHired").value;
+        document.getElementById("savePayFrequency").value = document.getElementById("editPayFrequency").value;
         confirmSaveContainer.classList.add("show");
     });
 

@@ -8,8 +8,8 @@
 </head>
 <body>
 
-    <!-- Side Bar -->
-    <aside class="aside-style">
+   <!-- Side Bar -->
+   <aside class="aside-style">
         <div class="container1">
             <img src="images/logo.png" alt="Logo" class="main-logo-style">
             <h1 class="h1-style">Wage<span class="span-style">Flow</span></h1>
@@ -18,19 +18,13 @@
             <a href="dashboard.php" class="a-style">
                 <div class="a-container-style">
                     <img src="images/home-61ccef.png" alt="Home" class="logo-style">
-                    <p class="p-style" id="dashboard-underline">DASHBOARD</p> 
+                    <p class="p-style">DASHBOARD</p> 
                 </div>
             </a>
             <a href="employee.php" class="a-style">
                 <div class="a-container-style">
                     <img src="images/user-61CCEF.png" alt="Employee" class="logo-style">
-                    <p class="p-style">EMPLOYEE</p>
-                </div>
-            </a>
-            <a href="leave_approval.php" class="a-style">
-                <div class="a-container-style">
-                    <img src="images/leave-61ccef.png" alt="Leave" class="logo-style">
-                    <p class="p-style">LEAVE APPROVAL</p> 
+                    <p class="p-style" id="employee-underline">EMPLOYEE</p>
                 </div>
             </a>
             <a href="payroll.php" class="a-style">
