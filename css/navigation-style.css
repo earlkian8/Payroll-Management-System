@@ -92,7 +92,7 @@ body{
     background-color: #272727;
 }
 
-#dashboard-underline, #employee-underline, #leave-underline, #payroll-underline{
+#dashboard-underline, #employee-underline, #pay-head-underline, #payroll-underline{
     text-decoration-line: underline;
     text-decoration-color: #61CCEF;
     text-decoration-thickness: 2px;

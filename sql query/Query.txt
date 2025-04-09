@@ -23,7 +23,7 @@ CREATE TABLE pay_head (
     pay_head_id INT AUTO_INCREMENT PRIMARY KEY,
     name VARCHAR(50) NOT NULL,
     description VARCHAR(150) NOT NULL,
-    type ENUM('Earnings', 'Deductions') NOT NULL,
+    type ENUM('Earnings', 'Deductions') NOT NULL
 );
 
 CREATE TABLE payroll(
@@ -31,6 +31,6 @@ CREATE TABLE payroll(
     employee_id INT NOT NULL,
     pay_head_id INT NOT NULL,
     amount INT NOT NULL,
-    status ENUM('Pending', 'Issued') NOT NULL DEFAULT DRAFT,
-    date DATE NOT NULL,
+    status ENUM('Pending', 'Issued', 'Draft') NOT NULL DEFAULT 'Draft',
+    date DATE NOT NULL
 );

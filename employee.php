@@ -36,6 +36,12 @@
                     <p class="p-style" id="employee-underline">EMPLOYEE</p>
                 </div>
             </a>
+            <a href="pay_head.php" class="a-style">
+                <div class="a-container-style">
+                    <img src="images/payHead-icon-61ccef.png" alt="Pay Head" class="logo-style">
+                    <p class="p-style">PAY HEAD</p>
+                </div>
+            </a>
             <a href="payroll.php" class="a-style">
                 <div class="a-container-style">
                     <img src="images/payroll-61ccef.png" alt="Payroll" class="logo-style">
