@@ -4,14 +4,16 @@ document.addEventListener("DOMContentLoaded", function(){
     const discard = document.getElementById("discard");
     const create = document.getElementById("create");
     const modalContainer = document.getElementById("modal-container");
-    
+    const overlay = document.getElementById("overlay");
     open.addEventListener("click", function(){
         modalContainer.classList.add("show");
+        overlay.classList.add("show");
     });
 
     discard.addEventListener("click", function(event){
         event.preventDefault();
         modalContainer.classList.remove("show");
+        overlay.classList.remove("show");
     });
 
     create.addEventListener("click", function(){
@@ -22,55 +24,36 @@ document.addEventListener("DOMContentLoaded", function(){
 });
 
 function fetchEmployees() {
-    fetch("fetch/fetch_employees.php")
+    fetch("api/employee_api.php")
         .then(response => response.json())
         .then(data => {
-            console.log(data);
-            const tableBody = document.getElementById("content");
-            tableBody.innerHTML = ""; // Clear existing rows
+            if(data.status === "success"){
+                const content = document.getElementById("content");
 
-            // Loop through the data and create table rows
-            data.forEach(employee => {
-                const row = document.createElement("tr");
-                row.classList.add("tr-data-style", "data-row");
-                row.setAttribute("data-employee-id", employee.employee_id);
+                data.employees.forEach(employee =>{
+                    content.innerHTML += `
+                        <tr class="tr-body-style" data-employee-id=${employee.employee_id}>
+                            <td class="td-style">${employee.first_name} ${employee.middle_name ? employee.middle_name + "" : " "} ${employee.last_name}</td>
+                            <td class="td-style">${employee.designation}</td>
+                            <td class="td-style">${employee.employment_type}</td>
+                        </tr>
+                    `;
+                });
 
-                // Add table cells
-                const fullNameCell = document.createElement("td");
-                fullNameCell.classList.add("td-style");
-                fullNameCell.textContent = employee.full_name;
+                attachRowEventListeners(data);
 
-                const designationCell = document.createElement("td");
-                designationCell.classList.add("td-style");
-                designationCell.textContent = employee.designation;
-
-                const employmentTypeCell = document.createElement("td");
-                employmentTypeCell.classList.add("td-style");
-                employmentTypeCell.textContent = employee.employment_type;
-
-                // Append cells to the row
-                row.appendChild(fullNameCell);
-                row.appendChild(designationCell);
-                row.appendChild(employmentTypeCell);
-
-                // Append the row to the table body
-                tableBody.appendChild(row);
-
-            });
-            
-            attachRowEventListeners(data);
+            }
         })
         .catch(error => console.error("Error fetching employees", error));
 }
 
 function attachRowEventListeners(data) {
-    const rows = document.querySelectorAll(".data-row");
+    const rows = document.querySelectorAll(".tr-body-style");
     rows.forEach(row => {
         row.addEventListener("click", function () {
             const employeeId = row.getAttribute("data-employee-id");
 
-            // Find the employee data for the clicked row
-            const employee = data.find(emp => emp.employee_id == employeeId);
+            const employee = data.employees.find(emp => emp.employee_id == employeeId);
             if (employee) {
                 showModal(employee);
             }
@@ -81,6 +64,7 @@ function attachRowEventListeners(data) {
 function showModal(employee){
     const employeeDetails = document.getElementById("employee-details");
     const back = document.getElementById("back");
+    const overlay = document.getElementById("overlay");
 
     const nameInformation = document.getElementById("name-information");
     const genderValue = document.getElementById("gender-value");
@@ -99,12 +83,14 @@ function showModal(employee){
         dateHiredValue.textContent = `${employee.date_hired}`;
         payFrequencyValue.textContent = `${employee.pay_frequency}`;
         employeeDetails.classList.add("show");
+        overlay.classList.add("show");
     } else {
         console.error("One or more elements not found in the DOM");
     }
     back.addEventListener("click", function(event){
         event.preventDefault();
         employeeDetails.classList.remove("show");
+        overlay.classList.remove("show");
     });
 
     const deleteButtonId = document.getElementById("delete-button-id");
@@ -114,6 +100,7 @@ function showModal(employee){
         event.preventDefault();
         document.getElementById("delete-employeeId").value = employee.employee_id;
         confirmDeleteContainer.classList.add("show");
+        
     });
 
     const cancelButtonDelete = document.getElementById("cancel-button-delete");
@@ -141,6 +128,7 @@ function showModal(employee){
         document.getElementById("editDateHired").value = employee.date_hired;
         document.getElementById("editPayFrequency").value = employee.pay_frequency;
         editModalContainer.classList.add("show");
+
     });
 
     editDiscard.addEventListener("click", function(event){
@@ -154,7 +142,7 @@ function showModal(employee){
     edit.addEventListener("click", function(event){
         event.preventDefault();
 
-        document.getElementById("saveEmployeeId").value = document.getElementById("editEmployeeId").value;
+        document.getElementById("saveEmployeeId").value = employee.employee_id;
         document.getElementById("saveFirstName").value = document.getElementById("editFirstName").value;
         document.getElementById("saveMiddleName").value = document.getElementById("editMiddleName").value;
         document.getElementById("saveLastName").value = document.getElementById("editLastName").value;

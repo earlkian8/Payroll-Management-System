@@ -1,9 +1,3 @@
-<?php
-    require_once "db_connection.php";
-
-    $database = new Database();
-    $conn = $database->getConnection();
-?>
 
 <!DOCTYPE html>
 <html lang="en">
@@ -171,26 +165,3 @@
     <script src="js/pay_head.js"></script>
 </body>
 </html>
-
-<?php
-    if($_SERVER["REQUEST_METHOD"] == "POST" && isset($_POST["create"])){
-        if(empty($_POST["name"]) || empty($_POST["description"]) || empty($_POST["type"])){
-            echo "<script>console.log('get out');</script>";
-        }
-        $query = "INSERT INTO pay_head (name, description, type) VALUES (:name, :description, :type)";
-        $stmt = $conn->prepare($query);
-        $stmt->execute([":name" => $_POST["name"], ":description" => $_POST["description"], ":type" => $_POST["type"]]);
-    }
-
-    if($_SERVER["REQUEST_METHOD"] == "POST" && isset($_POST["save-button-submit"])){
-        $query = "UPDATE pay_head SET name = :name, description = :description, type = :type WHERE pay_head_id = :pay_head_id";
-        $stmt = $conn->prepare($query);
-        $stmt->execute([":pay_head_id" => $_POST["savePayHeadId"], ":name" => $_POST["saveName"], ":description" => $_POST["saveDescription"], ":type" => $_POST["saveType"]]);
-    }
-
-    if($_SERVER["REQUEST_METHOD"] == "POST" && isset($_POST["delete-button-submit"])){
-        $query = "DELETE FROM pay_head WHERE pay_head_id = :pay_head_id";
-        $stmt = $conn->prepare($query);
-        $stmt->execute([":pay_head_id" => $_POST["deletePayHeadId"]]);
-    }
-?>

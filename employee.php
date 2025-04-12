@@ -1,10 +1,48 @@
 <?php
 
-    require_once "db_connection.php";
+    include "api/database.php";
+    include "class/Employee.php";
 
     $database = new Database();
     $conn = $database->getConnection();
+    $employee = new Employee($conn);
 
+    if($_SERVER["REQUEST_METHOD"] == "POST" && isset($_POST["create"])){
+        $firstName = $_POST["firstName"];
+        $middleName = $_POST["middleName"];
+        $lastName = $_POST["lastName"];
+        $gender = $_POST["gender"];
+        $birthday = $_POST["birthday"];
+        $employmentType = $_POST["employmentType"];
+        $designation = $_POST["designation"];
+        $dateHired = $_POST["dateHired"];
+        $payFrequency = $_POST["payFrequency"];
+
+        $employee->addEmployee($firstName, $middleName, $lastName, $gender, $birthday, $employmentType, $designation, $dateHired, $payFrequency);
+
+
+    }
+
+    if($_SERVER["REQUEST_METHOD"] == "POST" && isset($_POST["save-button-submit"])){
+        $id = $_POST["saveEmployeeId"];
+        $firstName = $_POST["saveFirstName"];
+        $middleName = $_POST["saveMiddleName"];
+        $lastName = $_POST["saveLastName"];
+        $gender = $_POST["saveGender"];
+        $birthday = $_POST["saveBirthday"];
+        $employmentType = $_POST["saveEmploymentType"];
+        $designation = $_POST["saveDesignation"];
+        $dateHired = $_POST["saveDateHired"];
+        $payFrequency = $_POST["savePayFrequency"];
+
+        $employee->updateEmployee($id, $firstName, $middleName, $lastName, $gender, $birthday, $employmentType, $designation, $dateHired, $payFrequency);
+
+    }
+
+    if($_SERVER["REQUEST_METHOD"] == "POST" && isset($_POST["delete-button-submit"])){
+        $id = $_POST["delete-employeeId"];
+        $employee->deleteEmployee($id);
+    }
 ?>
 
 <!DOCTYPE html>
@@ -17,45 +55,13 @@
     <link rel="stylesheet" href="css/employee-style.css">
 </head>
 <body>
-    <!-- Side Bar -->
-    <aside class="aside-style">
-        <div class="container1">
-            <img src="images/logo.png" alt="Logo" class="main-logo-style">
-            <h1 class="h1-style">Wage<span class="span-style">Flow</span></h1>
-        </div>
-        <div class="container2">
-            <a href="dashboard.php" class="a-style">
-                <div class="a-container-style">
-                    <img src="images/home-61ccef.png" alt="Home" class="logo-style">
-                    <p class="p-style">DASHBOARD</p> 
-                </div>
-            </a>
-            <a href="employee.php" class="a-style">
-                <div class="a-container-style">
-                    <img src="images/user-61CCEF.png" alt="Employee" class="logo-style">
-                    <p class="p-style" id="employee-underline">EMPLOYEE</p>
-                </div>
-            </a>
-            <a href="pay_head.php" class="a-style">
-                <div class="a-container-style">
-                    <img src="images/payHead-icon-61ccef.png" alt="Pay Head" class="logo-style">
-                    <p class="p-style">PAY HEAD</p>
-                </div>
-            </a>
-            <a href="payroll.php" class="a-style">
-                <div class="a-container-style">
-                    <img src="images/payroll-61ccef.png" alt="Payroll" class="logo-style">
-                    <p class="p-style">PAYROLL</p>
-                </div>
-            </a>
-        </div>
-    </aside>
 
-    <!-- Content -->
-    <div class="content-style">
+    <div class="overlay" id="overlay">
 
-        <!-- Create Modal -->
-        <form action="employee.php" method="post" class="modal-container" id="modal-container">
+    </div>
+
+    <!-- Create Modal -->
+    <form action="employee.php" method="post" class="modal-container" id="modal-container">
             <div class="modal-text-container">
                 <h1 class="h1-style">Create Employee</h1>
             </div>
@@ -285,6 +291,44 @@
                 </div>
             </div>
         </form>
+    <!-- Side Bar -->
+    <aside class="aside-style">
+        <div class="container1">
+            <img src="images/logo.png" alt="Logo" class="main-logo-style">
+            <h1 class="h1-style">Wage<span class="span-style">Flow</span></h1>
+        </div>
+        <div class="container2">
+            <a href="dashboard.php" class="a-style">
+                <div class="a-container-style">
+                    <img src="images/home-61ccef.png" alt="Home" class="logo-style">
+                    <p class="p-style">DASHBOARD</p> 
+                </div>
+            </a>
+            <a href="employee.php" class="a-style">
+                <div class="a-container-style">
+                    <img src="images/user-61CCEF.png" alt="Employee" class="logo-style">
+                    <p class="p-style" id="employee-underline">EMPLOYEE</p>
+                </div>
+            </a>
+            <a href="pay_head.php" class="a-style">
+                <div class="a-container-style">
+                    <img src="images/payHead-icon-61ccef.png" alt="Pay Head" class="logo-style">
+                    <p class="p-style">PAY HEAD</p>
+                </div>
+            </a>
+            <a href="payroll.php" class="a-style">
+                <div class="a-container-style">
+                    <img src="images/payroll-61ccef.png" alt="Payroll" class="logo-style">
+                    <p class="p-style">PAYROLL</p>
+                </div>
+            </a>
+        </div>
+    </aside>
+
+    <!-- Content -->
+    <div class="content-style">
+
+        
         <!-- Content -->
         <div class="box-style">
             <div class="content-container1">
@@ -309,108 +353,3 @@
     <script src="js/employee.js"></script>
 </body>
 </html>
-
-<?php
-
-    class Employee{
-        private $employee_id;
-        private $first_name;
-        private $middle_name;
-        private $last_name;
-        private $gender;
-        private $birthday;
-        private $employmentType;
-        private $designation;
-        private $pay_frequency;
-
-        private $date_hired;
-
-        public function __construct($first_name, $middle_name, $last_name, $gender, $birthday, $employmentType, $designation, $date_hired, $pay_frequency, $employee_id = NULL){
-            $this->first_name = $first_name;
-            $this->middle_name = $middle_name;
-            $this->last_name = $last_name;
-            $this->gender = $gender;
-            $this->birthday = $birthday;
-            $this->employmentType = $employmentType;
-            $this->designation = $designation;
-            $this->date_hired = $date_hired;   
-            $this->pay_frequency = $pay_frequency;  
-            $this->employee_id = $employee_id;  
-        }
-
-        public function getEmployeeId(){
-            return $this->employee_id;
-        }
-        public function getFirstName(){
-            return $this->first_name;
-        }
-
-        
-        public function getMiddleName(){
-            return $this->middle_name;
-        }
-
-
-        public function getLastName(){
-            return $this->last_name;
-        }
-
-
-        public function getGender(){
-            return $this->gender;
-        }
-
-        
-        public function getBirthday(){
-            return $this->birthday;
-        }
-
-
-        public function getEmploymentType(){
-            return $this->employmentType;
-        }
-
-
-        public function getDesignation(){
-            return $this->designation;
-        }
-
-        public function getDateHired(){
-            return $this->date_hired;
-        }
-
-        public function getPayFrequency(){
-            return $this->pay_frequency;
-        }
-
-    }
-
-    if($_SERVER["REQUEST_METHOD"] == "POST" && isset($_POST["create"])){
-        if(empty($_POST["firstName"]) || empty($_POST["lastName"]) || empty($_POST["gender"]) || empty($_POST["birthday"]) || empty($_POST["employmentType"]) || empty($_POST["designation"]) || empty($_POST["dateHired"]) || empty($_POST["payFrequency"])){
-            die("get out!");
-        }
-
-        $employee = new Employee($_POST["firstName"], $_POST["middleName"] ?? '', $_POST["lastName"], $_POST["gender"], $_POST["birthday"], $_POST["employmentType"], $_POST["designation"], $_POST["dateHired"], $_POST["payFrequency"]);
-
-        $sql = "INSERT INTO employees (first_name, middle_name, last_name, gender, birthday, employment_type, designation, date_hired, pay_frequency) VALUES (:first_name, :middle_name, :last_name, :gender, :birthday, :employment_type, :designation, :date_hired, :pay_frequency)";
-        $statement = $conn->prepare($sql);
-        $statement->execute([':first_name' => $employee->getFirstName(), ':middle_name' => $employee->getMiddleName(), ':last_name' => $employee->getLastName(), ':gender' => $employee->getGender(), ':birthday' => $employee->getBirthday(), ':employment_type' => $employee->getEmploymentType(), ':designation' => $employee->getDesignation(), ':date_hired' => $employee->getDateHired(), ':pay_frequency' => $employee->getPayFrequency()]);
-    }
-
-    if($_SERVER["REQUEST_METHOD"] == "POST" && isset($_POST["delete-button-submit"])){
-        $delete_employee_id = $_POST["delete-employeeId"];
-
-        $sql = "DELETE FROM employees WHERE employee_id = :employee_id";
-        $statement = $conn->prepare($sql);
-        $statement->execute([':employee_id' => $delete_employee_id]);
-    }
-
-    if($_SERVER["REQUEST_METHOD"] == "POST" && isset($_POST["save-button-submit"])){
-        
-        $employee = new Employee($_POST["saveFirstName"], $_POST["saveMiddleName"] ?? '', $_POST["saveLastName"], $_POST["saveGender"], $_POST["saveBirthday"], $_POST["saveEmploymentType"], $_POST["saveDesignation"], $_POST["saveDateHired"], $_POST["savePayFrequency"], $_POST["saveEmployeeId"]);
-
-        $sql = "UPDATE employees SET first_name = :first_name, middle_name = :middle_name, last_name = :last_name, gender = :gender, birthday = :birthday, employment_type = :employment_type, designation = :designation, date_hired = :date_hired, pay_frequency = :pay_frequency WHERE employee_id = :employee_id";
-        $statement = $conn->prepare($sql);
-        $statement->execute([':first_name' => $employee->getFirstName(), ':middle_name' => $employee->getMiddleName(), ':last_name' => $employee->getLastName(), ':gender' => $employee->getGender(), ':birthday' => $employee->getBirthday(), ':employment_type' => $employee->getEmploymentType(), ':designation' => $employee->getDesignation(), ':date_hired' => $employee->getDateHired(), ':pay_frequency' => $employee->getPayFrequency(), ':employee_id' => $employee->getEmployeeId()]);
-    }
-?>
