@@ -1,16 +1,12 @@
-@font-face {
-    src: url(../fonts/Poppins-Bold.ttf);
-    font-family: PoppinsBold;
-}
+@import url("https://fonts.googleapis.com/css2?family=Poppins:ital,wght@0,100;0,200;0,300;0,400;0,500;0,600;0,700;0,800;0,900;1,100;1,200;1,300;1,400;1,500;1,600;1,700;1,800;1,900&display=swap");
 
-@font-face {
-    font-family: PoppinsMedium;
-    src: url(../fonts/Poppins-Medium.ttf);
-}
-
-@font-face {
-    font-family: PoppinsLight;
-    src: url(../fonts/Poppins-Light.ttf);
+*,
+*::before,
+*::after {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+    font-family: "Poppins", "Helvetica Neue", Helvetica, Arial;
 }
 
 
@@ -29,7 +25,6 @@
     background-color: #383838;
     color: #ffffff;
     padding: .50em;
-    font-weight: lighter;
     
 }
 #tableName{
@@ -193,14 +188,12 @@
 }
 
 .delete-h1-style, .save-h1-style{
-    font-family: PoppinsBold;
     font-size: 1.5em;
     color: #383838;
     margin-left: 1em;
 }
 
 .delete-p-style, .save-p-style{
-    font-family: PoppinsLight;
     font-size: .85em;
     color: #383838;
     margin-left: 1em;
@@ -216,7 +209,6 @@
 .cancel-button-style, .delete-button-style, .confirm-save-button-style{
     padding: .75em 3.5em;
     border-radius: 5px;
-    font-family: PoppinsMedium;
     cursor: pointer;
     transition: .25s;
     margin-right: 2em;

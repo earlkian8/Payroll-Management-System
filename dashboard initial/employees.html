@@ -1,0 +1,215 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Employee Modal</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, 'Open Sans', 'Helvetica Neue', sans-serif;
+        }
+
+        body {
+            background-color: rgba(0, 0, 0, 0.5);
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            min-height: 100vh;
+        }
+
+        .modal-container {
+            background-color: white;
+            border-radius: 6px;
+            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.2);
+            width: 100%;
+            max-width: 800px;
+            overflow: hidden;
+        }
+
+        .modal-text-container {
+            padding: 20px;
+            border-bottom: 1px solid #eaeaea;
+        }
+
+        .h1-modal-style {
+            font-size: 22px;
+            font-weight: 500;
+            color: #333;
+        }
+
+        .modal-input-container {
+            padding: 20px;
+        }
+
+        .modal-subcontainer1 {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 15px;
+            margin-bottom: 20px;
+        }
+
+        .modal-subcontainer2 {
+            display: grid;
+            grid-template-columns: repeat(2, 1fr);
+            gap: 15px;
+        }
+
+        .input-container-subcontainer1,
+        .input-container-subcontainer2 {
+            display: flex;
+            flex-direction: column;
+            margin-bottom: 15px;
+        }
+
+        .label-style {
+            font-size: 14px;
+            font-weight: 500;
+            color: #555;
+            margin-bottom: 6px;
+        }
+
+        input[type="text"],
+        input[type="date"],
+        .select-style {
+            padding: 10px;
+            border: 1px solid #ddd;
+            border-radius: 4px;
+            font-size: 14px;
+            outline: none;
+            transition: border-color 0.2s, box-shadow 0.2s;
+        }
+
+        input[type="text"]:focus,
+        input[type="date"]:focus,
+        .select-style:focus {
+            border-color: #4299e1;
+            box-shadow: 0 0 0 3px rgba(66, 153, 225, 0.2);
+        }
+
+        .option-style {
+            padding: 8px;
+        }
+
+        .modal-button-container {
+            display: flex;
+            justify-content: flex-end;
+            padding: 20px;
+            gap: 10px;
+            border-top: 1px solid #eaeaea;
+        }
+
+        .create-button-style {
+            background-color: #68D391;
+            color: white;
+            border: none;
+            border-radius: 4px;
+            padding: 10px 24px;
+            font-size: 14px;
+            font-weight: 500;
+            cursor: pointer;
+            transition: background-color 0.2s;
+        }
+
+        .create-button-style:hover {
+            background-color: #48BB78;
+        }
+
+        .discard-button-style {
+            background-color: #4A5568;
+            color: white;
+            border: none;
+            border-radius: 4px;
+            padding: 10px 24px;
+            font-size: 14px;
+            font-weight: 500;
+            cursor: pointer;
+            transition: background-color 0.2s;
+        }
+
+        .discard-button-style:hover {
+            background-color: #2D3748;
+        }
+
+        /* Responsive adjustments */
+        @media (max-width: 768px) {
+            .modal-subcontainer1 {
+                grid-template-columns: 1fr;
+            }
+            .modal-subcontainer2 {
+                grid-template-columns: 1fr;
+            }
+        }
+    </style>
+</head>
+<body>
+    <!-- Create Modal -->
+    <form action="employee.php" method="post" class="modal-container" id="modal-container">
+        <div class="modal-text-container">
+            <h1 class="h1-modal-style">Create Employee</h1>
+        </div>
+        <div class="modal-input-container">
+            <div class="modal-subcontainer1">
+                <div class="input-container-subcontainer1">
+                    <label for="firstName" class="label-style">First Name</label>
+                    <input type="text" name="firstName" id="firstName" placeholder="First Name" required autocomplete="off">
+                </div>
+                <div class="input-container-subcontainer1">
+                    <label for="middleName" class="label-style">Middle Name</label>
+                    <input type="text" name="middleName" id="middleName" placeholder="Middle Name" autocomplete="off">
+                </div>
+                <div class="input-container-subcontainer1">
+                    <label for="lastName" class="label-style">Last Name</label>
+                    <input type="text" name="lastName" id="lastName" placeholder="Last Name" required autocomplete="off">
+                </div>
+            </div>
+            <div class="modal-subcontainer2">
+                <div class="input-container-subcontainer2">
+                    <label for="gender" class="label-style">Gender</label>
+                    <select name="gender" id="gender" class="select-style">
+                        <option value="" class="option-style">Select Gender</option>
+                        <option value="Male" class="option-style">Male</option>
+                        <option value="Female" class="option-style">Female</option>
+                    </select>
+                </div>
+                <div class="input-container-subcontainer2">
+                    <label for="birthday" class="label-style">Birthday</label>
+                    <input type="date" name="birthday" id="birthday" required placeholder="Date of Birth">
+                </div>
+                <div class="input-container-subcontainer2">
+                    <label for="employmentType" class="label-style">Employment Type</label>
+                    <select name="employmentType" id="employmentType" class="select-style">
+                        <option value="" class="option-style">Select One</option>
+                        <option value="Full Time" class="option-style">Full Time</option>
+                        <option value="Part Time" class="option-style">Part Time</option>
+                        <option value="Freelance" class="option-style">Freelance</option>
+                    </select>
+                </div>
+                <div class="input-container-subcontainer2">
+                    <label for="designation" class="label-style">Designation</label>
+                    <input type="text" name="designation" id="designation" placeholder="Designation" required autocomplete="off">
+                </div>
+                <div class="input-container-subcontainer2">
+                    <label for="dateHired" class="label-style">Date Hired</label>
+                    <input type="date" name="dateHired" id="dateHired" required>
+                </div>
+                <div class="input-container-subcontainer2">
+                    <label for="payFrequency" class="label-style">Pay Frequency</label>
+                    <select name="payFrequency" id="payFrequency" class="select-style">
+                        <option value="" class="option-style">Select One</option>
+                        <option value="Monthly" class="option-style">Monthly</option>
+                        <option value="Bi-Weekly" class="option-style">Bi-Weekly</option>
+                        <option value="Weekly" class="option-style">Weekly</option>
+                    </select>
+                </div>
+            </div>
+        </div>
+        <div class="modal-button-container">
+            <button class="create-button-style" id="create" name="create" type="submit">Create</button>
+            <button class="discard-button-style" id="discard">Discard</button>
+        </div>
+    </form>
+</body>
+</html>

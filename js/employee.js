@@ -4,10 +4,24 @@ document.addEventListener("DOMContentLoaded", function(){
     const discard = document.getElementById("discard");
     const create = document.getElementById("create");
     const modalContainer = document.getElementById("modal-container");
+    const employeeDetails = document.getElementById("employee-details");
+    const editModalContainer = document.getElementById("edit-modal-container");
+    const confirmSaveContainer = document.getElementById("confirm-save-container");
+    const confirmDeleteContainer = document.getElementById("confirm-delete-container");
     const overlay = document.getElementById("overlay");
     open.addEventListener("click", function(){
         modalContainer.classList.add("show");
         overlay.classList.add("show");
+    });
+
+    overlay.addEventListener("click", function(event){
+        event.preventDefault();
+        modalContainer.classList.remove("show");
+        employeeDetails.classList.remove("show");
+        editModalContainer.classList.remove("show");
+        confirmSaveContainer.classList.remove("show");
+        confirmDeleteContainer.classList.remove("show");
+        overlay.classList.remove("show");
     });
 
     discard.addEventListener("click", function(event){
@@ -62,62 +76,39 @@ function attachRowEventListeners(data) {
 }
 
 function showModal(employee){
-    const employeeDetails = document.getElementById("employee-details");
-    const back = document.getElementById("back");
+    const employeeDetails = document.getElementById('employee-details');
     const overlay = document.getElementById("overlay");
+    const closeDetails = document.getElementById("close-details");
+    employeeDetails.addEventListener("click", function(event) {
+        if (event.target === employeeDetails) {
+            employeeDetails.classList.remove("show");
+            confirmDeleteContainer.classList.remove("show");
+        }
+    });
 
-    const nameInformation = document.getElementById("name-information");
-    const genderValue = document.getElementById("gender-value");
-    const birthdayValue = document.getElementById("birthday-value");
-    const employmentTypeValue = document.getElementById("employmentType-value");
-    const designationValue = document.getElementById("designation-value");
-    const dateHiredValue = document.getElementById("dateHired-value");
-    const payFrequencyValue = document.getElementById("payFrequency-value");
-
-    if (nameInformation && genderValue && birthdayValue && employmentTypeValue && designationValue && dateHiredValue && payFrequencyValue) {
-        nameInformation.textContent = `${employee.first_name} ${employee.middle_name ? employee.middle_name + " " : ""} ${employee.last_name}`;
-        genderValue.textContent = `${employee.gender}`;
-        birthdayValue.textContent = `${employee.birthday}`;
-        employmentTypeValue.textContent = `${employee.employment_type}`;
-        designationValue.textContent = `${employee.designation}`;
-        dateHiredValue.textContent = `${employee.date_hired}`;
-        payFrequencyValue.textContent = `${employee.pay_frequency}`;
-        employeeDetails.classList.add("show");
-        overlay.classList.add("show");
-    } else {
-        console.error("One or more elements not found in the DOM");
-    }
-    back.addEventListener("click", function(event){
-        event.preventDefault();
+    closeDetails.addEventListener("click", function(event){
         employeeDetails.classList.remove("show");
-        overlay.classList.remove("show");
     });
 
-    const deleteButtonId = document.getElementById("delete-button-id");
-    const confirmDeleteContainer = document.getElementById("confirm-delete-container");
 
-    deleteButtonId.addEventListener("click", function(event){
-        event.preventDefault();
-        document.getElementById("delete-employeeId").value = employee.employee_id;
-        confirmDeleteContainer.classList.add("show");
-        
-    });
-
-    const cancelButtonDelete = document.getElementById("cancel-button-delete");
-    cancelButtonDelete.addEventListener("click", function(event){
-        event.preventDefault();
-        confirmDeleteContainer.classList.remove("show");
-    });
-
+    document.getElementById("employee-full-name").textContent = `${employee.first_name} ${employee.middle_name ? employee.middle_name + "" : " "} ${employee.last_name}`;
+    document.getElementById("detail-full-name").textContent = `${employee.first_name} ${employee.middle_name ? employee.middle_name + "" : " "} ${employee.last_name}`;
+    document.getElementById("detail-gender").textContent = `${employee.gender}`;
+    document.getElementById("detail-birthday").textContent = `${employee.birthday}`;
+    document.getElementById("detail-employment-type").textContent = `${employee.employment_type}`;
+    document.getElementById("detail-designation").textContent = `${employee.designation}`;
+    document.getElementById("employee-status").textContent = `${employee.designation}`;
+    document.getElementById("detail-date-hired").textContent = `${employee.date_hired}`;
+    document.getElementById("detail-pay-frequency").textContent = `${employee.pay_frequency}`;
     
-    const e = document.getElementById("e");
-    const editModalContainer = document.getElementById("edit-modal-container");
-    const editDiscard = document.getElementById("editDiscard");
+    employeeDetails.classList.add("show");
 
-    e.addEventListener("click", function(event){
+    const editEmployeeBtn = document.getElementById('edit-employee-btn');
+    const editModalContainer = document.getElementById("edit-modal-container");
+
+    editEmployeeBtn.addEventListener("click", function(event){
         event.preventDefault();
 
-        document.getElementById("editEmployeeId").value = employee.employee_id;
         document.getElementById("editFirstName").value = employee.first_name;
         document.getElementById("editMiddleName").value = employee.middle_name;
         document.getElementById("editLastName").value = employee.last_name;
@@ -127,15 +118,45 @@ function showModal(employee){
         document.getElementById("editDesignation").value = employee.designation;
         document.getElementById("editDateHired").value = employee.date_hired;
         document.getElementById("editPayFrequency").value = employee.pay_frequency;
-        editModalContainer.classList.add("show");
 
+        editModalContainer.classList.add('show');
+        employeeDetails.classList.remove("show");
+        overlay.classList.add("show");
     });
 
+    const editClose = document.getElementById("edit-close");
+    editClose.addEventListener('click', function(event){
+        event.preventDefault();
+        editModalContainer.classList.remove('show');
+        employeeDetails.classList.add("show");
+        overlay.classList.remove("show");
+    });
+
+    const editDiscard = document.getElementById("editDiscard");
     editDiscard.addEventListener("click", function(event){
         event.preventDefault();
-        editModalContainer.classList.remove("show");
+        editModalContainer.classList.remove('show');
+        employeeDetails.classList.add("show");
+        overlay.classList.remove("show");
+        confirmSaveContainer.classList.remove("show");
     });
 
+    const deleteEmployeeBtn = document.getElementById("delete-employee-btn");
+    const confirmDeleteContainer = document.getElementById("confirm-delete-container");
+
+    deleteEmployeeBtn.addEventListener("click", function(event){
+        event.preventDefault();
+        document.getElementById("delete-employeeId").value = employee.employee_id;
+        confirmDeleteContainer.classList.add("show");
+    });
+
+    const cancelButtonDelete = document.getElementById("cancel-button-delete");
+
+    cancelButtonDelete.addEventListener("click", function(event){
+        event.preventDefault();
+        confirmDeleteContainer.classList.remove("show");
+    });
+    
     const edit = document.getElementById("edit");
     const confirmSaveContainer = document.getElementById("confirm-save-container");
 
@@ -156,19 +177,8 @@ function showModal(employee){
     });
 
     const cancelButtonSave = document.getElementById("cancel-button-save");
-
     cancelButtonSave.addEventListener("click", function(event){
         event.preventDefault();
         confirmSaveContainer.classList.remove("show");
     });
-}
-function openTab(index) {
-    let tabs = document.querySelectorAll(".tab");
-    let contents = document.querySelectorAll(".tab-content");
-
-    tabs.forEach(tab => tab.classList.remove("active"));
-    contents.forEach(content => content.classList.remove("active"));
-
-    tabs[index].classList.add("active");
-    contents[index].classList.add("active");
 }

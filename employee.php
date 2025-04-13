@@ -63,7 +63,7 @@
     <!-- Create Modal -->
     <form action="employee.php" method="post" class="modal-container" id="modal-container">
             <div class="modal-text-container">
-                <h1 class="h1-style">Create Employee</h1>
+                <h1 class="h1-modal-style">Create Employee</h1>
             </div>
             <div class="modal-input-container">
                 <div class="modal-subcontainer1">
@@ -129,54 +129,81 @@
 
         <!-- Employee Details -->
         <form action="employee.php" method="post" class="employee-details" id="employee-details">
-            <div class="text-container-style">
-                <h1 class="h1-text-style">Employee Information</h1>
-                <img src="images/arrow-icon-383838.png" alt="Back" class="back-style" id="back">
-            </div>
-            <div class="information-container-style">
-                <div class="information-subcontainer1">
-                    <div class="employee-information-div">
-                        <div class="employee-subcontainer1-information">
-                            <h1 class="name-information-style" id="name-information">Earl Kian A. Bancayrin</h1>
+            <div class="modal">
+                <div class="modal-header">
+                    <div class="modal-title">Employee Information</div>
+                    <button type="button" class="modal-close" id="close-details">×</button>
+                </div>
+                
+                <div class="modal-body">
+                    <!-- Employee Information Section -->
+                    <div class="employee-info">
+                        <div class="employee-header">
+                            <h2 class="employee-name" id="employee-full-name"></h2>
+                            <div class="employee-title"><span id="employee-designation"></span> <span class="status-badge new" id="employee-status"></span></div>
                         </div>
-                        <div class="employee-subcontainer2-information">
-                            <div class="left-employee-subcontainer2-information">
-                                <p class="information-style" id="gender-information-">Gender:</p>
-                                <p class="information-style" id="birthday-information-">Birthday:</p>
-                                <p class="information-style" id="employmentType-information-">Employment Type:</p>
-                                <p class="information-style" id="designation-information-">Designation:</p>
-                                <p class="information-style" id="dateHired-information-">Date Hired:</p>
-                                <p class="information-style" id="payFrequency-information">Pay Frequency</p>
+                        
+                        <div class="info-tabs">
+                            <div class="info-tab active">Personal Info</div>
+                        </div>
+                        
+                        <div class="info-content">
+                            <div class="info-section">
+                                <h3 class="section-title">Personal Information</h3>
+                                <div class="info-grid">
+                                    <div class="info-item">
+                                        <div class="info-label">Full Name</div>
+                                        <div class="info-value" id="detail-full-name"></div>
+                                    </div>
+                                    <div class="info-item">
+                                        <div class="info-label">Gender</div>
+                                        <div class="info-value" id="detail-gender"></div>
+                                    </div>
+                                    <div class="info-item">
+                                        <div class="info-label">Birthday</div>
+                                        <div class="info-value" id="detail-birthday"></div>
+                                    </div>
+                                </div>
                             </div>
-                            <div class="right-employee-subcontainer2-information">
-                                <p class="value-style" id="gender-value"></p>
-                                <p class="value-style" id="birthday-value"></p>
-                                <p class="value-style" id="employmentType-value"></p>
-                                <p class="value-style" id="designation-value"></p>
-                                <p class="value-style" id="dateHired-value"></p>
-                                <p class="value-style" id="payFrequency-value"></p>
+                            
+                            <div class="info-section">
+                                <h3 class="section-title">Employment Details</h3>
+                                <div class="info-grid">
+                                    <div class="info-item">
+                                        <div class="info-label">Employment Type</div>
+                                        <div class="info-value" id="detail-employment-type"></div>
+                                    </div>
+                                    <div class="info-item">
+                                        <div class="info-label">Designation</div>
+                                        <div class="info-value" id="detail-designation"></div>
+                                    </div>
+                                    <div class="info-item">
+                                        <div class="info-label">Date Hired</div>
+                                        <div class="info-value" id="detail-date-hired"></div>
+                                    </div>
+                                    <div class="info-item">
+                                        <div class="info-label">Pay Frequency</div>
+                                        <div class="info-value" id="detail-pay-frequency"></div>
+                                    </div>
+                                </div>
                             </div>
-                            <div class="bottom-employee-subcontainer2-information">
-                                <button class="edit-button-style" id="e">Edit</button>
+                            
+                            <div class="button-container">
+                                <button type="button" class="btn btn-primary" id="edit-employee-btn">Edit</button>
+                                <button type="button" class="btn btn-danger" id="delete-employee-btn">Delete</button>
                             </div>
                         </div>
                     </div>
-                </div>
-                <div class="information-subcontainer2">
-                    <div class="information-sub-subcontainer2">
-                        <div class="performance-information-div">
-                            <!-- Tabs -->
-                            <div class="tabs">
-                                <div class="tab active" onclick="openTab(0)">Salary</div>
-                            </div>
-                            
-                            <!-- Tab Content -->
-                            <ul class="salary-content tab-content active" id="salary-content">
-                                <!-- Salary Content -->
-                            </ul>
+                    
+                    <!-- Salary Section -->
+                    <div class="salary-container">
+                        <div class="salary-title">
+                            <span>Salary Payslips</span>
+                            <span class="view-all">View All</span>
                         </div>
-                        <div class="button-information-div">
-                            <button class="delete-button-style" id="delete-button-id">Delete</button>
+                        
+                        <div id="payslips-container">
+                            <!-- Payslips will be loaded dynamically -->
                         </div>
                     </div>
                 </div>
@@ -186,7 +213,8 @@
         <!-- Edit Modal -->
         <form action="employee.php" method="post" class="edit-modal-container" id="edit-modal-container">
             <div class="modal-text-container">
-                <h1 class="h1-style">Create Employee</h1>
+                <h1 class="h1-modal-style">Edit Employee</h1>
+                <button type="button" class="modal-close" id="edit-close">×</button>
             </div>
             <div class="modal-input-container">
                 <div class="modal-subcontainer1">
