@@ -7,6 +7,12 @@
             $this->conn = $db;
         }
 
+        public function getEmployeeById($id){
+            $query = "SELECT * FROM " . $this->table . " WHERE employee_id = :id";
+            $stmt = $this->conn->prepare($query);
+            $stmt->execute([":id" => $id]);
+            return $stmt->fetch(PDO::FETCH_ASSOC);
+        }
         public function getAllEmployees(){
             $query = "SELECT * FROM " . $this->table . " ORDER BY employee_id DESC";
             $stmt = $this->conn->prepare($query);

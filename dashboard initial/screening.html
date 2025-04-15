@@ -1,0 +1,833 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Movie Ticket Booking - Screenings</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+        }
+        
+        :root {
+            --primary-color: #2c3e50;
+            --secondary-color: #3498db;
+            --accent-color: #e74c3c;
+            --success-color: #2ecc71;
+            --warning-color: #f39c12;
+            --light-bg: #f5f6fa;
+            --white: #ffffff;
+            --text-dark: #2d3436;
+            --text-light: #636e72;
+            --shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+        }
+        
+        body {
+            display: flex;
+            background-color: var(--light-bg);
+            color: var(--text-dark);
+        }
+        
+        /* Sidebar Styles */
+        .sidebar {
+            width: 250px;
+            background-color: var(--primary-color);
+            height: 100vh;
+            color: var(--white);
+            padding: 20px 0;
+            position: fixed;
+            transition: all 0.3s ease;
+        }
+        
+        .logo {
+            padding: 0 20px 20px;
+            border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+            display: flex;
+            align-items: center;
+            gap: 12px;
+        }
+        
+        .logo-icon {
+            font-size: 24px;
+        }
+        
+        .logo-text {
+            font-size: 20px;
+            font-weight: 600;
+        }
+        
+        .menu {
+            margin-top: 30px;
+        }
+        
+        .menu-item {
+            padding: 15px 20px;
+            display: flex;
+            align-items: center;
+            gap: 12px;
+            color: var(--white);
+            text-decoration: none;
+            transition: all 0.3s ease;
+        }
+        
+        .menu-item:hover, .menu-item.active {
+            background-color: rgba(255, 255, 255, 0.1);
+            border-left: 4px solid var(--secondary-color);
+        }
+        
+        .menu-item.active {
+            background-color: rgba(255, 255, 255, 0.15);
+        }
+        
+        .menu-icon {
+            font-size: 18px;
+        }
+        
+        .menu-text {
+            font-size: 16px;
+        }
+        
+        /* Main Content Area */
+        .main-content {
+            flex: 1;
+            margin-left: 250px;
+            padding: 20px;
+            width: calc(100% - 250px);
+        }
+        
+        .page-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 20px;
+            padding-bottom: 15px;
+            border-bottom: 1px solid #e0e0e0;
+        }
+        
+        .page-title {
+            font-size: 24px;
+            font-weight: 600;
+        }
+        
+        .action-button {
+            background-color: var(--secondary-color);
+            color: var(--white);
+            border: none;
+            padding: 10px 20px;
+            border-radius: 4px;
+            cursor: pointer;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            transition: all 0.3s ease;
+        }
+        
+        .action-button:hover {
+            background-color: #2980b9;
+        }
+        
+        /* Screenings Section */
+        .screenings-filter {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 15px;
+            margin-bottom: 20px;
+            align-items: center;
+        }
+        
+        .filter-group {
+            display: flex;
+            flex-direction: column;
+            gap: 5px;
+        }
+        
+        .filter-label {
+            font-size: 14px;
+            color: var(--text-light);
+        }
+        
+        .filter-select, .filter-input {
+            padding: 10px 15px;
+            border: 1px solid #ddd;
+            border-radius: 4px;
+            min-width: 150px;
+            background-color: var(--white);
+        }
+        
+        .search-box {
+            flex: 1;
+            position: relative;
+        }
+        
+        .search-input {
+            width: 100%;
+            padding: 10px 15px 10px 40px;
+            border: 1px solid #ddd;
+            border-radius: 4px;
+            font-size: 16px;
+            background-color: var(--white);
+        }
+        
+        .search-icon {
+            position: absolute;
+            left: 15px;
+            top: 50%;
+            transform: translateY(-50%);
+            color: var(--text-light);
+        }
+        
+        /* Screenings Table */
+        .screenings-table {
+            width: 100%;
+            border-collapse: collapse;
+            background-color: var(--white);
+            border-radius: 8px;
+            overflow: hidden;
+            box-shadow: var(--shadow);
+            margin-top: 20px;
+        }
+        
+        .screenings-table th,
+        .screenings-table td {
+            padding: 15px;
+            text-align: left;
+            border-bottom: 1px solid #eee;
+        }
+        
+        .screenings-table th {
+            background-color: var(--primary-color);
+            color: var(--white);
+            font-weight: 600;
+        }
+        
+        .screenings-table tr:last-child td {
+            border-bottom: none;
+        }
+        
+        .screenings-table tr:hover {
+            background-color: rgba(0, 0, 0, 0.02);
+        }
+        
+        .screening-status {
+            padding: 5px 10px;
+            border-radius: 20px;
+            font-size: 14px;
+            display: inline-block;
+            text-align: center;
+            min-width: 100px;
+        }
+        
+        .status-scheduled {
+            background-color: #e3f2fd;
+            color: #1565c0;
+        }
+        
+        .status-active {
+            background-color: #e8f5e9;
+            color: #2e7d32;
+        }
+        
+        .status-completed {
+            background-color: #eeeeee;
+            color: #757575;
+        }
+        
+        .status-cancelled {
+            background-color: #ffebee;
+            color: #c62828;
+        }
+        
+        .table-actions {
+            display: flex;
+            gap: 8px;
+        }
+        
+        .edit-btn, .delete-btn, .view-btn {
+            padding: 6px 12px;
+            border-radius: 4px;
+            border: none;
+            cursor: pointer;
+            font-size: 14px;
+            transition: all 0.3s ease;
+        }
+        
+        .edit-btn {
+            background-color: #f1c40f;
+            color: #333;
+        }
+        
+        .edit-btn:hover {
+            background-color: #e2b60d;
+        }
+        
+        .view-btn {
+            background-color: var(--secondary-color);
+            color: var(--white);
+        }
+        
+        .view-btn:hover {
+            background-color: #2980b9;
+        }
+        
+        .delete-btn {
+            background-color: var(--accent-color);
+            color: var(--white);
+        }
+        
+        .delete-btn:hover {
+            background-color: #c0392b;
+        }
+        
+        /* Pagination */
+        .pagination {
+            display: flex;
+            justify-content: center;
+            margin-top: 20px;
+            gap: 5px;
+        }
+        
+        .pagination-button {
+            padding: 8px 12px;
+            border: 1px solid #ddd;
+            background-color: var(--white);
+            border-radius: 4px;
+            cursor: pointer;
+            transition: all 0.3s ease;
+        }
+        
+        .pagination-button:hover, .pagination-button.active {
+            background-color: var(--secondary-color);
+            color: var(--white);
+            border-color: var(--secondary-color);
+        }
+        
+        /* Screening Form Modal */
+        #screeningModal {
+            display: none;
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background-color: rgba(0, 0, 0, 0.5);
+            z-index: 1000;
+            justify-content: center;
+            align-items: center;
+        }
+        
+        .modal-content {
+            background-color: var(--white);
+            width: 500px;
+            border-radius: 8px;
+            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.3);
+            overflow: hidden;
+        }
+        
+        .modal-header {
+            padding: 15px 20px;
+            background-color: var(--primary-color);
+            color: var(--white);
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+        
+        .modal-title {
+            font-size: 18px;
+            font-weight: 600;
+        }
+        
+        .close-modal {
+            background: none;
+            border: none;
+            color: var(--white);
+            font-size: 20px;
+            cursor: pointer;
+        }
+        
+        .modal-body {
+            padding: 20px;
+        }
+        
+        .form-group {
+            margin-bottom: 15px;
+        }
+        
+        .form-label {
+            display: block;
+            margin-bottom: 8px;
+            font-weight: 500;
+        }
+        
+        .form-input, .form-textarea, .form-select {
+            width: 100%;
+            padding: 10px;
+            border: 1px solid #ddd;
+            border-radius: 4px;
+            font-size: 16px;
+            background-color: var(--white);
+        }
+        
+        .form-row {
+            display: flex;
+            gap: 15px;
+        }
+        
+        .form-row .form-group {
+            flex: 1;
+        }
+        
+        .modal-footer {
+            padding: 15px 20px;
+            border-top: 1px solid #eee;
+            display: flex;
+            justify-content: flex-end;
+            gap: 10px;
+        }
+        
+        .cancel-btn {
+            padding: 10px 15px;
+            background-color: #95a5a6;
+            color: var(--white);
+            border: none;
+            border-radius: 4px;
+            cursor: pointer;
+        }
+        
+        .save-btn {
+            padding: 10px 20px;
+            background-color: var(--secondary-color);
+            color: var(--white);
+            border: none;
+            border-radius: 4px;
+            cursor: pointer;
+        }
+        
+        .tickets-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(100px, 1fr));
+            gap: 10px;
+            margin-top: 10px;
+        }
+        
+        .ticket-type {
+            display: flex;
+            gap: 5px;
+            align-items: center;
+        }
+        
+        .remove-ticket {
+            background-color: var(--accent-color);
+            color: var(--white);
+            border: none;
+            border-radius: 4px;
+            width: 20px;
+            height: 20px;
+            font-size: 12px;
+            line-height: 1;
+            cursor: pointer;
+        }
+        
+        .add-ticket-btn {
+            display: flex;
+            align-items: center;
+            gap: 5px;
+            background-color: var(--light-bg);
+            border: 1px dashed #aaa;
+            padding: 8px;
+            border-radius: 4px;
+            cursor: pointer;
+            font-size: 14px;
+            color: var(--text-light);
+            justify-content: center;
+        }
+    </style>
+</head>
+<body>
+    <!-- Sidebar -->
+    <div class="sidebar">
+        <div class="logo">
+            <div class="logo-icon">🎬</div>
+            <div class="logo-text">CinemaAdmin</div>
+        </div>
+        <div class="menu">
+            <a href="#" class="menu-item">
+                <div class="menu-icon">📊</div>
+                <div class="menu-text">Dashboard</div>
+            </a>
+            <a href="#" class="menu-item">
+                <div class="menu-icon">🏢</div>
+                <div class="menu-text">Cinemas</div>
+            </a>
+            <a href="#" class="menu-item">
+                <div class="menu-icon">🎥</div>
+                <div class="menu-text">Movies</div>
+            </a>
+            <a href="#" class="menu-item active">
+                <div class="menu-icon">🎟️</div>
+                <div class="menu-text">Screenings</div>
+            </a>
+            <a href="#" class="menu-item">
+                <div class="menu-icon">💰</div>
+                <div class="menu-text">Bookings</div>
+            </a>
+            <a href="#" class="menu-item">
+                <div class="menu-icon">👥</div>
+                <div class="menu-text">Users</div>
+            </a>
+            <a href="#" class="menu-item">
+                <div class="menu-icon">⚙️</div>
+                <div class="menu-text">Settings</div>
+            </a>
+        </div>
+    </div>
+
+    <!-- Main Content -->
+    <div class="main-content">
+        <div class="page-header">
+            <h1 class="page-title">Screenings Management</h1>
+            <button class="action-button" onclick="openScreeningModal()">
+                <span>+</span> Add New Screening
+            </button>
+        </div>
+
+        <div class="screenings-filter">
+            <div class="filter-group">
+                <label class="filter-label">Cinema</label>
+                <select class="filter-select">
+                    <option value="">All Cinemas</option>
+                    <option value="1">CineStar Mall 1</option>
+                    <option value="2">CineStar Downtown</option>
+                    <option value="3">CineStar Westfield</option>
+                </select>
+            </div>
+            
+            <div class="filter-group">
+                <label class="filter-label">Movie</label>
+                <select class="filter-select">
+                    <option value="">All Movies</option>
+                    <option value="1">Inception</option>
+                    <option value="2">The Shawshank Redemption</option>
+                    <option value="3">Pulp Fiction</option>
+                    <option value="4">The Dark Knight</option>
+                </select>
+            </div>
+            
+            <div class="filter-group">
+                <label class="filter-label">Date Range</label>
+                <div style="display: flex; gap: 8px;">
+                    <input type="date" class="filter-input" placeholder="From">
+                    <input type="date" class="filter-input" placeholder="To">
+                </div>
+            </div>
+            
+            <div class="filter-group">
+                <label class="filter-label">Status</label>
+                <select class="filter-select">
+                    <option value="">All Statuses</option>
+                    <option value="scheduled">Scheduled</option>
+                    <option value="active">Active</option>
+                    <option value="completed">Completed</option>
+                    <option value="cancelled">Cancelled</option>
+                </select>
+            </div>
+            
+            <button class="action-button" style="background-color: var(--primary-color);">
+                Apply Filters
+            </button>
+        </div>
+
+        <table class="screenings-table">
+            <thead>
+                <tr>
+                    <th>ID</th>
+                    <th>Movie</th>
+                    <th>Cinema & Hall</th>
+                    <th>Date & Time</th>
+                    <th>Available/Total Seats</th>
+                    <th>Status</th>
+                    <th>Actions</th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr>
+                    <td>#SCR001</td>
+                    <td>Inception</td>
+                    <td>CineStar Mall 1, Hall 3</td>
+                    <td>Apr 15, 2025 - 18:30</td>
+                    <td>120/150</td>
+                    <td><span class="screening-status status-scheduled">Scheduled</span></td>
+                    <td>
+                        <div class="table-actions">
+                            <button class="view-btn" onclick="viewScreening(1)">View</button>
+                            <button class="edit-btn" onclick="editScreening(1)">Edit</button>
+                            <button class="delete-btn" onclick="deleteScreening(1)">Delete</button>
+                        </div>
+                    </td>
+                </tr>
+                <tr>
+                    <td>#SCR002</td>
+                    <td>The Shawshank Redemption</td>
+                    <td>CineStar Downtown, Hall 1</td>
+                    <td>Apr 15, 2025 - 19:45</td>
+                    <td>85/100</td>
+                    <td><span class="screening-status status-active">Active</span></td>
+                    <td>
+                        <div class="table-actions">
+                            <button class="view-btn" onclick="viewScreening(2)">View</button>
+                            <button class="edit-btn" onclick="editScreening(2)">Edit</button>
+                            <button class="delete-btn" onclick="deleteScreening(2)">Delete</button>
+                        </div>
+                    </td>
+                </tr>
+                <tr>
+                    <td>#SCR003</td>
+                    <td>Pulp Fiction</td>
+                    <td>CineStar Westfield, Hall 5</td>
+                    <td>Apr 14, 2025 - 20:15</td>
+                    <td>0/120</td>
+                    <td><span class="screening-status status-completed">Completed</span></td>
+                    <td>
+                        <div class="table-actions">
+                            <button class="view-btn" onclick="viewScreening(3)">View</button>
+                            <button class="edit-btn" onclick="editScreening(3)">Edit</button>
+                            <button class="delete-btn" onclick="deleteScreening(3)">Delete</button>
+                        </div>
+                    </td>
+                </tr>
+                <tr>
+                    <td>#SCR004</td>
+                    <td>The Dark Knight</td>
+                    <td>CineStar Mall 1, Hall 2</td>
+                    <td>Apr 16, 2025 - 17:00</td>
+                    <td>180/180</td>
+                    <td><span class="screening-status status-scheduled">Scheduled</span></td>
+                    <td>
+                        <div class="table-actions">
+                            <button class="view-btn" onclick="viewScreening(4)">View</button>
+                            <button class="edit-btn" onclick="editScreening(4)">Edit</button>
+                            <button class="delete-btn" onclick="deleteScreening(4)">Delete</button>
+                        </div>
+                    </td>
+                </tr>
+                <tr>
+                    <td>#SCR005</td>
+                    <td>Inception</td>
+                    <td>CineStar Downtown, Hall 4</td>
+                    <td>Apr 14, 2025 - 15:30</td>
+                    <td>0/120</td>
+                    <td><span class="screening-status status-cancelled">Cancelled</span></td>
+                    <td>
+                        <div class="table-actions">
+                            <button class="view-btn" onclick="viewScreening(5)">View</button>
+                            <button class="edit-btn" onclick="editScreening(5)">Edit</button>
+                            <button class="delete-btn" onclick="deleteScreening(5)">Delete</button>
+                        </div>
+                    </td>
+                </tr>
+            </tbody>
+        </table>
+        
+        <div class="pagination">
+            <button class="pagination-button">«</button>
+            <button class="pagination-button active">1</button>
+            <button class="pagination-button">2</button>
+            <button class="pagination-button">3</button>
+            <button class="pagination-button">»</button>
+        </div>
+    </div>
+
+    <!-- Screening Form Modal -->
+    <div id="screeningModal">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h2 class="modal-title">Add New Screening</h2>
+                <button class="close-modal" onclick="closeScreeningModal()">×</button>
+            </div>
+            <div class="modal-body">
+                <form id="screeningForm">
+                    <div class="form-group">
+                        <label class="form-label" for="screeningMovie">Movie</label>
+                        <select id="screeningMovie" class="form-select" required>
+                            <option value="">Select Movie</option>
+                            <option value="1">Inception</option>
+                            <option value="2">The Shawshank Redemption</option>
+                            <option value="3">Pulp Fiction</option>
+                            <option value="4">The Dark Knight</option>
+                        </select>
+                    </div>
+                    
+                    <div class="form-group">
+                        <label class="form-label" for="screeningCinema">Cinema</label>
+                        <select id="screeningCinema" class="form-select" required>
+                            <option value="">Select Cinema</option>
+                            <option value="1">CineStar Mall 1</option>
+                            <option value="2">CineStar Downtown</option>
+                            <option value="3">CineStar Westfield</option>
+                        </select>
+                    </div>
+                    
+                    <div class="form-group">
+                        <label class="form-label" for="screeningHall">Hall</label>
+                        <select id="screeningHall" class="form-select" required>
+                            <option value="">Select Hall</option>
+                            <option value="1">Hall 1</option>
+                            <option value="2">Hall 2</option>
+                            <option value="3">Hall 3</option>
+                            <option value="4">Hall 4</option>
+                            <option value="5">Hall 5</option>
+                        </select>
+                    </div>
+                    
+                    <div class="form-row">
+                        <div class="form-group">
+                            <label class="form-label" for="screeningDate">Date</label>
+                            <input type="date" id="screeningDate" class="form-input" required>
+                        </div>
+                        
+                        <div class="form-group">
+                            <label class="form-label" for="screeningTime">Time</label>
+                            <input type="time" id="screeningTime" class="form-input" required>
+                        </div>
+                    </div>
+                    
+                    <div class="form-group">
+                        <label class="form-label" for="screeningType">Screening Type</label>
+                        <select id="screeningType" class="form-select" required>
+                            <option value="2d">2D</option>
+                            <option value="3d">3D</option>
+                            <option value="imax">IMAX</option>
+                            <option value="imax-3d">IMAX 3D</option>
+                            <option value="4dx">4DX</option>
+                        </select>
+                    </div>
+                    
+                    <div class="form-group">
+                        <label class="form-label" for="screeningLanguage">Language</label>
+                        <select id="screeningLanguage" class="form-select" required>
+                            <option value="original">Original</option>
+                            <option value="dubbed">Dubbed</option>
+                            <option value="subtitles">Subtitles</option>
+                        </select>
+                    </div>
+                    
+                    <div class="form-group">
+                        <label class="form-label">Ticket Types and Pricing</label>
+                        <div class="tickets-grid">
+                            <div class="ticket-type">
+                                <input type="text" class="form-input" placeholder="Adult" value="Adult">
+                                <input type="number" class="form-input" placeholder="Price" value="12.50">
+                                <button class="remove-ticket">×</button>
+                            </div>
+                            <div class="ticket-type">
+                                <input type="text" class="form-input" placeholder="Child" value="Child">
+                                <input type="number" class="form-input" placeholder="Price" value="8.00">
+                                <button class="remove-ticket">×</button>
+                            </div>
+                            <div class="ticket-type">
+                                <input type="text" class="form-input" placeholder="Senior" value="Senior">
+                                <input type="number" class="form-input" placeholder="Price" value="10.00">
+                                <button class="remove-ticket">×</button>
+                            </div>
+                            <div class="add-ticket-btn" onclick="addTicketType()">
+                                + Add Ticket Type
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <div class="form-group">
+                        <label class="form-label" for="screeningStatus">Status</label>
+                        <select id="screeningStatus" class="form-select" required>
+                            <option value="scheduled">Scheduled</option>
+                            <option value="active">Active</option>
+                            <option value="completed">Completed</option>
+                            <option value="cancelled">Cancelled</option>
+                        </select>
+                    </div>
+                    
+                    <div class="form-group">
+                        <label class="form-label" for="screeningNotes">Additional Notes</label>
+                        <textarea id="screeningNotes" class="form-textarea"></textarea>
+                    </div>
+                </form>
+            </div>
+            <div class="modal-footer">
+                <button class="cancel-btn" onclick="closeScreeningModal()">Cancel</button>
+                <button class="save-btn" onclick="saveScreening()">Save Screening</button>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        // JavaScript for handling the screening modal
+        function openScreeningModal() {
+            document.getElementById('screeningModal').style.display = 'flex';
+            document.querySelector('.modal-title').textContent = 'Add New Screening';
+            document.getElementById('screeningForm').reset();
+        }
+        
+        function closeScreeningModal() {
+            document.getElementById('screeningModal').style.display = 'none';
+        }
+        
+        function editScreening(id) {
+            document.getElementById('screeningModal').style.display = 'flex';
+            document.querySelector('.modal-title').textContent = 'Edit Screening';
+            
+            // Simulate filling the form with screening data
+            if (id === 1) {
+                document.getElementById('screeningMovie').value = '1'; // Inception
+                document.getElementById('screeningCinema').value = '1'; // CineStar Mall 1
+                document.getElementById('screeningHall').value = '3'; // Hall 3
+                document.getElementById('screeningDate').value = '2025-04-15';
+                document.getElementById('screeningTime').value = '18:30';
+                document.getElementById('screeningType').value = '2d';
+                document.getElementById('screeningLanguage').value = 'original';
+                document.getElementById('screeningStatus').value = 'scheduled';
+            }
+        }
+        
+        function viewScreening(id) {
+            // In a real application, you would redirect to a detailed view page
+            // or open a modal with detailed information
+            alert('Viewing screening details for ID: ' + id);
+        }
+        
+        function deleteScreening(id) {
+            if (confirm('Are you sure you want to delete this screening?')) {
+                // In a real application, you would send a delete request to the server
+                console.log('Deleting screening with ID:', id);
+            }
+        }
+        
+        function saveScreening() {
+            // In a real application, you would validate the form and send data to the server
+            alert('Screening saved successfully!');
+            closeScreeningModal();
+        }
+        
+        function addTicketType() {
+            const ticketsGrid = document.querySelector('.tickets-grid');
+            const addButton = document.querySelector('.add-ticket-btn');
+            
+            const newTicketType = document.createElement('div');
+            newTicketType.className = 'ticket-type';
+            newTicketType.innerHTML = `
+                <input type="text" class="form-input" placeholder="Type Name">
+                <input type="number" class="form-input" placeholder="Price">
+                <button class="remove-ticket" onclick="removeTicketType(this)">×</button>
+            `;
+            
+            ticketsGrid.insertBefore(newTicketType, addButton);
+        }
+        
+        function removeTicketType(button) {
+            const ticketType = button.parentElement;
+            ticketType.remove();
+        }
+    </script>
+</body>
+</html>

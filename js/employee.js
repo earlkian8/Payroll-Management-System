@@ -35,15 +35,27 @@ document.addEventListener("DOMContentLoaded", function(){
     });
 
     fetchEmployees();
+
+    modalContainer.addEventListener("submit", function(){
+        addEmployee();
+    });
+
 });
 
+let allEmployees = [];
+
 function fetchEmployees() {
-    fetch("api/employee_api.php")
+    fetch("api/employee_api.php", {
+        headers: {
+            'API-Key': 'hfuF9FIV934',
+            'Content-Type': 'application/json'
+        }
+    })
         .then(response => response.json())
         .then(data => {
             if(data.status === "success"){
                 const content = document.getElementById("content");
-
+                allEmployees = data.employees;
                 data.employees.forEach(employee =>{
                     content.innerHTML += `
                         <tr class="tr-body-style" data-employee-id=${employee.employee_id}>
@@ -150,6 +162,10 @@ function showModal(employee){
         confirmDeleteContainer.classList.add("show");
     });
 
+    confirmDeleteContainer.addEventListener("submit", function(){
+        deleteEmployee();
+    });
+
     const cancelButtonDelete = document.getElementById("cancel-button-delete");
 
     cancelButtonDelete.addEventListener("click", function(event){
@@ -173,7 +189,12 @@ function showModal(employee){
         document.getElementById("saveDesignation").value = document.getElementById("editDesignation").value;
         document.getElementById("saveDateHired").value = document.getElementById("editDateHired").value;
         document.getElementById("savePayFrequency").value = document.getElementById("editPayFrequency").value;
+        
         confirmSaveContainer.classList.add("show");
+    });
+
+    confirmSaveContainer.addEventListener("submit", function(){
+        editEmployee(employee);
     });
 
     const cancelButtonSave = document.getElementById("cancel-button-save");
@@ -181,4 +202,131 @@ function showModal(employee){
         event.preventDefault();
         confirmSaveContainer.classList.remove("show");
     });
+}
+
+function searchEmployee() {
+    const searchInput = document.getElementById("search").value.toLowerCase();
+    const content = document.getElementById("content");
+    
+    if (!searchInput) {
+        fetchEmployees();
+        return;
+    }
+    
+    const filteredEmployees = allEmployees.filter(employee => {
+        const fullName = `${employee.first_name} ${employee.middle_name || ''} ${employee.last_name}`.toLowerCase();
+        return (
+            fullName.includes(searchInput) ||
+            (employee.designation && employee.designation.toLowerCase().includes(searchInput)) ||
+            (employee.employment_type && employee.employment_type.toLowerCase().includes(searchInput)) ||
+            (employee.gender && employee.gender.toLowerCase().includes(searchInput)) ||
+            (employee.birthday && employee.birthday.includes(searchInput)) ||
+            (employee.date_hired && employee.date_hired.includes(searchInput)) ||
+            (employee.pay_frequency && employee.pay_frequency.toLowerCase().includes(searchInput))
+        );
+    });
+    
+    content.innerHTML = "";
+    filteredEmployees.forEach(employee => {
+        content.innerHTML += `
+            <tr class="tr-body-style" data-employee-id="${employee.employee_id}">
+                <td class="td-style">${employee.first_name} ${employee.middle_name || ''} ${employee.last_name}</td>
+                <td class="td-style">${employee.designation}</td>
+                <td class="td-style">${employee.employment_type}</td>
+            </tr>
+        `;
+    });
+
+    document.querySelectorAll(".tr-body-style").forEach(row => {
+        row.addEventListener("click", function() {
+            const employeeId = this.getAttribute("data-employee-id");
+            const employeeData = allEmployees.find(e => e.employee_id == employeeId);
+            if(employeeData) {
+                showModal(employeeData);
+            }
+        });
+    });
+}
+
+function addEmployee() {
+    
+    const formData = {
+        firstName: document.getElementById("firstName").value.trim(),
+        middleName: document.getElementById("middleName").value.trim(),
+        lastName: document.getElementById("lastName").value.trim(),
+        gender: document.getElementById("gender").value.trim(),
+        birthday: document.getElementById("birthday").value.trim(),
+        employmentType: document.getElementById("employmentType").value.trim(),
+        designation: document.getElementById("designation").value.trim(),
+        dateHired: document.getElementById("dateHired").value.trim(),
+        payFrequency: document.getElementById("payFrequency").value.trim()
+    };
+
+    console.log("Sending data:", formData);
+
+    fetch("api/employee_api.php", {
+        method: "POST",
+        headers: {
+            'API-Key': 'hfuF9FIV934',
+            'Content-Type': 'application/json'
+        },
+        body: JSON.stringify(formData)
+    })
+    .then(response => response.json())
+    .then(data => {
+        
+    })
+    .catch(error => console.error(error));
+}
+
+function editEmployee(employee){
+;
+    const formData = {
+        saveEmployeeId: employee.employee_id,
+        saveFirstName: document.getElementById("saveFirstName").value.trim(),
+        saveMiddleName: document.getElementById("saveMiddleName").value.trim(),
+        saveLastName: document.getElementById("saveLastName").value.trim(),
+        saveGender: document.getElementById("saveGender").value.trim(),
+        saveBirthday: document.getElementById("saveBirthday").value.trim(),
+        saveEmploymentType: document.getElementById("saveEmploymentType").value.trim(),
+        saveDesignation: document.getElementById("saveDesignation").value.trim(),
+        saveDateHired: document.getElementById("saveDateHired").value.trim(),
+        savePayFrequency: document.getElementById("savePayFrequency").value.trim()
+    };
+
+    fetch("api/employee_api.php", {
+        method: "PUT",
+        headers: {
+            'API-Key': 'hfuF9FIV934',
+            'Content-Type': 'application/json'
+        },
+        body: JSON.stringify(formData)
+        
+    })
+    .then(response => response.json())
+    .then(data =>{
+        fetchEmployees();
+    })
+    .catch(error => console.error(error));
+}
+
+function deleteEmployee(){
+
+    const formData = {
+        deleteEmployeeId: document.getElementById("delete-employeeId").value
+    }
+
+    fetch("api/employee_api.php", {
+        method: "DELETE",
+        headers: {
+            'API-Key': 'hfuF9FIV934',
+            'Content-Type': 'application/json'
+        },
+        body: JSON.stringify(formData)
+    })
+    .then(response => response.json())
+    .then(data => {
+
+    })
+    .catch(error => console.error(error));
 }

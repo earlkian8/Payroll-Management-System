@@ -1,48 +1,9 @@
 <?php
 
     include "api/database.php";
-    include "class/Employee.php";
 
     $database = new Database();
     $conn = $database->getConnection();
-    $employee = new Employee($conn);
-
-    if($_SERVER["REQUEST_METHOD"] == "POST" && isset($_POST["create"])){
-        $firstName = $_POST["firstName"];
-        $middleName = $_POST["middleName"];
-        $lastName = $_POST["lastName"];
-        $gender = $_POST["gender"];
-        $birthday = $_POST["birthday"];
-        $employmentType = $_POST["employmentType"];
-        $designation = $_POST["designation"];
-        $dateHired = $_POST["dateHired"];
-        $payFrequency = $_POST["payFrequency"];
-
-        $employee->addEmployee($firstName, $middleName, $lastName, $gender, $birthday, $employmentType, $designation, $dateHired, $payFrequency);
-
-
-    }
-
-    if($_SERVER["REQUEST_METHOD"] == "POST" && isset($_POST["save-button-submit"])){
-        $id = $_POST["saveEmployeeId"];
-        $firstName = $_POST["saveFirstName"];
-        $middleName = $_POST["saveMiddleName"];
-        $lastName = $_POST["saveLastName"];
-        $gender = $_POST["saveGender"];
-        $birthday = $_POST["saveBirthday"];
-        $employmentType = $_POST["saveEmploymentType"];
-        $designation = $_POST["saveDesignation"];
-        $dateHired = $_POST["saveDateHired"];
-        $payFrequency = $_POST["savePayFrequency"];
-
-        $employee->updateEmployee($id, $firstName, $middleName, $lastName, $gender, $birthday, $employmentType, $designation, $dateHired, $payFrequency);
-
-    }
-
-    if($_SERVER["REQUEST_METHOD"] == "POST" && isset($_POST["delete-button-submit"])){
-        $id = $_POST["delete-employeeId"];
-        $employee->deleteEmployee($id);
-    }
 ?>
 
 <!DOCTYPE html>
@@ -280,7 +241,7 @@
         </form>
 
          <!-- Confirm Delete -->
-         <form method="post" action="employee.php" class="confirm-delete-container" id="confirm-delete-container">
+         <form method="delete" action="employee.php" class="confirm-delete-container" id="confirm-delete-container">
         
             <div class="delete-subcontainer">
                 <div class="delete-subcontainer-sub1">
@@ -296,7 +257,7 @@
         </form>
 
         <!-- Confirm Save -->
-        <form method="post" action="employee.php" class="confirm-save-container" id="confirm-save-container">
+        <form method="put" action="employee.php" class="confirm-save-container" id="confirm-save-container">
         
             <div class="save-subcontainer">
                 <div class="save-subcontainer-sub1">
@@ -360,21 +321,23 @@
         <!-- Content -->
         <div class="box-style">
             <div class="content-container1">
-                <input type="text" name="search" id="search" class="searchBar">
+                <input type="text" name="search" id="search" class="searchBar" placeholder="Search" autocomplete="off" oninput="searchEmployee()">
                 <button class="add-button-style" id="open">Add Employees</button>
             </div>
-            <table class="table-style" id="content1">
-                <thead>
-                    <tr class="tr-style">
-                        <th class="th-style" id="tableName">Name</th>
-                        <th class="th-style" id="tableDesignation">Designation</th>
-                        <th class="th-style" id="tableEmploymentType">Employment Type</th>
-                    </tr>
-                </thead>
-                <tbody id="content">
-                    
-                </tbody>
-            </table>
+            <div class="table-content">
+                <table class="table-style" id="content1">
+                    <thead>
+                        <tr class="tr-style">
+                            <th class="th-style" id="tableName">Name</th>
+                            <th class="th-style" id="tableDesignation">Designation</th>
+                            <th class="th-style" id="tableEmploymentType">Employment Type</th>
+                        </tr>
+                    </thead>
+                    <tbody id="content">
+                        
+                    </tbody>
+                </table>
+            </div>
         </div>
     </div>
 
