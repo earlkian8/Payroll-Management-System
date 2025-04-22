@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: 127.0.0.1
--- Generation Time: Apr 22, 2025 at 06:10 AM
+-- Generation Time: Apr 22, 2025 at 04:59 PM
 -- Server version: 10.4.32-MariaDB
 -- PHP Version: 8.2.12
 
@@ -63,11 +63,11 @@ INSERT INTO `employees` (`employee_id`, `first_name`, `middle_name`, `last_name`
 (3, 'Robert', NULL, 'Williams', 'Male', '1988-11-05', 'Full Time', 'System Administrator', '2021-01-20', 'Bi-Weekly', '2025-04-18'),
 (4, 'Emily', 'Anne', 'Brown', 'Female', '1992-04-30', 'Part Time', 'Graphic Designer', '2022-02-14', 'Weekly', '2025-04-18'),
 (5, 'Michael', 'James', 'Jones', 'Male', '1983-12-18', 'Full Time', 'Senior Developer', '2018-05-22', 'Monthly', '2025-04-18'),
-(6, 'Jessica', 'Marie', 'Garcia', 'Female', '1991-07-11', 'Full Time', 'HR Manager', '2020-11-03', 'Monthly', '2025-04-18'),
-(7, 'David', 'William', 'Miller', 'Male', '1987-03-25', 'Full Time', 'Database Administrator', '2019-09-08', 'Bi-Weekly', '2025-04-18'),
-(8, 'Jennifer', 'Lynn', 'Davis', 'Female', '1989-08-09', 'Part Time', 'Marketing Specialist', '2021-06-17', 'Weekly', '2025-04-18'),
+(6, 'Jessica', 'Marie', 'Garcia', 'Female', '1991-07-11', 'Full Time', 'HR Manager', '2020-11-03', 'Monthly', '2025-04-22'),
+(7, 'David', 'William', 'Miller', 'Male', '1987-03-25', 'Full Time', 'Database Administrator', '2019-09-08', 'Bi-Weekly', '2025-04-22'),
+(8, 'Jennifer', 'Lynn', 'Davis', 'Female', '1989-08-09', 'Part Time', 'Marketing Specialist', '2021-06-17', 'Weekly', '2025-04-22'),
 (9, 'Christopher', 'Ryan', 'Rodriguez', 'Male', '1986-01-12', 'Full Time', 'IT Support', '2020-04-05', 'Monthly', '2025-04-18'),
-(10, 'Amanda', 'Nicole', 'Martinez', 'Female', '1993-05-28', 'Freelance', 'Content Writer', '2022-03-01', 'Weekly', '2025-04-18'),
+(10, 'Amanda', 'Nicole', 'Martinez', 'Female', '1993-05-28', 'Freelance', 'Content Writer', '2022-03-01', 'Weekly', '2025-04-22'),
 (11, 'Daniel', 'Thomas', 'Hernandez', 'Male', '1984-10-15', 'Full Time', 'Network Engineer', '2019-02-10', 'Monthly', '2025-04-18'),
 (12, 'Michelle', 'Grace', 'Lopez', 'Female', '1990-12-03', 'Full Time', 'Accountant', '2021-07-22', 'Monthly', '2025-04-18'),
 (13, 'Matthew', 'Paul', 'Gonzalez', 'Male', '1987-06-19', 'Part Time', 'Web Developer', '2022-01-15', 'Bi-Weekly', '2025-04-18'),
@@ -96,8 +96,11 @@ CREATE TABLE `employee_pay_heads` (
 --
 
 INSERT INTO `employee_pay_heads` (`id`, `employee_id`, `pay_head_id`, `amount`) VALUES
-(1, 20, 1, 50000.00),
-(2, 20, 12, 1000.00);
+(1, 7, 1, 2000.00),
+(2, 7, 12, 22000.00),
+(3, 8, 2, 1000.00),
+(4, 8, 1, 20000.00),
+(5, 8, 12, 3000.00);
 
 -- --------------------------------------------------------
 
@@ -108,7 +111,7 @@ INSERT INTO `employee_pay_heads` (`id`, `employee_id`, `pay_head_id`, `amount`) 
 CREATE TABLE `payroll` (
   `payroll_id` int(11) NOT NULL,
   `employee_id` int(11) NOT NULL,
-  `pay_date` date NOT NULL,
+  `pay_date` datetime NOT NULL DEFAULT current_timestamp(),
   `status` enum('Pending','Issued') DEFAULT 'Pending',
   `total_earnings` decimal(12,2) DEFAULT 0.00,
   `total_deductions` decimal(12,2) DEFAULT 0.00,
@@ -121,7 +124,8 @@ CREATE TABLE `payroll` (
 --
 
 INSERT INTO `payroll` (`payroll_id`, `employee_id`, `pay_date`, `status`, `total_earnings`, `total_deductions`, `net_pay`, `notes`) VALUES
-(1, 20, '2025-04-22', 'Issued', 50000.00, 1000.00, 49000.00, 'Goodjob!');
+(1, 7, '2025-04-22 22:41:18', 'Issued', 2000.00, 22000.00, -20000.00, 'Sugapa Gobyerno'),
+(2, 8, '2025-04-22 22:42:08', 'Issued', 21000.00, 3000.00, 18000.00, 'GoodJob');
 
 -- --------------------------------------------------------
 
@@ -214,13 +218,13 @@ ALTER TABLE `employees`
 -- AUTO_INCREMENT for table `employee_pay_heads`
 --
 ALTER TABLE `employee_pay_heads`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=3;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=6;
 
 --
 -- AUTO_INCREMENT for table `payroll`
 --
 ALTER TABLE `payroll`
-  MODIFY `payroll_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=2;
+  MODIFY `payroll_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=3;
 
 --
 -- AUTO_INCREMENT for table `pay_head`
