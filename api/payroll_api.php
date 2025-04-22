@@ -20,7 +20,7 @@
             $postData = file_get_contents("php://input");
             $data = json_decode($postData, true);
 
-            $addPayroll = $payroll->addPayroll($data["employeeId"], $data["payDate"], $data["status"], $data["totalEarnings"], $data["totalDeductions"], $data["netPay"], $data["notes"]);
+            $addPayroll = $payroll->addPayroll($data["employeeId"], $data["status"], $data["totalEarnings"], $data["totalDeductions"], $data["netPay"], $data["notes"]);
             echo json_encode(["status" => "success", "addPayroll" => $addPayroll]);
             break;
     }

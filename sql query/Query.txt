@@ -38,7 +38,7 @@ CREATE TABLE employee_pay_heads (
 CREATE TABLE payroll (
     payroll_id INT AUTO_INCREMENT PRIMARY KEY,
     employee_id INT NOT NULL,
-    pay_date DATE NOT NULL,
+    pay_date DATETIME NOT NULL DEFAULT CURRENT_TIMESTAMP,
     status ENUM('Pending', 'Issued') DEFAULT 'Pending',
     total_earnings DECIMAL(12,2) DEFAULT 0,
     total_deductions DECIMAL(12,2) DEFAULT 0,
@@ -62,6 +62,6 @@ create database payroll_management_system_db;
 use payroll_management_system_db;
 
 // payroll test query
-UPDATE employees
-SET last_pay_date = CURDATE() - INTERVAL 30 DAY
-WHERE id = 20;
+UPDATE employees SET last_pay_date = last_pay_date - INTERVAL 40 DAY WHERE employee_id = 8;
+
+INSERT INTO client (mga info pati narin about like about.socials, about.history ganon) VALUES(values nila in order sa kaninang parenthesis) JOIN client.about_id = about.about_id;

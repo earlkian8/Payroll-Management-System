@@ -72,11 +72,6 @@
                             <h3>Payment Details</h3>
                             
                             <div class="form-group">
-                                <label for="payment-date">Payment Date</label>
-                                <input type="date" id="payment-date">
-                            </div>
-                            
-                            <div class="form-group">
                                 <label for="payment-notes">Notes</label>
                                 <textarea id="payment-notes" rows="2"></textarea>
                             </div>
@@ -156,13 +151,11 @@
                     <tr class="tr-style">
                         <th class="th-style" id="tableName">Name</th>
                         <th class="th-style" id="tableDate">Pay Frequency</th>
+                        <th class="th-style" id="totalSalary">Total Salary</th>
                     </tr>
                 </thead>
                 <tbody id="issuedContent">
-                    <tr class="tr-body-style">
-                        <td class="td-style">Charles</td>
-                        <td class="td-style">04-12-2025</td>
-                    </tr>
+                    
                 </tbody>
             </table>
         </div>

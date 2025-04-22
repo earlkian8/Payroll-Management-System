@@ -1,7 +1,7 @@
 document.addEventListener("DOMContentLoaded", function(){
     getPendingEmployees();
     getPayHead();
-
+    getIssuedEmployee();
     
 });
 
@@ -160,7 +160,6 @@ async function addEmployeePayHead() {
 async function addPayroll() {
     const formData = {
         employeeId: Number(document.getElementById("modal-overlay").getAttribute("data-employee-id")),
-        payDate: document.getElementById("payment-date").value,
         status: "Issued",
         totalEarnings: totalEarnings,
         totalDeductions: totalDeductions,
@@ -201,5 +200,35 @@ async function updateEmployee(){
 }
 
 function getIssuedEmployee(){
-    fetch("api/")
+    fetch("api/employee_lastpaydate_api.php", {
+        method: "GET",
+        headers: { "Content-Type": "application/json" }
+    })
+    .then(response => response.json())
+    .then(data => {
+        if(data.status === "success"){
+            document.getElementById("issuedContent").innerHTML = "";
+            data.issuedEmployee.forEach(employee => {
+                document.getElementById("issuedContent").innerHTML += `
+                    <tr class="tr-body-style" data-issued-employee-id="${employee.employee_id}">
+                        <td class="td-style">${employee.first_name} ${employee.middle_name ? employee.middle_name + " " : ""} ${employee.last_name}</td>
+                        <td class="td-style">${employee.pay_date_only}</td>
+                        <td class="td-style">${employee.net_pay}</td>
+                    </tr>
+                `;
+            });
+        }
+    })
+    .catch(error => console.error(error));
 }
+
+function formatDate(dateString) {
+    const date = new Date(dateString);
+    if (isNaN(date.getTime())) {
+      return dateString;
+    }
+    const year = date.getFullYear();
+    const month = String(date.getMonth() + 1).padStart(2, '0');
+    const day = String(date.getDate()).padStart(2, '0');
+    return `${year}-${month}-${day}`;
+  }

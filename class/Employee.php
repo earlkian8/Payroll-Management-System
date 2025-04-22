@@ -56,7 +56,7 @@
         }
 
         public function getIssuedEmployee(){
-            $query = "SELECT * FROM payroll JOIN " . $this->table . " ON payroll.employee_id = employees.employee_id WHERE payroll.status = 'Issued' ORDER BY employees.employee_id DESC";
+            $query = "SELECT *, DATE(payroll.pay_date) as pay_date_only FROM payroll JOIN " . $this->table . " ON payroll.employee_id = employees.employee_id WHERE payroll.status = 'Issued' ORDER BY payroll.pay_date DESC";
             $stmt = $this->conn->prepare($query);
             $stmt->execute();
             return $stmt->fetchAll(PDO::FETCH_ASSOC);

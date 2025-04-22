@@ -16,6 +16,10 @@
     $method = $_SERVER["REQUEST_METHOD"];
 
     switch ($method){
+        case 'GET':
+            $issuedEmployee = $employee->getIssuedEmployee();
+            echo json_encode(["status" => "success", "issuedEmployee" => $issuedEmployee]);
+            break;
         case 'POST':
             $postData = file_get_contents("php://input");
             $data = json_decode($postData, true);
