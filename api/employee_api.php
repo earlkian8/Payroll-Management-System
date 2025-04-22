@@ -1,12 +1,4 @@
 <?php
-    
-    $valid_keys = ['hfuF9FIV934'];
-    $api_key = $_SERVER['HTTP_API_KEY'] ?? '';
-
-    if (!in_array($api_key, $valid_keys)) {
-        header('HTTP/1.0 403 Forbidden');
-        die('Invalid API key');
-    }
 
     header("Content-Type: application/json");
     header("Access-Control-Allow-Origin: *");

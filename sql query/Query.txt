@@ -1,8 +1,7 @@
 CREATE TABLE accounts (
-account_id INT AUTO_INCREMENT PRIMARY KEY,
-email VARCHAR(100) NOT NULL,
-password VARCHAR(255) NOT NULL
-
+    account_id INT AUTO_INCREMENT PRIMARY KEY,
+    email VARCHAR(100) NOT NULL,
+    password VARCHAR(255) NOT NULL
 );
 
 CREATE TABLE employees (
@@ -15,7 +14,8 @@ CREATE TABLE employees (
     employment_type ENUM('Full Time', 'Part Time', 'Freelance') NOT NULL,
     designation VARCHAR(50) NOT NULL,
     date_hired DATE NOT NULL,
-    pay_frequency ENUM('Monthly', 'Bi-Weekly', 'Weekly') NOT NULL
+    pay_frequency ENUM('Monthly', 'Bi-Weekly', 'Weekly') NOT NULL,
+    last_pay_date DATE DEFAULT CURRENT_DATE
 );
 
 CREATE TABLE pay_head (
@@ -25,11 +25,28 @@ CREATE TABLE pay_head (
     type ENUM('Earnings', 'Deductions') NOT NULL
 );
 
+CREATE TABLE employee_pay_heads (
+    id INT AUTO_INCREMENT PRIMARY KEY,
+    employee_id INT NOT NULL,
+    pay_head_id INT NOT NULL,
+    amount DECIMAL(12,2) NOT NULL,
+    FOREIGN KEY (employee_id) REFERENCES employees(employee_id),
+    FOREIGN KEY (pay_head_id) REFERENCES pay_head(pay_head_id),
+    UNIQUE (employee_id, pay_head_id)
+);
+
 CREATE TABLE payroll (
     payroll_id INT AUTO_INCREMENT PRIMARY KEY,
     employee_id INT NOT NULL,
+    pay_date DATE NOT NULL,
+    status ENUM('Pending', 'Issued') DEFAULT 'Pending',
+    total_earnings DECIMAL(12,2) DEFAULT 0,
+    total_deductions DECIMAL(12,2) DEFAULT 0,
+    net_pay DECIMAL(12,2) DEFAULT 0,
+    notes VARCHAR(255),
     FOREIGN KEY (employee_id) REFERENCES employees(employee_id)
 );
+
 
 CREATE TABLE payroll_items (
     item_id INT AUTO_INCREMENT PRIMARY KEY,
@@ -37,12 +54,14 @@ CREATE TABLE payroll_items (
     pay_head_id INT NOT NULL,
     amount DECIMAL(12,2) NOT NULL,
     FOREIGN KEY (payroll_id) REFERENCES payroll(payroll_id),
-    FOREIGN KEY (pay_head_id) REFERENCES pay_heads(pay_head_id)
+    FOREIGN KEY (pay_head_id) REFERENCES pay_head(pay_head_id)
 );
 
-CREATE TABLE payslips (
-    payslip_id INT AUTO_INCREMENT PRIMARY KEY,
-    payroll_id INT NOT NULL UNIQUE,
-    issue_date DATE NOT NULL,
-    FOREIGN KEY (payroll_id) REFERENCES payroll(payroll_id)
-);
+drop database payroll_management_system_db;
+create database payroll_management_system_db;
+use payroll_management_system_db;
+
+// payroll test query
+UPDATE employees
+SET last_pay_date = CURDATE() - INTERVAL 30 DAY
+WHERE id = 20;

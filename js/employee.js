@@ -45,12 +45,7 @@ document.addEventListener("DOMContentLoaded", function(){
 let allEmployees = [];
 
 function fetchEmployees() {
-    fetch("api/employee_api.php", {
-        headers: {
-            'API-Key': 'hfuF9FIV934',
-            'Content-Type': 'application/json'
-        }
-    })
+    fetch("api/employee_api.php")
         .then(response => response.json())
         .then(data => {
             if(data.status === "success"){
@@ -266,10 +261,7 @@ function addEmployee() {
 
     fetch("api/employee_api.php", {
         method: "POST",
-        headers: {
-            'API-Key': 'hfuF9FIV934',
-            'Content-Type': 'application/json'
-        },
+        headers: {"Content-Type": "application/json"},
         body: JSON.stringify(formData)
     })
     .then(response => response.json())
@@ -296,10 +288,7 @@ function editEmployee(employee){
 
     fetch("api/employee_api.php", {
         method: "PUT",
-        headers: {
-            'API-Key': 'hfuF9FIV934',
-            'Content-Type': 'application/json'
-        },
+        headers: {"Content-Type": "application/json"},
         body: JSON.stringify(formData)
         
     })
@@ -318,10 +307,7 @@ function deleteEmployee(){
 
     fetch("api/employee_api.php", {
         method: "DELETE",
-        headers: {
-            'API-Key': 'hfuF9FIV934',
-            'Content-Type': 'application/json'
-        },
+        headers: {"Content-Type": "application/json"},
         body: JSON.stringify(formData)
     })
     .then(response => response.json())

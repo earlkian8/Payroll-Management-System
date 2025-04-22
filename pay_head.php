@@ -45,101 +45,116 @@
         </div>
     </aside>
 
-    <div class="content-style">
-
-        <!-- Create Modal -->
-        <form action="pay_head.php" method="post" class="modal-container" id="modal-container">
-            <div class="modal-back-container">
+    <div class="overlay" id="overlay"></div>
+    <!-- Create Modal - Updated Design -->
+    <form action="pay_head.php" method="post" class="modal-container" id="modal-container">
+            <div class="modal-header">
+                <h2>Create Pay Head</h2>
+            </div>
+            
+            <div class="form-grid">
+                <div class="form-row">
+                    <div class="form-group">
+                        <label for="name">Name</label>
+                        <input type="text" name="name" id="name" placeholder="Enter pay head name" autocomplete="off">
+                    </div>
+                </div>
                 
+                <div class="form-row">
+                    <div class="form-group">
+                        <label for="description">Description</label>
+                        <textarea name="description" id="description" rows="5" placeholder="Enter description"></textarea>
+                    </div>
+                </div>
+                
+                <div class="form-row">
+                    <div class="form-group">
+                        <label for="type">Type</label>
+                        <select name="type" id="type">
+                            <option value="">Select One</option>
+                            <option value="Earnings">Earnings</option>
+                            <option value="Deductions">Deductions</option>
+                        </select>
+                    </div>
+                </div>
             </div>
-            <div class="modal-input-container">
-                <div class="input-container">
-                    <label for="name" class="label-style">Name</label>
-                    <input type="text" name="name" id="name" placeholder="Name" autocomplete="off">
-                </div>
-                <div class="input-container">
-                    <label for="description" class="label-style">Description</label>
-                    <textarea name="description" id="description" rows="9"></textarea>
-                </div>
-                <div class="input-container">
-                    <label for="type" class="label-style">Type</label>
-                    <select name="type" id="type" class="select-style">
-                        <option value="" class="option-style">Select One</option>
-                        <option value="Earnings" class="option-style">Earnings</option>
-                        <option value="Deductions" class="option-style">Deductions</option>
-                    </select>
-                </div>
-            </div>
-            <div class="modal-button-container">
-                <button class="create-button-style" id="create" name="create">Create</button>
-                <button class="discard-button-style" id="discard">Discard</button>
+            
+            <div class="modal-footer">
+                <button type="submit" class="btn-create" id="create" name="create">Create</button>
+                <button type="button" class="btn-discard" id="discard">Discard</button>
             </div>
         </form>
 
-        <!-- Edit Modal -->
+        <!-- Edit Modal - Updated Design -->
         <form action="pay_head.php" method="post" class="edit-modal-container" id="edit-modal-container">
-            <div class="modal-back-container">
-                <img src="images/arrow-icon-383838.png" alt="arrow" class="back-style" id="back">
+            <div class="modal-header">
+                <h2>Edit Pay Head</h2>
             </div>
-            <div class="modal-input-container">
+            
+            <div class="form-grid">
                 <input type="hidden" name="editPayHeadId" id="editPayHeadId">
-                <div class="input-container">
-                    <label for="editName" class="label-style">Name</label>
-                    <input type="text" name="editName" id="editName" placeholder="Name" autocomplete="off">
+                
+                <div class="form-row">
+                    <div class="form-group">
+                        <label for="editName">Name</label>
+                        <input type="text" name="editName" id="editName" placeholder="Enter pay head name" autocomplete="off">
+                    </div>
                 </div>
-                <div class="input-container">
-                    <label for="editDescription" class="label-style">Description</label>
-                    <textarea name="editDescription" id="editDescription" rows="9"></textarea>
+                
+                <div class="form-row">
+                    <div class="form-group">
+                        <label for="editDescription">Description</label>
+                        <textarea name="editDescription" id="editDescription" rows="5" placeholder="Enter description"></textarea>
+                    </div>
                 </div>
-                <div class="input-container">
-                    <label for="editType" class="label-style">Type</label>
-                    <select name="editType" id="editType" class="select-style">
-                        <option value="" class="option-style">Select One</option>
-                        <option value="Earnings" class="option-style">Earnings</option>
-                        <option value="Deductions" class="option-style">Deductions</option>
-                    </select>
+                
+                <div class="form-row">
+                    <div class="form-group">
+                        <label for="editType">Type</label>
+                        <select name="editType" id="editType">
+                            <option value="">Select One</option>
+                            <option value="Earnings">Earnings</option>
+                            <option value="Deductions">Deductions</option>
+                        </select>
+                    </div>
                 </div>
             </div>
-            <div class="modal-button-container">
-                <button class="save-button-style" id="save" name="save">Save</button>
-                <button class="delete-button-style" id="delete">Delete</button>
-            </div>
-        </form>
-
-        <!-- Confirm Save -->
-        <form method="post" action="pay_head.php" class="confirm-save-container" id="confirm-save-container">
-        
-            <div class="save-subcontainer">
-                <div class="save-subcontainer-sub1">
-                    <h1 class="save-h1-style">Save Changes</h1>
-                    <p class="save-p-style">You have made changes. Do you want to discard or save them?</p>
-                </div>
-                <div class="save-subcontainer-sub2">
-                    <input type="hidden" name="savePayHeadId" id="savePayHeadId">
-                    <input type="hidden" name="saveName" id="saveName">
-                    <input type="hidden" name="saveDescription" id="saveDescription">
-                    <input type="hidden" name="saveType" id="saveType">
-                    <button class="cancel-button-style" id="cancel-button-save">Cancel</button>
-                    <button class="confirm-save-button-style" id="save-button-submit" name="save-button-submit" type="submit">Save</button>
-                </div>
+            
+            <div class="modal-footer">
+                <button type="button" class="btn-delete" id="delete">Delete</button>
+                <button type="submit" class="btn-save" id="save" name="save">Save</button>
             </div>
         </form>
 
-        <!-- Confirm Delete -->
+        <!-- Confirm Save - Updated Design -->
+        <form class="confirm-save-container" id="confirm-save-container">
+            <div class="confirm-title">Save Changes</div>
+            <div class="confirm-message">You have made changes. Do you want to discard or save them?</div>
+            
+            <input type="hidden" name="savePayHeadId" id="savePayHeadId">
+            <input type="hidden" name="saveName" id="saveName">
+            <input type="hidden" name="saveDescription" id="saveDescription">
+            <input type="hidden" name="saveType" id="saveType">
+            
+            <div class="confirm-buttons">
+                <button type="button" class="btn-discard" id="cancel-button-save">Cancel</button>
+                <button type="submit" class="btn-save" id="save-button-submit" name="save-button-submit">Save</button>
+            </div>
+        </form>
+
+        <!-- Confirm Delete - Updated Design -->
         <form method="post" action="pay_head.php" class="confirm-delete-container" id="confirm-delete-container">
-        
-        <div class="delete-subcontainer">
-            <div class="delete-subcontainer-sub1">
-                <h1 class="delete-h1-style">Confirm Deletion</h1>
-                <p class="delete-p-style">This will delete the employee permanently. You cannot undo this action.</p>
+            <div class="confirm-title">Confirm Deletion</div>
+            <div class="confirm-message">This will delete the pay head permanently. You cannot undo this action.</div>
+            
+            <input type="hidden" name="deletePayHeadId" id="deletePayHeadId">
+            
+            <div class="confirm-buttons">
+                <button type="button" class="btn-discard" id="cancel-button-delete">Cancel</button>
+                <button type="submit" class="btn-delete" id="delete-button-submit" name="delete-button-submit">Delete</button>
             </div>
-            <div class="delete-subcontainer-sub2">
-                <input type="hidden" name="deletePayHeadId" id="deletePayHeadId">
-                <button class="cancel-button-style" id="cancel-button-delete">Cancel</button>
-                <button class="delete-button-style" id="delete-button-submit" name="delete-button-submit">Delete</button>
-            </div>
-        </div>
-    </form>
+        </form>
+    <div class="content-style">
 
         
         <!-- Content -->
@@ -148,18 +163,20 @@
                 <input type="text" name="search" id="search" class="searchBar">
                 <button class="add-button-style" id="open">Add Pay Head</button>
             </div>
-            <table class="table-style" id="content1">
-                <thead>
-                    <tr class="tr-style">
-                        <th class="th-style" id="tableName">Name</th>
-                        <th class="th-style" id="tableDesignation">Description</th>
-                        <th class="th-style" id="tableEmploymentType">Type</th>
-                    </tr>
-                </thead>
-                <tbody id="content">
-                    
-                </tbody>
-            </table>
+            <div class="table-content">
+                <table class="table-style" id="content1">
+                    <thead>
+                        <tr class="tr-style">
+                            <th class="th-style" id="tableName">Name</th>
+                            <th class="th-style" id="tableDesignation">Description</th>
+                            <th class="th-style" id="tableEmploymentType">Type</th>
+                        </tr>
+                    </thead>
+                    <tbody id="content">
+                        
+                    </tbody>
+                </table>
+            </div>
         </div>
     </div>
     <script src="js/pay_head.js"></script>

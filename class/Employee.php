@@ -37,5 +37,29 @@
             $stmt = $this->conn->prepare($query);
             $stmt->execute([":id" => $id]);
         }
+
+        public function getPendingEmployee(){
+            $query = "SELECT * FROM " . $this->table . " WHERE (
+                        (pay_frequency = 'Monthly' AND DATEDIFF(CURDATE(), last_pay_date) >= 30)
+                        OR (pay_frequency = 'Bi-Weekly' AND DATEDIFF(CURDATE(), last_pay_date) >= 14)
+                        OR (pay_frequency = 'Weekly' AND DATEDIFF(CURDATE(), last_pay_date) >= 7)
+                        )";
+            $stmt = $this->conn->prepare($query);
+            $stmt->execute();
+            return $stmt->fetchAll(PDO::FETCH_ASSOC);
+        }
+
+        public function updateEmployeeByLastPayDate($lastPayDate, $id){
+            $query = "UPDATE " . $this->table . " SET last_pay_date = :lastPayDate WHERE employee_id = :id";
+            $stmt = $this->conn->prepare($query);
+            $stmt->execute([":lastPayDate" => $lastPayDate, ":id" => $id]);
+        }
+
+        public function getIssuedEmployee(){
+            $query = "SELECT * FROM payroll JOIN " . $this->table . " ON payroll.employee_id = employees.employee_id WHERE payroll.status = 'Issued' ORDER BY employees.employee_id DESC";
+            $stmt = $this->conn->prepare($query);
+            $stmt->execute();
+            return $stmt->fetchAll(PDO::FETCH_ASSOC);
+        }
     }
 ?>
