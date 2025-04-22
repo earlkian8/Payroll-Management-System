@@ -1,5 +1,30 @@
+<?php
+session_start();
+include "api/database.php";
+include "class/Accounts.php";
 
+$database = new Database();
+$conn = $database->getConnection();
+$accounts = new Accounts($conn);
 
+if ($_SERVER["REQUEST_METHOD"] == "POST" && isset($_POST["login"])) {
+    $email = $_POST["email"];
+    $password = $_POST["password"];
+
+    if ($accounts->loginAccount($email, $password)) {
+        // Set session variables
+        $_SESSION["email"] = $email;
+        $_SESSION["loggedin"] = true;
+
+        // Redirect to a protected page or dashboard
+        header("Location: dashboard.php");
+        exit;
+    } else {
+        // Handle login failure
+        $error = "Invalid email or password.";
+    }
+}
+?>
 <!DOCTYPE html>
 <html lang="en">
 
@@ -24,11 +49,11 @@
             <h2>SIGN IN</h2>
             <p>We are thrilled to see you again!</p>
         </div>
-        <form action="login.php" method="post">
-            <input type="email" name="username" id="username" placeholder="EMAIL" autocomplete="off" />
+        <form action="index.php" method="post">
+            <input type="email" name="email" id="email" placeholder="EMAIL" autocomplete="off" />
             <input type="password" name="password" id="password" placeholder="PASSWORD" />
             <div class="btn-login">
-                <button type="submit" name="login"><a href="">Login</a></button>
+                <button type="submit" name="login">Login</button>
             </div>
             <div class="forgot-password">
                 <a href="">Forgot Password?</a>

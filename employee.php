@@ -1,9 +1,17 @@
 <?php
+session_start();
 
-    include "api/database.php";
+// Check if the user is logged in
+if (!isset($_SESSION['loggedin']) || $_SESSION['loggedin'] !== true) {
+    // Redirect to the login page
+    header("Location: index.php");
+    exit;
+}
 
-    $database = new Database();
-    $conn = $database->getConnection();
+include "api/database.php";
+
+$database = new Database();
+$conn = $database->getConnection();
 ?>
 
 <!DOCTYPE html>
