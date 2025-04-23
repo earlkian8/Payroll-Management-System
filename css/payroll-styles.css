@@ -396,3 +396,181 @@ textarea {
     gap: 10px;
     border-top: 1px solid #eee;
 }
+
+/* Receipt CSS */
+.modal-overlay-receipt {
+    position: fixed;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background-color: rgba(0, 0, 0, 0.5);
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    opacity: 0;
+    visibility: hidden;
+    transition: .25s opacity ease-in-out, .25s visibility ease-in-out;
+    z-index: 1003;
+  }
+
+  .modal-overlay-receipt.show{
+    opacity: 1;
+    visibility: visible;
+  }
+  .modal-content-receipt {
+    background-color: white;
+    border-radius: 6px;
+    box-shadow: 0 4px 20px rgba(0, 0, 0, 0.15);
+    width: 90%;
+    max-width: 600px;
+    max-height: 90vh;
+    padding: 0;
+    overflow: hidden;
+    display: flex;
+    flex-direction: column;
+  }
+  .modal-header-receipt {
+    background: #42a5f5;
+    color: white;
+    padding: 10px 15px;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    flex-shrink: 0;
+  }
+  .modal-header-receipt h2 {
+    margin: 0;
+    font-size: 18px;
+  }
+  .close-button-receipt {
+    background: none;
+    border: none;
+    color: white;
+    font-size: 20px;
+    cursor: pointer;
+  }
+  .modal-body-receipt {
+    padding: 15px;
+    overflow-y: auto;
+  }
+  .company-header-receipt {
+    display: flex;
+    justify-content: space-between;
+    align-items: flex-start;
+    margin-bottom: 15px;
+    padding-bottom: 10px;
+    border-bottom: 1px solid #eee;
+  }
+  .company-logo-receipt {
+    display: flex;
+    align-items: center;
+  }
+  .company-logo-receipt img {
+    width: 30px;
+    height: 30px;
+    margin-right: 5px;
+  }
+  .company-logo-receipt h3 {
+    margin: 0;
+    font-size: 18px;
+    font-weight: 600;
+    color: #333;
+  }
+  .company-logo-receipt span {
+    color: #42a5f5;
+  }
+  .payslip-details-receipt {
+    text-align: right;
+    color: #555;
+    font-size: 12px;
+    line-height: 1.3;
+  }
+  .payslip-details-receipt p {
+    margin: 2px 0;
+  }
+  .employee-info-receipt {
+    display: flex;
+    justify-content: space-between;
+    margin-bottom: 15px;
+    padding-bottom: 10px;
+    border-bottom: 1px solid #eee;
+  }
+  .employee-info-receipt div {
+    width: 48%;
+  }
+  .employee-info-receipt h4 {
+    margin: 0 0 5px 0;
+    font-size: 13px;
+    color: #666;
+  }
+  .employee-info-receipt p {
+    margin: 3px 0;
+    font-size: 12px;
+  }
+  .salary-details-receipt {
+    display: flex;
+    justify-content: space-between;
+    margin-bottom: 15px;
+  }
+  .salary-box-receipt {
+    width: 48%;
+  }
+  .salary-item-receipt {
+    display: flex;
+    justify-content: space-between;
+    padding: 6px 0;
+    border-bottom: 1px solid #eee;
+    font-size: 12px;
+  }
+  .salary-item-receipt:last-child {
+    border-bottom: none;
+  }
+  .item-name-receipt {
+    color: #333;
+  }
+  .item-value-receipt {
+    font-weight: 500;
+  }
+  .section-title-receipt {
+    background-color: #f0f7ff;
+    padding: 6px 10px;
+    margin: 0 0 5px 0;
+    font-size: 13px;
+    color: #0d47a1;
+    border-radius: 3px;
+  }
+  .summary-receipt {
+    background-color: #f5f9ff;
+    padding: 10px;
+    border-radius: 3px;
+    margin-top: 10px;
+    font-size: 12px;
+  }
+  .summary-row-receipt {
+    display: flex;
+    justify-content: space-between;
+    margin-bottom: 5px;
+  }
+  .summary-row-receipt.total {
+    font-weight: bold;
+    font-size: 15px;
+    padding-top: 5px;
+    margin-top: 5px;
+    border-top: 1px solid #ddd;
+    color: #0d47a1;
+  }
+  .notes-receipt {
+    margin-top: 10px;
+    padding: 8px;
+    background-color: #fff8e1;
+    border-left: 3px solid #ffc107;
+    border-radius: 3px;
+    font-size: 12px;
+  }
+  .footer-receipt {
+    margin-top: 10px;
+    text-align: center;
+    color: #777;
+    font-size: 11px;
+  }

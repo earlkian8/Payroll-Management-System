@@ -77,12 +77,14 @@ function attachRowEventListeners(data) {
             const employee = data.employees.find(emp => emp.employee_id == employeeId);
             if (employee) {
                 showModal(employee);
+                
             }
         });
     });
 }
 
 function showModal(employee){
+    getReceiptById(employee);
     const employeeDetails = document.getElementById('employee-details');
     const overlay = document.getElementById("overlay");
     const closeDetails = document.getElementById("close-details");
@@ -313,6 +315,233 @@ function deleteEmployee(){
     .then(response => response.json())
     .then(data => {
 
+    })
+    .catch(error => console.error(error));
+}
+async function openReceipt(employeeData) {
+    document.getElementById("modal-overlay-receipt").classList.add("show");
+    
+    document.getElementById("close-button-receipt").addEventListener("click", function(event) {
+        event.preventDefault();
+        document.getElementById("modal-overlay-receipt").classList.remove("show");
+    });
+
+    document.getElementById("payDateReceipt").innerHTML = `<strong>Pay Date:</strong> ${employeeData.pay_date_only}`;
+    document.getElementById("payrollIdReceipt").innerHTML = `<strong>Payroll ID:</strong> ${employeeData.payroll_id}`;
+    document.getElementById("statusReceipt").innerHTML = `<strong>Status:</strong> ${employeeData.status}`;
+    document.getElementById("nameReceipt").innerHTML = `<strong>Name:</strong> ${employeeData.first_name} ${employeeData.middle_name ? employeeData.middle_name + " " : ""} ${employeeData.last_name}`;
+    document.getElementById("designationReceipt").innerHTML = `<strong>Designation:</strong> ${employeeData.designation}`;
+    document.getElementById("payFrequencyReceipt").innerHTML = `<strong>Pay Frequency:</strong> ${employeeData.pay_frequency}`;
+
+    document.getElementById("earnings-box-receipt").innerHTML = '';
+    document.getElementById("deductions-box-receipt").innerHTML = '';
+
+    const [earningsResponse, deductionsResponse] = await Promise.all([
+        fetch(`api/employee_pay_heads_earnings_api.php?employeeId=${employeeData.employee_id}`),
+        fetch(`api/employee_pay_heads_deductions_api.php?employeeId=${employeeData.employee_id}`)
+    ]);
+
+    const earningsData = await earningsResponse.json();
+    const deductionsData = await deductionsResponse.json();
+
+    if (earningsData.status === "success") {
+        document.getElementById("earnings-box-receipt").innerHTML += `<h4 class="section-title-receipt">EARNINGS</h4>`;
+        earningsData.employeePayHeadsById.forEach(employeePayHead => {
+            document.getElementById("earnings-box-receipt").innerHTML += `
+                <div class="salary-item-receipt">
+                    <span class="item-name-receipt">${employeePayHead.name}</span>
+                    <span class="item-value-receipt">${employeePayHead.amount}</span>
+                </div>
+            `;
+        });
+    }
+
+    if (deductionsData.status === "success") {
+        document.getElementById("deductions-box-receipt").innerHTML += `<h4 class="section-title-receipt">DEDUCTIONS</h4>`;
+        deductionsData.employeePayHeadsById.forEach(employeePayHead => {
+            document.getElementById("deductions-box-receipt").innerHTML += `
+                <div class="salary-item-receipt">
+                    <span class="item-name-receipt">${employeePayHead.name}</span>
+                    <span class="item-value-receipt">${employeePayHead.amount}</span>
+                </div>
+            `;
+        });
+    }
+
+    document.getElementById("totalEarningsRowReceipt").innerHTML = `
+        <span>Total Earnings</span>
+        <span>₱${employeeData.total_earnings}</span>
+    `;
+    document.getElementById("totalDeductionsRowReceipt").innerHTML = `
+        <span>Total Deduction</span>
+        <span>₱${employeeData.total_deductions}</span>
+    `;
+    document.getElementById("netPayRowReceipt").innerHTML = `
+        <span>Salary</span>
+        <span>₱${employeeData.net_pay}</span>
+    `;
+    document.getElementById("notesReceipt").innerHTML = `<strong>Notes:</strong> ${employeeData.notes}`;
+}
+
+function downloadReceiptAsPDF() {
+    const receiptContent = document.getElementById('modal-overlay-receipt');
+    
+    if (!receiptContent.classList.contains('show')) {
+        console.error('Receipt not open');
+        return;
+    }
+
+    const printContent = receiptContent.cloneNode(true);
+    
+    printContent.style.position = 'static';
+    printContent.style.width = '190mm';
+    printContent.style.minHeight = '277mm';
+    printContent.style.backgroundColor = 'white';
+    printContent.style.opacity = '1';
+    printContent.style.visibility = 'visible';
+    printContent.style.display = 'block';
+    printContent.style.overflow = 'visible';
+    printContent.style.padding = '0';
+    printContent.style.margin = '0';
+
+
+    const modalContent = printContent.querySelector('.modal-content-receipt');
+    modalContent.style.maxWidth = 'none';
+    modalContent.style.width = '100%';
+    modalContent.style.maxHeight = 'none';
+    modalContent.style.padding = '15mm';
+    modalContent.style.boxSizing = 'border-box';
+
+
+    const modalHeader = printContent.querySelector('.modal-header-receipt');
+    modalHeader.style.padding = '8mm 10mm';
+    modalHeader.querySelector('h2').style.fontSize = '16pt';
+
+    const companyHeader = printContent.querySelector('.company-header-receipt');
+    companyHeader.style.marginBottom = '8mm';
+    companyHeader.style.paddingBottom = '5mm';
+
+    const companyLogo = printContent.querySelector('.company-logo-receipt');
+    companyLogo.querySelector('img').style.width = '40px';
+    companyLogo.querySelector('img').style.height = '40px';
+    companyLogo.querySelector('h3').style.fontSize = '14pt';
+
+    const payslipDetails = printContent.querySelector('.payslip-details-receipt');
+    payslipDetails.style.fontSize = '10pt';
+
+    const employeeInfo = printContent.querySelector('.employee-info-receipt');
+    employeeInfo.style.display = 'flex';
+    employeeInfo.style.justifyContent = 'space-between';
+    employeeInfo.style.marginBottom = '8mm';
+    employeeInfo.querySelectorAll('div').forEach(div => {
+        div.style.width = '48%';
+    });
+    employeeInfo.querySelector('h4').style.fontSize = '12pt';
+    employeeInfo.querySelectorAll('p').forEach(p => {
+        p.style.fontSize = '10pt';
+    });
+
+    const salaryDetails = printContent.querySelector('.salary-details-receipt');
+    salaryDetails.style.display = 'flex';
+    salaryDetails.style.justifyContent = 'space-between';
+    salaryDetails.style.marginBottom = '8mm';
+    salaryDetails.querySelectorAll('.salary-box-receipt').forEach(box => {
+        box.style.width = '48%';
+    });
+    salaryDetails.querySelectorAll('.section-title-receipt').forEach(title => {
+        title.style.fontSize = '12pt';
+        title.style.padding = '5mm 8mm';
+        title.style.marginBottom = '5mm';
+    });
+    salaryDetails.querySelectorAll('.salary-item-receipt').forEach(item => {
+        item.style.fontSize = '10pt';
+        item.style.padding = '5mm 0';
+    });
+
+    const summary = printContent.querySelector('.summary-receipt');
+    summary.style.padding = '8mm';
+    summary.style.marginTop = '8mm';
+    summary.style.fontSize = '10pt';
+    summary.querySelector('.total').style.fontSize = '12pt';
+    summary.querySelector('.total').style.paddingTop = '5mm';
+    summary.querySelector('.total').style.marginTop = '5mm';
+
+    const notes = printContent.querySelector('.notes-receipt');
+    notes.style.fontSize = '10pt';
+    notes.style.padding = '6mm';
+    notes.style.marginTop = '8mm';
+
+    const footer = printContent.querySelector('.footer-receipt');
+    footer.style.fontSize = '9pt';
+    footer.style.marginTop = '10mm';
+
+    document.body.appendChild(printContent);
+
+    const opt = {
+        margin: 10,
+        filename: 'salary_slip.pdf',
+        image: { type: 'jpeg', quality: 0.98 },
+        html2canvas: { scale: 2, useCORS: true },
+        jsPDF: { unit: 'mm', format: 'a4', orientation: 'portrait' },
+        pagebreak: { mode: ['avoid-all', 'css', 'legacy'] }
+    };
+
+    html2pdf().from(printContent).set(opt).save().then(() => {
+        document.body.removeChild(printContent);
+    });
+}
+
+function getReceiptById(employee) {
+    fetch(`api/employee_receipt_id_api.php?employeeId=${employee.employee_id}`)
+    .then(response => response.json())
+    .then(data => {
+        if (data.status === "success") {
+            document.getElementById("payslips-container").innerHTML = '';
+            data.getIssuedEmployeeById.forEach(employee => {
+                document.getElementById("payslips-container").innerHTML += `
+                    <div class="payslip-card" data-receipt-id=${employee.employee_id}>
+                        <div class="payslip-header">
+                            <span class="payslip-date">Issued: ${employee.pay_date_only}</span>
+                            <span class="payslip-frequency">${employee.pay_frequency}</span>
+                        </div>
+                        <div class="payslip-amount">₱${employee.net_pay}</div>
+                        <div class="payslip-footer">
+                            <span class="payslip-status">Ready for download</span>
+                            <button class="payslip-download-btn" data-receipt-id="${employee.employee_id}">
+                                <i class="download-icon"></i>
+                            </button>
+                        </div>
+                    </div>
+                `;
+            });
+
+            document.querySelectorAll(".payslip-card").forEach(card => {
+                const employeeId = card.getAttribute("data-receipt-id");
+                const employeeData = data.getIssuedEmployeeById.find(e => e.employee_id == employeeId);
+                
+                card.addEventListener("click", function(event) {
+                    if (!event.target.closest('.payslip-download-btn')) {
+                        if (employeeData) {
+                            openReceipt(employeeData);
+                        }
+                    }
+                });
+                
+                const downloadBtn = card.querySelector('.payslip-download-btn');
+                downloadBtn.addEventListener("click", async function(event) {
+                    document.getElementById("modal-overlay-receipt").classList.remove("show");
+                    event.stopPropagation();
+                    event.preventDefault();
+                    console.log('Download button clicked for employee:', employeeData.employee_id);
+                    if (employeeData) {
+                        console.log('Opening receipt...');
+                        await openReceipt(employeeData);
+                        console.log('Receipt opened, triggering PDF download...');
+                        downloadReceiptAsPDF();
+                    }
+                });
+            });
+        }
     })
     .catch(error => console.error(error));
 }

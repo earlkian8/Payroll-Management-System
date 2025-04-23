@@ -49,7 +49,6 @@ function showPayrollModal(employeeData){
         document.getElementById("modal-overlay").classList.remove("show");
     });
 
-    // Issue button (assuming it’s a button, not a form)
     document.getElementById("modal-overlay").addEventListener("submit", function() {
         addEmployeePayHead();
         addPayroll();
@@ -213,22 +212,106 @@ function getIssuedEmployee(){
                     <tr class="tr-body-style" data-issued-employee-id="${employee.employee_id}">
                         <td class="td-style">${employee.first_name} ${employee.middle_name ? employee.middle_name + " " : ""} ${employee.last_name}</td>
                         <td class="td-style">${employee.pay_date_only}</td>
-                        <td class="td-style">${employee.net_pay}</td>
+                        <td class="td-style">₱${employee.net_pay}</td>
                     </tr>
                 `;
+            });
+
+            document.querySelectorAll(".tr-body-style").forEach(button =>{
+                button.addEventListener("click", function(event){
+                    event.preventDefault();
+                    const employeeId = this.getAttribute("data-issued-employee-id");
+                    const employeeData = data.issuedEmployee.find(e => e.employee_id == employeeId);
+                    if(employeeData){
+                        showReceipt(employeeData);
+                    }
+                });
             });
         }
     })
     .catch(error => console.error(error));
 }
 
-function formatDate(dateString) {
-    const date = new Date(dateString);
-    if (isNaN(date.getTime())) {
-      return dateString;
-    }
-    const year = date.getFullYear();
-    const month = String(date.getMonth() + 1).padStart(2, '0');
-    const day = String(date.getDate()).padStart(2, '0');
-    return `${year}-${month}-${day}`;
-  }
+function showReceipt(employeeData){
+    document.getElementById("modal-overlay-receipt").classList.add("show");
+    
+    document.getElementById("earnings-box-receipt").innerHTML = '';
+    document.getElementById("deductions-box-receipt").innerHTML = '';
+
+    document.getElementById("close-button-receipt").addEventListener("click", function(event){
+        event.preventDefault();
+        document.getElementById("modal-overlay-receipt").classList.remove("show");
+    });
+
+    document.getElementById("payDateReceipt").innerHTML = `<strong>Pay Date:</strong> ${employeeData.pay_date_only}`;
+    document.getElementById("payrollIdReceipt").innerHTML = `<strong>Payroll ID:</strong> ${employeeData.payroll_id}`;
+    document.getElementById("statusReceipt").innerHTML = `<strong>Status:</strong> ${employeeData.status}`;
+    document.getElementById("nameReceipt").innerHTML = `<strong>Name:</strong> ${employeeData.first_name} ${employeeData.middle_name ? employeeData.middle_name + " " : ""} ${employeeData.last_name}`;
+    document.getElementById("designationReceipt").innerHTML = `<strong>Designation:</strong> ${employeeData.designation}`;
+    document.getElementById("payFrequencyReceipt").innerHTML = `<strong>Pay Frequency:</strong> ${employeeData.pay_frequency}`;
+
+    fetch(`api/employee_pay_heads_earnings_api.php?employeeId=${employeeData.employee_id}`, {
+        method: "GET",
+        headers: {
+            "Content-Type": "application/json"
+        }
+    })
+    .then(response => response.json())
+    .then(data => {
+
+        if(data.status === "success"){
+            document.getElementById("earnings-box-receipt").innerHTML += `<h4 class="section-title-receipt">EARNINGS</h4>`;
+            data.employeePayHeadsById.forEach(employeePayHead =>{
+                document.getElementById("earnings-box-receipt").innerHTML += `
+                    <div class="salary-item-receipt">
+                        <span class="item-name-receipt">${employeePayHead.name}</span>
+                        <span class="item-value-receipt">${employeePayHead.amount}</span>
+                    </div>
+                `;
+            });
+        }
+        
+        
+    })
+    .catch(error => console.error(error));
+
+    fetch(`api/employee_pay_heads_deductions_api.php?employeeId=${employeeData.employee_id}`, {
+        method: "GET",
+        headers: {
+            "Content-Type": "application/json"
+        }
+    })
+    .then(response => response.json())
+    .then(data => {
+
+        if(data.status === "success"){
+            document.getElementById("deductions-box-receipt").innerHTML += `<h4 class="section-title-receipt">DEDUCTIONS</h4>`;
+            data.employeePayHeadsById.forEach(employeePayHead =>{
+                document.getElementById("deductions-box-receipt").innerHTML += `
+                    <div class="salary-item-receipt">
+                        <span class="item-name-receipt">${employeePayHead.name}</span>
+                        <span class="item-value-receipt">${employeePayHead.amount}</span>
+                    </div>
+                `;
+            });
+        }
+        
+        
+    })
+    .catch(error => console.error(error));
+
+    document.getElementById("totalEarningsRowReceipt").innerHTML = `
+            <span>Total Earnings</span>
+            <span>₱${employeeData.total_earnings}</span>
+    `;
+
+    document.getElementById("totalDeductionsRowReceipt").innerHTML = `
+            <span>Total Deduction</span>
+            <span>₱${employeeData.total_deductions}</span>
+    `;
+    document.getElementById("netPayRowReceipt").innerHTML = `
+            <span>Salary</span>
+            <span>₱${employeeData.net_pay}</span>
+    `;
+    document.getElementById("notesReceipt").innerHTML = `<strong>Notes:</strong> ${employeeData.notes}`;
+}

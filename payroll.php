@@ -1,9 +1,7 @@
 <?php
 session_start();
 
-// Check if the user is logged in
 if (!isset($_SESSION['loggedin']) || $_SESSION['loggedin'] !== true) {
-    // Redirect to the login page
     header("Location: index.php");
     exit;
 }
@@ -23,6 +21,64 @@ $conn = $database->getConnection();
     <link rel="stylesheet" href="css/payroll-styles.css">
 </head>
 <body>
+    <!-- Receipt -->
+    <div class="modal-overlay-receipt" id="modal-overlay-receipt">
+    <div class="modal-content-receipt">
+      <div class="modal-header-receipt">
+        <h2>Salary Slip</h2>
+        <button class="close-button-receipt" id="close-button-receipt">&times;</button>
+      </div>
+      <div class="modal-body-receipt">
+        <div class="company-header-receipt">
+          <div class="company-logo-receipt">
+            <img src="images/logo.png" alt="WageFlow Logo"/>
+            <h3>Wage<span>Flow</span></h3>
+          </div>
+          <div class="payslip-details-receipt">
+            <p id="payDateReceipt"></p>
+            <p id="payrollIdReceipt"></p>
+            <p id="statusReceipt"></p>
+          </div>
+        </div>
+        
+        <div class="employee-info-receipt">
+          <div>
+            <h4>EMPLOYEE DETAILS</h4>
+            <p id="nameReceipt"></p>
+            <p id="designationReceipt"></p>
+            <p id="payFrequencyReceipt"></p>
+          </div>
+        </div>
+
+        <div class="salary-details-receipt">
+          <div class="salary-box-receipt" id="earnings-box-receipt">
+          </div>
+          
+          <div class="salary-box-receipt" id="deductions-box-receipt">
+          </div>
+        </div>
+        
+        <div class="summary-receipt">
+          <div class="summary-row-receipt" id="totalEarningsRowReceipt">
+            
+          </div>
+          <div class="summary-row-receipt" id="totalDeductionsRowReceipt">
+          </div>
+          <div class="summary-row-receipt total" id="netPayRowReceipt">
+          </div>
+        </div>
+        
+        <div class="notes-receipt">
+          <p id="notesReceipt"></p>
+        </div>
+        
+        <div class="footer-receipt">
+          <p>© 2025 WageFlow. All rights reserved.</p>
+        </div>
+      </div>
+    </div>
+  </div>
+
     <!-- Modal Overlay -->
     <form class="modal-overlay" id="modal-overlay">
         <div class="modal-container">

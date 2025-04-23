@@ -62,6 +62,6 @@ create database payroll_management_system_db;
 use payroll_management_system_db;
 
 // payroll test query
-UPDATE employees SET last_pay_date = last_pay_date - INTERVAL 40 DAY WHERE employee_id = 10;
+UPDATE employees SET last_pay_date = last_pay_date - INTERVAL 40 DAY WHERE employee_id = 20;
 
 INSERT INTO client (mga info pati narin about like about.socials, about.history ganon) VALUES(values nila in order sa kaninang parenthesis) JOIN client.about_id = about.about_id;
