@@ -1,0 +1,169 @@
+-- Creating the database schema for the payroll management system
+
+CREATE TABLE users (
+    user_id INT PRIMARY KEY AUTO_INCREMENT,
+    email VARCHAR(255) NOT NULL UNIQUE,
+    password_hash VARCHAR(255) NOT NULL,
+    created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP
+);
+
+CREATE TABLE employees (
+    employee_id INT PRIMARY KEY AUTO_INCREMENT,
+    user_id INT NOT NULL,
+    first_name VARCHAR(255) NOT NULL,
+    middle_name VARCHAR(255),
+    last_name VARCHAR(255) NOT NULL,
+    employment_type ENUM('Full Time', 'Part Time', 'Freelance') NOT NULL,
+    designation VARCHAR(50) NOT NULL,
+    hire_date DATE NOT NULL,
+    pay_frequency ENUM('Monthly', 'Bi-weekly', 'Weekly') NOT NULL,
+    created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
+    updated_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
+    FOREIGN KEY (user_id) REFERENCES users(user_id) ON DELETE CASCADE
+);
+
+CREATE TABLE pay_heads (
+    pay_head_id INT PRIMARY KEY AUTO_INCREMENT,
+    user_id INT NOT NULL,
+    name VARCHAR(50) NOT NULL,
+    description TEXT,
+    type ENUM('Earnings', 'Deductions') NOT NULL,
+    created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
+    FOREIGN KEY (user_id) REFERENCES users(user_id) ON DELETE CASCADE
+);
+
+CREATE TABLE employee_pay_heads (
+    id INT AUTO_INCREMENT PRIMARY KEY,
+    user_id INT NOT NULL,
+    employee_id INT NOT NULL,
+    pay_head_id INT NOT NULL,
+    amount DECIMAL(12,2) NOT NULL,
+    FOREIGN KEY (employee_id) REFERENCES employees(employee_id),
+    FOREIGN KEY (pay_head_id) REFERENCES pay_head(pay_head_id),
+    FOREIGN KEY (user_id) REFERENCES users(user_id) ON DELETE CASCADE,
+    UNIQUE (employee_id, pay_head_id)
+);
+
+CREATE TABLE payroll (
+    payroll_id INT AUTO_INCREMENT PRIMARY KEY,
+    user_id INT NOT NULL,
+    employee_id INT NOT NULL,
+    pay_date DATETIME NOT NULL DEFAULT CURRENT_TIMESTAMP,
+    status ENUM('Draft', 'Pending', 'Issued') DEFAULT 'Draft',
+    pay_period_start DATE NOT NULL,
+    pay_period_end DATE NOT NULL,
+    FOREIGN KEY (employee_id) REFERENCES employees(employee_id),
+    FOREIGN KEY (user_id) REFERENCES users(user_id) ON DELETE CASCADE
+);
+
+CREATE TABLE payroll_details (
+    payroll_details_id INT AUTO_INCREMENT PRIMARY KEY,
+    payroll_id INT NOT NULL,
+    user_id INT NOT NULL,
+    total_earnings DECIMAL(12,2) DEFAULT 0,
+    total_deductions DECIMAL(12,2) DEFAULT 0,
+    net_pay DECIMAL(12,2) DEFAULT 0,
+    notes VARCHAR(255),
+    FOREIGN KEY (payroll_id) REFERENCES payroll(payroll_id),
+    FOREIGN KEY (user_id) REFERENCES users(user_id) ON DELETE CASCADE
+);
+
+-- Trigger 1: Create default payroll record when a new employee is inserted
+DELIMITER //
+CREATE TRIGGER after_employee_insert
+AFTER INSERT ON employees
+FOR EACH ROW
+BEGIN
+    DECLARE period_end DATE;
+
+    -- Calculate pay_period_end based on pay_frequency
+    IF NEW.pay_frequency = 'Monthly' THEN
+        SET period_end = DATE_ADD(NEW.hire_date, INTERVAL 1 MONTH);
+    ELSEIF NEW.pay_frequency = 'Bi-weekly' THEN
+        SET period_end = DATE_ADD(NEW.hire_date, INTERVAL 14 DAY);
+    ELSEIF NEW.pay_frequency = 'Weekly' THEN
+        SET period_end = DATE_ADD(NEW.hire_date, INTERVAL 7 DAY);
+    END IF;
+
+    -- Insert default payroll record
+    INSERT INTO payroll (
+        user_id,
+        employee_id,
+        pay_date,
+        status,
+        pay_period_start,
+        pay_period_end
+    ) VALUES (
+        NEW.user_id,
+        NEW.employee_id,
+        NOW(),
+        'Draft',
+        NEW.hire_date,
+        period_end
+    );
+END //
+DELIMITER ;
+
+-- Stored Procedure for Trigger 2: Update payroll status to Pending when pay_period_end is reached
+DELIMITER //
+CREATE PROCEDURE update_payroll_status_to_pending()
+BEGIN
+    UPDATE payroll
+    SET status = 'Pending'
+    WHERE status = 'Draft'
+    AND pay_period_end <= CURRENT_DATE;
+END //
+DELIMITER ;
+
+-- Trigger 3: Update payroll status to Issued and create new draft payroll when payroll_details is inserted
+DELIMITER //
+CREATE TRIGGER after_payroll_details_insert
+AFTER INSERT ON payroll_details
+FOR EACH ROW
+BEGIN
+    DECLARE period_start DATE;
+    DECLARE period_end DATE;
+    DECLARE pay_freq ENUM('Monthly', 'Bi-weekly', 'Weekly');
+
+    -- Update the payroll status to Issued
+    UPDATE payroll
+    SET status = 'Issued'
+    WHERE payroll_id = NEW.payroll_id;
+
+    -- Get the employee’s pay_frequency and current pay_period_end
+    SELECT pay_frequency, pay_period_end
+    INTO pay_freq, period_start
+    FROM payroll p
+    JOIN employees e ON p.employee_id = e.employee_id
+    WHERE p.payroll_id = NEW.payroll_id;
+
+    -- Calculate new pay_period_start and pay_period_end
+    SET period_start = DATE_ADD(period_start, INTERVAL 1 DAY);
+    IF pay_freq = 'Monthly' THEN
+        SET period_end = DATE_ADD(period_start, INTERVAL 1 MONTH);
+    ELSEIF pay_freq = 'Bi-weekly' THEN
+        SET period_end = DATE_ADD(period_start, INTERVAL 14 DAY);
+    ELSEIF pay_freq = 'Weekly' THEN
+        SET period_end = DATE_ADD(period_start, INTERVAL 7 DAY);
+    END IF;
+
+    -- Insert new draft payroll for the next period
+    INSERT INTO payroll (
+        user_id,
+        employee_id,
+        pay_date,
+        status,
+        pay_period_start,
+        pay_period_end
+    )
+    SELECT
+        NEW.user_id,
+        p.employee_id,
+        NOW(),
+        'Draft',
+        period_start,
+        period_end
+    FROM payroll p
+    WHERE p.payroll_id = NEW.payroll_id;
+END //
+DELIMITER ;

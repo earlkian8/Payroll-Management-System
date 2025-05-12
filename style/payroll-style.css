@@ -1,0 +1,501 @@
+/* Global Styles - consistent with your login page */
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+}
+
+body {
+    background-color: #121212;
+    color: #ffffff;
+    display: flex;
+    min-height: 100vh;
+}
+
+/* Sidebar Styles */
+.sidebar {
+    width: 250px;
+    background-color: #1e1e1e;
+    padding: 20px;
+    display: flex;
+    flex-direction: column;
+    height: 100vh;
+    position: fixed;
+}
+
+.logo {
+    font-size: 24px;
+    color: #1E88E5;
+    margin-bottom: 30px;
+    text-align: center;
+    font-weight: bold;
+}
+
+.sidebar-menu {
+    flex: 1;
+}
+
+.sidebar-menu ul {
+    list-style: none;
+}
+
+.sidebar-menu li {
+    margin-bottom: 10px;
+}
+
+.sidebar-menu a {
+    display: flex;
+    align-items: center;
+    padding: 12px 15px;
+    color: #aaaaaa;
+    text-decoration: none;
+    border-radius: 8px;
+    transition: all 0.3s ease;
+}
+
+.sidebar-menu a:hover, .sidebar-menu a.active {
+    background-color: #262626;
+    color: #ffffff;
+}
+
+.sidebar-menu i {
+    margin-right: 10px;
+    font-size: 18px;
+}
+
+.logout-btn {
+    margin-top: 20px;
+    padding: 12px 15px;
+    background-color: transparent;
+    color: #aaaaaa;
+    border: none;
+    border-radius: 8px;
+    cursor: pointer;
+    width: 100%;
+    text-align: left;
+    transition: all 0.3s ease;
+}
+
+.logout-btn:hover {
+    background-color: #262626;
+    color: #ffffff;
+}
+
+/* Main Content Styles */
+.main-content {
+    flex: 1;
+    margin-left: 250px;
+    padding: 30px;
+}
+
+.header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 30px;
+}
+
+.header h1 {
+    font-size: 24px;
+    font-weight: 600;
+}
+
+.user-profile {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+}
+
+.user-profile img {
+    width: 40px;
+    height: 40px;
+    border-radius: 50%;
+    object-fit: cover;
+}
+
+.user-profile span {
+    font-size: 14px;
+}
+
+/* Payroll Actions */
+.payroll-actions {
+    display: flex;
+    justify-content: space-between;
+    margin-bottom: 20px;
+}
+
+.search-bar {
+    display: flex;
+    align-items: center;
+}
+
+.search-bar input {
+    padding: 10px;
+    border: 1px solid #383838;
+    border-radius: 8px;
+    background-color: #262626;
+    color: #ffffff;
+    width: 300px;
+}
+
+.search-bar button {
+    margin-left: 10px;
+    padding: 10px 15px;
+    background-color: #1E88E5;
+    color: white;
+    border: none;
+    border-radius: 8px;
+    cursor: pointer;
+    transition: background-color 0.3s ease;
+}
+
+.search-bar button:hover {
+    background-color: #1565C0;
+}
+
+/* Tabs */
+.tabs {
+    display: flex;
+    margin-bottom: 20px;
+}
+
+.tab-btn {
+    padding: 10px 20px;
+    background-color: #262626;
+    color: #aaaaaa;
+    border: none;
+    border-radius: 8px 8px 0 0;
+    cursor: pointer;
+    transition: all 0.3s ease;
+}
+
+.tab-btn.active {
+    background-color: #1E88E5;
+    color: #ffffff;
+}
+
+.tab-btn:not(:last-child) {
+    margin-right: 5px;
+}
+
+.tab-content {
+    display: none;
+    background-color: #1e1e1e;
+    padding: 20px;
+    border-radius: 0 0 8px 8px;
+}
+
+.tab-content.active {
+    display: block;
+}
+
+/* Table Styles */
+.table-container {
+    background-color: #1e1e1e;
+    border-radius: 12px;
+    padding: 20px;
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+    overflow-x: auto;
+}
+
+table {
+    width: 100%;
+    border-collapse: collapse;
+}
+
+th, td {
+    padding: 12px 15px;
+    text-align: left;
+    border-bottom: 1px solid #383838;
+}
+
+th {
+    font-weight: 600;
+    color: #aaaaaa;
+    font-size: 14px;
+}
+
+td {
+    color: #ffffff;
+    font-size: 14px;
+}
+
+tr:hover {
+    background-color: #262626;
+}
+
+/* Action Icons */
+.btn-issue {
+    background: none;
+    border: none;
+    color: #aaaaaa;
+    cursor: pointer;
+    margin-right: 5px;
+    transition: color 0.3s ease;
+}
+
+.btn-issue:hover {
+    color: #1E88E5;
+}
+
+/* Existing CSS from the document */
+.overlay {     
+    position: fixed;     
+    z-index: 1;     
+    width: 100%;     
+    height: 100%;     
+    background-color: rgba(0, 0, 0, 0.5);     
+    opacity: 0;     
+    visibility: hidden;     
+    display: flex;     
+    align-items: center;     
+    justify-content: center;     
+    transition: .25s opacity ease-in-out, .25s visibility ease-in-out; 
+}  
+.overlay.show {     
+    opacity: 1;     
+    visibility: visible; 
+}  
+.add-pay-heads-modal {     
+    width: 700px;     
+    background-color: #1e1e1e;     
+    border-radius: 10px;     
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);     
+    overflow: hidden;     
+    margin: 10% auto;     
+    padding: 20px; 
+}  
+.modal-header {     
+    background-color: #1E88E5;     
+    color: white;     
+    padding: 15px;     
+    display: flex;     
+    justify-content: space-between;     
+    align-items: center; 
+}  
+.modal-header h2 {     
+    font-size: 18px; 
+}  
+.close-btn {     
+    background: none;     
+    border: none;     
+    color: white;     
+    font-size: 24px;     
+    cursor: pointer;     
+    line-height: 1; 
+}  
+.modal-content {     
+    display: flex;     
+    padding: 20px;     
+    gap: 20px; 
+}  
+.left-section {     
+    flex: 2; 
+}  
+.right-section {     
+    flex: 1;     
+    background-color: #383838;     
+    padding: 15px;     
+    border-radius: 8px; 
+}  
+.select-employee {     
+    background-color: #383838;     
+    padding: 15px;     
+    border-radius: 8px;     
+    margin-bottom: 15px; 
+}  
+.select-employee select {     
+    width: 100%;     
+    background-color: #262626;     
+    color: #ffffff;     
+    border: 1px solid #1E88E5;     
+    padding: 10px;     
+    border-radius: 5px; 
+}  
+.add-pay-head {     
+    background-color: #383838;     
+    padding: 15px;     
+    border-radius: 8px; 
+}  
+.pay-head-inputs {     
+    display: grid;     
+    grid-template-columns: 2fr 1fr;     
+    gap: 10px;     
+    margin-bottom: 10px; 
+}  
+.pay-head-inputs input {     
+    width: 100%;     
+    background-color: #262626;     
+    color: #ffffff;     
+    border: 1px solid #1E88E5;     
+    padding: 10px;     
+    border-radius: 5px; 
+}  
+.add-btn {     
+    background-color: #1E88E5;     
+    color: white;     
+    border: none;     
+    padding: 10px 15px;     
+    border-radius: 5px;     
+    cursor: pointer;     
+    transition: background-color 0.3s ease; 
+}  
+.add-btn:hover {     
+    background-color: #1565C0; 
+}  
+.payment-summary {     
+    margin-bottom: 15px; 
+}  
+.payment-summary h3, .payment-details h3 {     
+    color: #1E88E5;     
+    border-bottom: 1px solid #1E88E5;     
+    padding-bottom: 10px;     
+    margin-bottom: 10px; 
+}  
+.summary-row {     
+    display: flex;     
+    justify-content: space-between;     
+    margin-bottom: 10px;     
+    color: #aaaaaa; 
+}  
+.summary-row.total {     
+    font-weight: bold;     
+    color: #ffffff; 
+}  
+.modal-footer {     
+    display: flex;     
+    justify-content: space-between;     
+    padding: 15px;     
+    background-color: #262626; 
+}  
+.modal-footer button {     
+    padding: 10px 15px;     
+    border-radius: 5px;     
+    cursor: pointer; 
+}  
+.cancel-btn {     
+    background-color: #383838;     
+    color: #aaaaaa;     
+    border: none; 
+}  
+.save-btn {     
+    background-color: #1E88E5;     
+    color: white;     
+    border: none; 
+}
+.pay-head-container {
+    max-height: 200px;
+    overflow-y: auto;
+    margin-bottom: 10px;
+}
+.pay-head-card {
+    background-color: #262626;
+    border: 1px solid #1E88E5;
+    padding: 10px;
+    margin-bottom: 10px;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+.pay-head-card .remove-btn {
+    background-color: #ff4d4d;
+    color: white;
+    border: none;
+    padding: 5px 10px;
+    border-radius: 3px;
+    cursor: pointer;
+}
+
+
+/* Responsive Adjustments */
+@media (max-width: 768px) {
+    .sidebar {
+        width: 70px;
+    }
+
+    .sidebar-menu span {
+        display: none;
+    }
+
+    .sidebar-menu a {
+        justify-content: center;
+        padding: 12px;
+    }
+
+    .sidebar-menu i {
+        margin-right: 0;
+        font-size: 20px;
+    }
+
+    .main-content {
+        margin-left: 70px;
+        padding: 20px;
+    }
+
+    .logo span {
+        display: none;
+    }
+
+    .modal-content {
+        width: 80%;
+    }
+}
+
+* Modern Minimalist Scrollbar Styles */
+/* Webkit (Chrome, Safari, newer versions of Edge) Scrollbar */
+::-webkit-scrollbar {
+    width: 8px; /* Thin scrollbar */
+    height: 8px; /* For horizontal scrollbars */
+}
+
+/* Scrollbar Track */
+::-webkit-scrollbar-track {
+    background: #383838; /* Dark background matching the theme */
+    border-radius: 10px;
+}
+
+/* Scrollbar Handle */
+::-webkit-scrollbar-thumb {
+    background: #1E88E5; /* Blue accent color */
+    border-radius: 10px;
+    transition: background 0.3s ease;
+}
+
+/* Scrollbar Handle on hover */
+::-webkit-scrollbar-thumb:hover {
+    background: #2196F3; /* Lighter blue on hover */
+}
+
+/* For Firefox */
+* {
+    scrollbar-width: thin;
+    scrollbar-color: #1E88E5 #383838;
+}
+
+/* Optional: Smooth scrolling */
+html {
+    scroll-behavior: smooth;
+}
+
+select {
+    width: 100%;
+    background-color: #262626;
+    color: #ffffff;
+    border: 1px solid #1E88E5;
+    padding: 10px;
+    border-radius: 5px;
+    appearance: none;
+    cursor: pointer;
+}
+
+select:focus {
+    outline: none;
+    border-color: #2196F3;
+}
+
+select option {
+    background-color: #262626;
+    color: #ffffff;
+    padding: 10px;
+}

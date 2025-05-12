@@ -1,411 +1,229 @@
-<?php
-session_start();
-
-// Check if the user is logged in
-if (!isset($_SESSION['loggedin']) || $_SESSION['loggedin'] !== true) {
-    // Redirect to the login page
-    header("Location: index.php");
-    exit;
-}
-
-include "api/database.php";
-
-$database = new Database();
-$conn = $database->getConnection();
-?>
-
 <!DOCTYPE html>
 <html lang="en">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>WageFlow</title>
-    <link rel="stylesheet" href="css/navigation-style.css">
-    <link rel="stylesheet" href="css/employee-style.css">
+    <title>Employee Management</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
+    <link rel="stylesheet" href="style/employee-style.css">
 </head>
 <body>
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/html2pdf.js/0.10.1/html2pdf.bundle.min.js"></script>
-    <!-- Receipt -->
-    <div class="modal-overlay-receipt" id="modal-overlay-receipt">
-    <div class="modal-content-receipt">
-      <div class="modal-header-receipt">
-        <h2>Salary Slip</h2>
-        <button class="close-button-receipt" id="close-button-receipt">&times;</button>
-      </div>
-      <div class="modal-body-receipt">
-        <div class="company-header-receipt">
-          <div class="company-logo-receipt">
-            <img src="images/logo.png" alt="WageFlow Logo"/>
-            <h3>Wage<span>Flow</span></h3>
-          </div>
-          <div class="payslip-details-receipt">
-            <p id="payDateReceipt"></p>
-            <p id="payrollIdReceipt"></p>
-            <p id="statusReceipt"></p>
-          </div>
+    <div class="sidebar">
+        <div class="logo">
+            <i class="fas fa-money-bill-wave"></i> <span>Payroll</span>
         </div>
-        
-        <div class="employee-info-receipt">
-          <div>
-            <h4>EMPLOYEE DETAILS</h4>
-            <p id="nameReceipt"></p>
-            <p id="designationReceipt"></p>
-            <p id="payFrequencyReceipt"></p>
-          </div>
+        <div class="sidebar-menu">
+            <ul>
+                <li><a href="dashboard.php"><i class="fas fa-tachometer-alt"></i><span>Dashboard</span></a></li>
+                <li><a href="employee.php" class="active"><i class="fas fa-users"></i><span>Employees</span></a></li>
+                <li><a href="payhead.php"><i class="fas fa-file-invoice-dollar"></i><span>Pay Heads</span></a></li>
+                <li><a href="payroll.php"><i class="fas fa-wallet"></i><span>Payroll</span></a></li>
+                <li><a href="about_us.php"><i class="fas fa-info-circle"></i><span>About Us</span></a></li>
+            </ul>
         </div>
-
-        <div class="salary-details-receipt">
-          <div class="salary-box-receipt" id="earnings-box-receipt">
-          </div>
-          
-          <div class="salary-box-receipt" id="deductions-box-receipt">
-          </div>
-        </div>
-        
-        <div class="summary-receipt">
-          <div class="summary-row-receipt" id="totalEarningsRowReceipt">
-            
-          </div>
-          <div class="summary-row-receipt" id="totalDeductionsRowReceipt">
-          </div>
-          <div class="summary-row-receipt total" id="netPayRowReceipt">
-          </div>
-        </div>
-        
-        <div class="notes-receipt">
-          <p id="notesReceipt"></p>
-        </div>
-        
-        <div class="footer-receipt">
-          <p>© 2025 WageFlow. All rights reserved.</p>
-        </div>
-      </div>
-    </div>
-  </div>
-    <div class="overlay" id="overlay">
-
+        <button class="logout-btn"><i class="fas fa-sign-out-alt"></i><span>Logout</span></button>
     </div>
 
-    <!-- Create Modal -->
-    <form action="employee.php" method="post" class="modal-container" id="modal-container">
-            <div class="modal-text-container">
-                <h1 class="h1-modal-style">Create Employee</h1>
+    <div class="main-content">
+        <div class="header">
+            <h1>Employees</h1>
+            <div class="user-profile">
+                <img src="https://via.placeholder.com/40" alt="User Profile">
+                <span>John Doe</span>
             </div>
-            <div class="modal-input-container">
-                <div class="modal-subcontainer1">
-                    <div class="input-container-subcontainer1">
-                        <label for="firstName" class="label-style">First Name</label>
-                        <input type="text" name="firstName" id="firstName" placeholder="First Name" required autocomplete="off">
-                    </div>
-                    <div class="input-container-subcontainer1">
-                        <label for="middleName" class="label-style">Middle Name</label>
-                        <input type="text" name="middleName" id="middleName" placeholder="Middle Name" autocomplete="off">
-                    </div>
-                    <div class="input-container-subcontainer1">
-                        <label for="lastName" class="label-style">Last Name</label>
-                        <input type="text" name="lastName" id="lastName" placeholder="Last Name" required autocomplete="off">
-                    </div>
-                </div>
-                <div class="modal-subcontainer2">
-                    <div class="input-container-subcontainer2">
-                        <label for="gender" class="label-style">Gender</label>
-                        <select name="gender" id="gender" class="select-style">
-                            <option value="" class="option-style">Select Gender</option>
-                            <option value="Male" class="option-style">Male</option>
-                            <option value="Female" class="option-style">Female</option>
-                        </select>
-                    </div>
-                    <div class="input-container-subcontainer2">
-                        <label for="birthday" class="label-style">Birthday</label>
-                        <input type="date" name="birthday" id="birthday" required placeholder="Date of Birth">
-                    </div>
-                    <div class="input-container-subcontainer2">
-                        <label for="employmentType" class="label-style">Employment Type</label>
-                        <select name="employmentType" id="employmentType" class="select-style">
-                            <option value="" class="option-style">Select One</option>
-                            <option value="Full Time" class="option-style">Full Time</option>
-                            <option value="Part Time" class="option-style">Part Time</option>
-                            <option value="Freelance" class="option-style">Freelance</option>
-                        </select>
-                    </div>
-                    <div class="input-container-subcontainer2">
-                        <label for="designation" class="label-style">Designation</label>
-                        <input type="text" name="designation" id="designation" placeholder="Designation" required autocomplete="off">
-                    </div>
-                    <div class="input-container-subcontainer2">
-                        <label for="dateHired" class="label-style">Date Hired</label>
-                        <input type="date" name="dateHired" id="dateHired" required>
-                    </div>
-                    <div class="input-container-subcontainer2">
-                        <label for="payFrequency" class="label-style">Pay Frequency</label>
-                        <select name="payFrequency" id="payFrequency" class="select-style">
-                            <option value="" class="option-style">Select One</option>
-                            <option value="Monthly" class="option-style">Monthly</option>
-                            <option value="Bi-Weekly" class="option-style">Bi-Weekly</option>
-                            <option value="Weekly" class="option-style">Weekly</option>
-                        </select>
-                    </div>
-                </div>
-            </div>
-            <div class="modal-button-container">
-                <button class="create-button-style" id="create" name="create" type="submit">Create</button>
-                <button class="discard-button-style" id="discard">Discard</button>
-            </div>
-        </form>
-
-        <!-- Employee Details -->
-        <form action="employee.php" method="post" class="employee-details" id="employee-details">
-            <div class="modal">
-                <div class="modal-header">
-                    <div class="modal-title">Employee Information</div>
-                    <button type="button" class="modal-close" id="close-details">×</button>
-                </div>
-                
-                <div class="modal-body">
-                    <!-- Employee Information Section -->
-                    <div class="employee-info">
-                        <div class="employee-header">
-                            <h2 class="employee-name" id="employee-full-name"></h2>
-                            <div class="employee-title"><span id="employee-designation"></span> <span class="status-badge new" id="employee-status"></span></div>
-                        </div>
-                        
-                        <div class="info-tabs">
-                            <div class="info-tab active">Personal Info</div>
-                        </div>
-                        
-                        <div class="info-content">
-                            <div class="info-section">
-                                <h3 class="section-title">Personal Information</h3>
-                                <div class="info-grid">
-                                    <div class="info-item">
-                                        <div class="info-label">Full Name</div>
-                                        <div class="info-value" id="detail-full-name"></div>
-                                    </div>
-                                    <div class="info-item">
-                                        <div class="info-label">Gender</div>
-                                        <div class="info-value" id="detail-gender"></div>
-                                    </div>
-                                    <div class="info-item">
-                                        <div class="info-label">Birthday</div>
-                                        <div class="info-value" id="detail-birthday"></div>
-                                    </div>
-                                </div>
-                            </div>
-                            
-                            <div class="info-section">
-                                <h3 class="section-title">Employment Details</h3>
-                                <div class="info-grid">
-                                    <div class="info-item">
-                                        <div class="info-label">Employment Type</div>
-                                        <div class="info-value" id="detail-employment-type"></div>
-                                    </div>
-                                    <div class="info-item">
-                                        <div class="info-label">Designation</div>
-                                        <div class="info-value" id="detail-designation"></div>
-                                    </div>
-                                    <div class="info-item">
-                                        <div class="info-label">Date Hired</div>
-                                        <div class="info-value" id="detail-date-hired"></div>
-                                    </div>
-                                    <div class="info-item">
-                                        <div class="info-label">Pay Frequency</div>
-                                        <div class="info-value" id="detail-pay-frequency"></div>
-                                    </div>
-                                </div>
-                            </div>
-                            
-                            <div class="button-container">
-                                <button type="button" class="btn btn-primary" id="edit-employee-btn">Edit</button>
-                                <button type="button" class="btn btn-danger" id="delete-employee-btn">Delete</button>
-                            </div>
-                        </div>
-                    </div>
-                    
-                    <!-- Salary Section -->
-                    <div class="salary-container">
-                        <div class="salary-title">
-                            <span>Salary Payslips</span>
-                        </div>
-                        
-                        <div id="payslips-container">
-                            <!-- Payslips will be loaded dynamically -->
-                        </div>
-                    </div>
-                </div>
-            </div>
-        </form>
-
-        <!-- Edit Modal -->
-        <form action="employee.php" method="post" class="edit-modal-container" id="edit-modal-container">
-            <div class="modal-text-container">
-                <h1 class="h1-modal-style">Edit Employee</h1>
-                <button type="button" class="modal-close" id="edit-close">×</button>
-            </div>
-            <div class="modal-input-container">
-                <div class="modal-subcontainer1">
-                    <div class="input-container-subcontainer1">
-                        <input type="hidden" name="editEmployeeId" id="editEmployeeId">
-                        <label for="editFirstName" class="label-style">First Name</label>
-                        <input type="text" name="editFirstName" id="editFirstName" placeholder="First Name" required autocomplete="off">
-                    </div>
-                    <div class="input-container-subcontainer1">
-                        <label for="editMiddleName" class="label-style">Middle Name</label>
-                        <input type="text" name="editMiddleName" id="editMiddleName" placeholder="Middle Name" autocomplete="off">
-                    </div>
-                    <div class="input-container-subcontainer1">
-                        <label for="editLastName" class="label-style">Last Name</label>
-                        <input type="text" name="editLastName" id="editLastName" placeholder="Last Name" required autocomplete="off">
-                    </div>
-                </div>
-                <div class="modal-subcontainer2">
-                    <div class="input-container-subcontainer2">
-                        <label for="editGender" class="label-style">Gender</label>
-                        <select name="editGender" id="editGender" class="select-style">
-                            <option value="" class="option-style">Select Gender</option>
-                            <option value="Male" class="option-style">Male</option>
-                            <option value="Female" class="option-style">Female</option>
-                        </select>
-                    </div>
-                    <div class="input-container-subcontainer2">
-                        <label for="editBirthday" class="label-style">Birthday</label>
-                        <input type="date" name="editBirthday" id="editBirthday" required placeholder="Date of Birth">
-                    </div>
-                    <div class="input-container-subcontainer2">
-                        <label for="editEmploymentType" class="label-style">Employment Type</label>
-                        <select name="editEmploymentType" id="editEmploymentType" class="select-style">
-                            <option value="" class="option-style">Select One</option>
-                            <option value="Full Time" class="option-style">Full Time</option>
-                            <option value="Part Time" class="option-style">Part Time</option>
-                            <option value="Freelance" class="option-style">Freelance</option>
-                        </select>
-                    </div>
-                    <div class="input-container-subcontainer2">
-                        <label for="editDesignation" class="label-style">Designation</label>
-                        <input type="text" name="editDesignation" id="editDesignation" placeholder="Designation" required autocomplete="off">
-                    </div>
-                    <div class="input-container-subcontainer2">
-                        <label for="editDateHired" class="label-style">Date Hired</label>
-                        <input type="date" name="editDateHired" id="editDateHired" required>
-                    </div>
-                    <div class="input-container-subcontainer2">
-                        <label for="editPayFrequency" class="label-style">Pay Frequency</label>
-                        <select name="editPayFrequency" id="editPayFrequency" class="select-style">
-                            <option value="" class="option-style">Select One</option>
-                            <option value="Monthly" class="option-style">Monthly</option>
-                            <option value="Bi-Weekly" class="option-style">Bi-Weekly</option>
-                            <option value="Weekly" class="option-style">Weekly</option>
-                        </select>
-                    </div>
-                </div>
-            </div>
-            <div class="modal-button-container">
-                <button class="create-button-style" id="edit" name="edit" type="submit">Save</button>
-                <button class="discard-button-style" id="editDiscard">Discard</button>
-            </div>
-        </form>
-
-         <!-- Confirm Delete -->
-         <form method="delete" action="employee.php" class="confirm-delete-container" id="confirm-delete-container">
-        
-            <div class="delete-subcontainer">
-                <div class="delete-subcontainer-sub1">
-                    <h1 class="delete-h1-style">Confirm Deletion</h1>
-                    <p class="delete-p-style">This will delete the employee permanently. You cannot undo this action.</p>
-                </div>
-                <div class="delete-subcontainer-sub2">
-                    <input type="hidden" name="delete-employeeId" id="delete-employeeId">
-                    <button class="cancel-button-style" id="cancel-button-delete">Cancel</button>
-                    <button class="delete-button-style" id="delete-button-submit" name="delete-button-submit">Delete</button>
-                </div>
-            </div>
-        </form>
-
-        <!-- Confirm Save -->
-        <form method="put" action="employee.php" class="confirm-save-container" id="confirm-save-container">
-        
-            <div class="save-subcontainer">
-                <div class="save-subcontainer-sub1">
-                    <h1 class="save-h1-style">Save Changes</h1>
-                    <p class="save-p-style">You have made changes. Do you want to discard or save them?</p>
-                </div>
-                <div class="save-subcontainer-sub2">
-                    <input type="hidden" name="saveEmployeeId" id="saveEmployeeId">
-                    <input type="hidden" name="saveFirstName" id="saveFirstName">
-                    <input type="hidden" name="saveMiddleName" id="saveMiddleName">
-                    <input type="hidden" name="saveLastName" id="saveLastName">
-                    <input type="hidden" name="saveGender" id="saveGender">
-                    <input type="hidden" name="saveBirthday" id="saveBirthday">
-                    <input type="hidden" name="saveEmploymentType" id="saveEmploymentType">
-                    <input type="hidden" name="saveDesignation" id="saveDesignation">
-                    <input type="hidden" name="saveDateHired" id="saveDateHired">
-                    <input type="hidden" name="savePayFrequency" id="savePayFrequency">
-                    <button class="cancel-button-style" id="cancel-button-save">Cancel</button>
-                    <button class="confirm-save-button-style" id="save-button-submit" name="save-button-submit" type="submit">Save</button>
-                </div>
-            </div>
-        </form>
-    <!-- Side Bar -->
-    <aside class="aside-style">
-        <div class="container1">
-            <img src="images/logo.png" alt="Logo" class="main-logo-style">
-            <h1 class="h1-style">Wage<span class="span-style">Flow</span></h1>
         </div>
-        <div class="container2">
-            <a href="dashboard.php" class="a-style">
-                <div class="a-container-style">
-                    <img src="images/home-61ccef.png" alt="Home" class="logo-style">
-                    <p class="p-style">DASHBOARD</p> 
-                </div>
-            </a>
-            <a href="employee.php" class="a-style">
-                <div class="a-container-style">
-                    <img src="images/user-61CCEF.png" alt="Employee" class="logo-style">
-                    <p class="p-style" id="employee-underline">EMPLOYEE</p>
-                </div>
-            </a>
-            <a href="pay_head.php" class="a-style">
-                <div class="a-container-style">
-                    <img src="images/payHead-icon-61ccef.png" alt="Pay Head" class="logo-style">
-                    <p class="p-style">PAY HEAD</p>
-                </div>
-            </a>
-            <a href="payroll.php" class="a-style">
-                <div class="a-container-style">
-                    <img src="images/payroll-61ccef.png" alt="Payroll" class="logo-style">
-                    <p class="p-style">PAYROLL</p>
-                </div>
-            </a>
+
+        <div class="employee-actions">
+            <div class="search-bar">
+                <input type="text" placeholder="Search employees...">
+                <button><i class="fas fa-search"></i></button>
+            </div>
+            <button id="addEmployeeBtn" class="btn-add"><i class="fas fa-plus"></i> Add Employee</button>
         </div>
-    </aside>
 
-    <!-- Content -->
-    <div class="content-style">
+        <div class="table-container">
+            <table id="employeesTable">
+                <thead>
+                    <tr>
+                        <th>ID</th>
+                        <th>First Name</th>
+                        <th>Middle Name</th>
+                        <th>Last Name</th>
+                        <th>Employment Type</th>
+                        <th>Designation</th>
+                        <th>Hire Date</th>
+                        <th>Pay Frequency</th>
+                        <th>Actions</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr>
+                        <td>1</td>
+                        <td>John</td>
+                        <td>A</td>
+                        <td>Smith</td>
+                        <td>Full Time</td>
+                        <td>Software Engineer</td>
+                        <td>2023-01-15</td>
+                        <td>Monthly</td>
+                        <td>
+                            <button class="btn-view" data-id="1"><i class="fas fa-eye"></i></button>
+                            <button class="btn-edit" data-id="1"><i class="fas fa-edit"></i></button>
+                            <button class="btn-delete" data-id="1"><i class="fas fa-trash"></i></button>
+                        </td>
+                    </tr>
+                    <tr>
+                        <td>2</td>
+                        <td>Sarah</td>
+                        <td>B</td>
+                        <td>Johnson</td>
+                        <td>Part Time</td>
+                        <td>HR Manager</td>
+                        <td>2023-02-20</td>
+                        <td>Bi-weekly</td>
+                        <td>
+                            <button class="btn-view" data-id="2"><i class="fas fa-eye"></i></button>
+                            <button class="btn-edit" data-id="2"><i class="fas fa-edit"></i></button>
+                            <button class="btn-delete" data-id="2"><i class="fas fa-trash"></i></button>
+                        </td>
+                    </tr>
+                    <tr>
+                        <td>3</td>
+                        <td>Michael</td>
+                        <td>C</td>
+                        <td>Brown</td>
+                        <td>Full Time</td>
+                        <td>Project Manager</td>
+                        <td>2023-03-10</td>
+                        <td>Monthly</td>
+                        <td>
+                            <button class="btn-view" data-id="3"><i class="fas fa-eye"></i></button>
+                            <button class="btn-edit" data-id="3"><i class="fas fa-edit"></i></button>
+                            <button class="btn-delete" data-id="3"><i class="fas fa-trash"></i></button>
+                        </td>
+                    </tr>
+                </tbody>
+            </table>
+        </div>
+    </div>
 
-        
-        <!-- Content -->
-        <div class="box-style">
-            <div class="content-container1">
-                <input type="text" name="search" id="search" class="searchBar" placeholder="Search" autocomplete="off" oninput="searchEmployee()">
-                <button class="add-button-style" id="open">Add Employees</button>
+    <!-- Add Employee Modal -->
+    <div id="addEmployeeModal" class="modal">
+        <div class="modal-content">
+            <span class="close" id="addClose">&times;</span>
+            <h2>Add Employee</h2>
+            <form id="addEmployeeForm">
+                <label for="firstName">First Name:</label>
+                <input type="text" id="firstName" name="firstName" required>
+
+                <label for="middleName">Middle Name:</label>
+                <input type="text" id="middleName" name="middleName">
+
+                <label for="lastName">Last Name:</label>
+                <input type="text" id="lastName" name="lastName" required>
+
+                <label for="employmentType">Employment Type:</label>
+                <select id="employmentType" name="employmentType" required>
+                    <option value="Full Time">Full Time</option>
+                    <option value="Part Time">Part Time</option>
+                    <option value="Freelance">Freelance</option>
+                </select>
+
+                <label for="designation">Designation:</label>
+                <input type="text" id="designation" name="designation" required>
+
+                <label for="hireDate">Hire Date:</label>
+                <input type="date" id="hireDate" name="hireDate" required>
+
+                <label for="payFrequency">Pay Frequency:</label>
+                <select id="payFrequency" name="payFrequency" required>
+                    <option value="Monthly">Monthly</option>
+                    <option value="Bi-weekly">Bi-weekly</option>
+                    <option value="Weekly">Weekly</option>
+                </select>
+
+                <button type="submit" class="btn-submit">Add Employee</button>
+            </form>
+        </div>
+    </div>
+
+    <!-- Edit Employee Modal -->
+    <div id="editEmployeeModal" class="modal">
+        <div class="modal-content">
+            <span class="close" id="editClose">&times;</span>
+            <h2>Edit Employee</h2>
+            <form id="editEmployeeForm">
+                <input type="hidden" id="editEmployeeId" name="employeeId">
+
+                <label for="editFirstName">First Name:</label>
+                <input type="text" id="editFirstName" name="firstName" required>
+
+                <label for="editMiddleName">Middle Name:</label>
+                <input type="text" id="editMiddleName" name="middleName">
+
+                <label for="editLastName">Last Name:</label>
+                <input type="text" id="editLastName" name="lastName" required>
+
+                <label for="editEmploymentType">Employment Type:</label>
+                <select id="editEmploymentType" name="employmentType" required>
+                    <option value="Full Time">Full Time</option>
+                    <option value="Part Time">Part Time</option>
+                    <option value="Freelance">Freelance</option>
+                </select>
+
+                <label for="editDesignation">Designation:</label>
+                <input type="text" id="editDesignation" name="designation" required>
+
+                <label for="editHireDate">Hire Date:</label>
+                <input type="date" id="editHireDate" name="hireDate" required>
+
+                <label for="editPayFrequency">Pay Frequency:</label>
+                <select id="editPayFrequency" name="payFrequency" required>
+                    <option value="Monthly">Monthly</option>
+                    <option value="Bi-weekly">Bi-weekly</option>
+                    <option value="Weekly">Weekly</option>
+                </select>
+
+                <button type="submit" class="btn-submit">Update Employee</button>
+            </form>
+        </div>
+    </div>
+
+    <!-- View Employee Modal -->
+    <div id="viewEmployeeModal" class="modal">
+        <div class="modal-content">
+            <span class="close" id="viewClose">&times;</span>
+            <h2>Employee Details</h2>
+            <div class="view-employee-details">
+                <div class="employee-info">
+                    <h3>Employee Information</h3>
+                    <div id="viewEmployeeDetails">
+                        <!-- Employee details will be inserted here by JavaScript -->
+                    </div>
+                </div>
+                <div class="salary-slip">
+                    <h3>Salary Slip</h3>
+                    <div id="viewSalarySlip">
+                        <!-- Salary slip details will be inserted here by JavaScript -->
+                    </div>
+                </div>
             </div>
-            <div class="table-content">
-                <table class="table-style" id="content1">
-                    <thead>
-                        <tr class="tr-style">
-                            <th class="th-style" id="tableName">Name</th>
-                            <th class="th-style" id="tableDesignation">Designation</th>
-                            <th class="th-style" id="tableEmploymentType">Employment Type</th>
-                        </tr>
-                    </thead>
-                    <tbody id="content">
-                        
-                    </tbody>
-                </table>
-            </div>
+        </div>
+    </div>
+
+    <!-- Delete Employee Modal -->
+    <div id="deleteEmployeeModal" class="modal">
+        <div class="modal-content">
+            <span class="close" id="deleteClose">&times;</span>
+            <h2>Delete Employee</h2>
+            <p>Are you sure you want to delete this employee?</p>
+            <form id="deleteEmployeeForm">
+                <input type="hidden" id="deleteEmployeeId" name="employeeId">
+                <button type="submit" class="btn-submit">Delete Employee</button>
+            </form>
         </div>
     </div>
 
     <script src="js/employee.js"></script>
-    
 </body>
 </html>

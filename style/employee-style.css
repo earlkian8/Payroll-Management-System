@@ -1,0 +1,384 @@
+/* styles.css */
+
+/* Global Styles - consistent with your login page */
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+}
+
+body {
+    background-color: #121212;
+    color: #ffffff;
+    display: flex;
+    min-height: 100vh;
+}
+
+/* Sidebar Styles */
+.sidebar {
+    width: 250px;
+    background-color: #1e1e1e;
+    padding: 20px;
+    display: flex;
+    flex-direction: column;
+    height: 100vh;
+    position: fixed;
+}
+
+.logo {
+    font-size: 24px;
+    color: #1E88E5;
+    margin-bottom: 30px;
+    text-align: center;
+    font-weight: bold;
+}
+
+.sidebar-menu {
+    flex: 1;
+}
+
+.sidebar-menu ul {
+    list-style: none;
+}
+
+.sidebar-menu li {
+    margin-bottom: 10px;
+}
+
+.sidebar-menu a {
+    display: flex;
+    align-items: center;
+    padding: 12px 15px;
+    color: #aaaaaa;
+    text-decoration: none;
+    border-radius: 8px;
+    transition: all 0.3s ease;
+}
+
+.sidebar-menu a:hover, .sidebar-menu a.active {
+    background-color: #262626;
+    color: #ffffff;
+}
+
+.sidebar-menu i {
+    margin-right: 10px;
+    font-size: 18px;
+}
+
+.logout-btn {
+    margin-top: 20px;
+    padding: 12px 15px;
+    background-color: transparent;
+    color: #aaaaaa;
+    border: none;
+    border-radius: 8px;
+    cursor: pointer;
+    width: 100%;
+    text-align: left;
+    transition: all 0.3s ease;
+}
+
+.logout-btn:hover {
+    background-color: #262626;
+    color: #ffffff;
+}
+
+/* Main Content Styles */
+.main-content {
+    flex: 1;
+    margin-left: 250px;
+    padding: 30px;
+}
+
+.header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 30px;
+}
+
+.header h1 {
+    font-size: 24px;
+    font-weight: 600;
+}
+
+.user-profile {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+}
+
+.user-profile img {
+    width: 40px;
+    height: 40px;
+    border-radius: 50%;
+    object-fit: cover;
+}
+
+.user-profile span {
+    font-size: 14px;
+}
+
+/* Employee Actions */
+.employee-actions {
+    display: flex;
+    justify-content: space-between;
+    margin-bottom: 20px;
+}
+
+.search-bar {
+    display: flex;
+    align-items: center;
+}
+
+.search-bar input {
+    padding: 10px;
+    border: 1px solid #383838;
+    border-radius: 8px;
+    background-color: #262626;
+    color: #ffffff;
+    width: 300px;
+}
+
+.search-bar button {
+    margin-left: 10px;
+    padding: 10px 15px;
+    background-color: #1E88E5;
+    color: white;
+    border: none;
+    border-radius: 8px;
+    cursor: pointer;
+    transition: background-color 0.3s ease;
+}
+
+.search-bar button:hover {
+    background-color: #1565C0;
+}
+
+.btn-add {
+    background-color: #1E88E5;
+    color: white;
+    border: none;
+    padding: 10px 15px;
+    border-radius: 8px;
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    transition: background-color 0.3s ease;
+}
+
+.btn-add:hover {
+    background-color: #1565C0;
+}
+
+.btn-add i {
+    margin-right: 5px;
+}
+
+/* Table Styles */
+.table-container {
+    background-color: #1e1e1e;
+    border-radius: 12px;
+    padding: 20px;
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+    overflow-x: auto;
+}
+
+table {
+    width: 100%;
+    border-collapse: collapse;
+}
+
+th, td {
+    padding: 12px 15px;
+    text-align: left;
+    border-bottom: 1px solid #383838;
+}
+
+th {
+    font-weight: 600;
+    color: #aaaaaa;
+    font-size: 14px;
+}
+
+td {
+    color: #ffffff;
+    font-size: 14px;
+}
+
+tr:hover {
+    background-color: #262626;
+}
+
+/* Action Icons */
+.btn-view, .btn-edit, .btn-delete {
+    background: none;
+    border: none;
+    color: #aaaaaa;
+    cursor: pointer;
+    margin-right: 5px;
+    transition: color 0.3s ease;
+}
+
+.btn-view:hover {
+    color: #1E88E5;
+}
+
+.btn-edit:hover {
+    color: #FFC107;
+}
+
+.btn-delete:hover {
+    color: #F44336;
+}
+
+/* Modal Styles */
+.modal {
+    position: fixed;
+    z-index: 1;
+    left: 0;
+    top: 0;
+    width: 100%;
+    height: 100%;
+    background-color: rgba(0, 0, 0, 0.5);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    opacity: 0;
+    visibility: hidden;
+    transition: .25s opacity ease-in-out, .25s visibility ease-in-out;
+}
+
+.modal.show{
+    opacity: 1;
+    visibility: visible;
+}
+
+.modal-content {
+    background-color: #1e1e1e;
+    margin: auto;
+    padding: 20px;
+    border-radius: 12px;
+    width: 60%;
+    max-height: 80vh;
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+    animation: modalopen 0.5s;
+    overflow-y: auto;
+}
+
+@keyframes modalopen {
+    from {opacity: 0; transform: translateY(-50px);}
+    to {opacity: 1; transform: translateY(0);}
+}
+
+.close {
+    color: #aaaaaa;
+    float: right;
+    font-size: 28px;
+    font-weight: bold;
+    cursor: pointer;
+    transition: color 0.3s ease;
+}
+
+.close:hover {
+    color: #ffffff;
+}
+
+.modal h2 {
+    margin-top: 0;
+    color: #ffffff;
+}
+
+.modal form {
+    display: flex;
+    flex-direction: column;
+}
+
+.modal label {
+    margin-top: 10px;
+    color: #aaaaaa;
+}
+
+.modal input, .modal select {
+    padding: 10px;
+    margin-top: 5px;
+    border: 1px solid #383838;
+    border-radius: 8px;
+    background-color: #262626;
+    color: #ffffff;
+}
+
+.btn-submit {
+    background-color: #1E88E5;
+    color: white;
+    border: none;
+    padding: 10px;
+    border-radius: 8px;
+    cursor: pointer;
+    margin-top: 20px;
+    transition: background-color 0.3s ease;
+}
+
+.btn-submit:hover {
+    background-color: #1565C0;
+}
+
+/* View Employee Details */
+.view-employee-details {
+    display: flex;
+    margin-top: 20px;
+}
+
+.employee-info, .salary-slip {
+    flex: 1;
+    padding: 10px;
+}
+
+.employee-info h3, .salary-slip h3 {
+    margin-bottom: 15px;
+    color: #1E88E5;
+}
+
+#viewEmployeeDetails p, #viewSalarySlip p {
+    margin: 10px 0;
+    color: #ffffff;
+}
+
+/* Responsive Adjustments */
+@media (max-width: 768px) {
+    .sidebar {
+        width: 70px;
+    }
+
+    .sidebar-menu span {
+        display: none;
+    }
+
+    .sidebar-menu a {
+        justify-content: center;
+        padding: 12px;
+    }
+
+    .sidebar-menu i {
+        margin-right: 0;
+        font-size: 20px;
+    }
+
+    .main-content {
+        margin-left: 70px;
+        padding: 20px;
+    }
+
+    .logo span {
+        display: none;
+    }
+
+    .modal-content {
+        width: 80%;
+    }
+
+    .view-employee-details {
+        flex-direction: column;
+    }
+}

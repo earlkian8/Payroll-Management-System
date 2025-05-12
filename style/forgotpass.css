@@ -1,0 +1,49 @@
+ .subtitle {
+            color: #aaaaaa;
+            text-align: center;
+            margin-bottom: 25px;
+            font-size: 14px;
+        }
+
+        .input-group label {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            margin-bottom: 8px;
+            color: #aaaaaa;
+            font-size: 14px;
+        }
+
+        .input-group label i {
+            color: #1E88E5;
+            font-size: 16px;
+        }
+
+        .login-card {
+            padding: 40px;
+        }
+
+        .login-btn {
+            background-color: #1E88E5;
+            margin-top: 25px;
+        }
+
+        .login-btn:hover {
+            background-color: #1976D2;
+        }
+
+        .form-footer {
+            margin-top: 20px;
+            text-align: center;
+        }
+
+        .form-footer a {
+            color: #1E88E5;
+            text-decoration: none;
+            font-weight: 500;
+            transition: color 0.3s ease;
+        }
+
+        .form-footer a:hover {
+            color: #90CAF9;
+        }

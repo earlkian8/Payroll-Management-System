@@ -1,0 +1,72 @@
+  .subtitle {
+            color: #aaaaaa;
+            text-align: center;
+            margin-bottom: 25px;
+            font-size: 14px;
+        }        .login-card {
+            padding: 40px;
+            width: 500px;
+            max-width: 90%;
+        }
+
+        .input-group {
+            margin-bottom: 20px;
+        }
+
+        .input-group label {
+            display: block;
+            margin-bottom: 8px;
+            color: #aaaaaa;
+            font-size: 14px;
+        }
+
+        .input-group input {
+            width: 100%;
+            padding: 12px;
+            background-color: #262626;
+            border: 2px solid #383838;
+            border-radius: 8px;
+            color: #ffffff;
+            font-size: 14px;
+            transition: all 0.3s ease;
+        }
+
+        .input-group input:focus {
+            border-color: #1E88E5;
+            outline: none;
+            box-shadow: 0 0 0 2px rgba(30, 136, 229, 0.2);
+        }
+
+        .login-btn {
+            background-color: #1E88E5;
+            width: 100%;
+            padding: 12px;
+            border: none;
+            border-radius: 8px;
+            color: white;
+            font-size: 16px;
+            cursor: pointer;
+            transition: background-color 0.3s ease;
+            margin-top: 10px;
+        }
+
+        .login-btn:hover {
+            background-color: #1976D2;
+        }
+
+        .support-text {
+            text-align: center;
+            margin-top: 20px;
+            font-size: 14px;
+            color: #aaaaaa;
+        }
+
+        .support-text a {
+            color: #1E88E5;
+            text-decoration: none;
+            transition: color 0.3s ease;
+        }
+
+        .support-text a:hover {
+            color: #90CAF9;
+        }
