@@ -18,24 +18,7 @@
                 <p>Create your account to get started</p>
             </div>
             
-            <form class="register-form">
-                <div class="form-row">
-                    <div class="input-group">
-                        <label for="firstName">First Name</label>
-                        <div class="input-with-icon">
-                            <i class="fas fa-user"></i>
-                            <input type="text" id="firstName" placeholder="First Name" required autocomplete="off">
-                        </div>
-                    </div>
-                    
-                    <div class="input-group">
-                        <label for="lastName">Last Name</label>
-                        <div class="input-with-icon">
-                            <i class="fas fa-user"></i>
-                            <input type="text" id="lastName" placeholder="Last Name" required autocomplete="off">
-                        </div>
-                    </div>
-                </div>
+            <form class="register-form" id="registerForm">
                 
                 <div class="input-group">
                     <label for="email">Email Address</label>
@@ -95,5 +78,6 @@
             this.classList.toggle('fa-eye-slash');
         });
     </script>
+    <script src="js/register.js"></script>
 </body>
 </html>

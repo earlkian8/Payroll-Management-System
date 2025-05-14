@@ -14,7 +14,6 @@
                 <i class="fas fa-exclamation-circle"></i>
             </div>
             <div class="modal-text">Invalid email or password</div>
-            <button class="modal-close" id="closeModal">OK</button>
         </div>
     </div>
 
@@ -28,7 +27,7 @@
                 <p>Sign in to access your dashboard</p>
             </div>
             
-            <form class="login-form">
+            <form class="login-form" id="loginForm">
                 <div class="input-group">
                     <label for="email">Email Address</label>
                     <div class="input-with-icon">
@@ -69,36 +68,27 @@
             this.classList.toggle('fa-eye-slash');
         });
 
-        // Modal functionality
-        function showErrorModal() {
-            const modal = document.getElementById('errorModal');
-            modal.style.display = 'flex';
-        }
-
-        document.getElementById('closeModal').addEventListener('click', function() {
-            document.getElementById('errorModal').style.display = 'none';
-        });
-
-        // Close modal when clicking outside
-        window.addEventListener('click', function(event) {
-            const modal = document.getElementById('errorModal');
-            if (event.target === modal) {
-                modal.style.display = 'none';
-            }
-        });
     </script>
     <style>
-        .modal {
-            display: none;
+        .modal { 
             position: fixed;
             top: 0;
             left: 0;
             width: 100%;
             height: 100%;
             background-color: rgba(0, 0, 0, 0.5);
+            display: flex;
             justify-content: center;
             align-items: center;
             z-index: 1000;
+            opacity: 0;
+            visibility: hidden;
+            transition: .25s opacity ease-in-out, .25s visibility ease-in-out;
+        }
+        
+        .modal.show{
+            opacity: 1;
+            visibility: visible;
         }
 
         .modal-content {
@@ -138,5 +128,7 @@
             background-color: #1976D2;
         }
     </style>
+
+    <script src="js/login.js"></script>
 </body>
 </html>

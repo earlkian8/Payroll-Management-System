@@ -399,3 +399,17 @@
                 font-size: 14px;
             }
         }
+        #dashboardNav, #employeeNav, #payheadNav, #payrollNav, #about_usNav{
+            display: flex;
+            align-items: center;
+            padding: 12px 15px;
+            color: #aaaaaa;
+            text-decoration: none;
+            border-radius: 8px;
+            transition: all 0.3s ease;
+            cursor: pointer;
+        }
+        #dashboardNav:hover, #employeeNav:hover, #payheadNav:hover, #payrollNav:hover, #about_usNav:hover, #dashboardNav.active, #employeeNav.active, #payheadNav.active, #payrollNav.active, #about_usNav.active{
+            background-color: #262626;
+            color: #ffffff;
+        }

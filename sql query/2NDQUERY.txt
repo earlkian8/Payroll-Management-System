@@ -38,8 +38,8 @@ CREATE TABLE employee_pay_heads (
     employee_id INT NOT NULL,
     pay_head_id INT NOT NULL,
     amount DECIMAL(12,2) NOT NULL,
-    FOREIGN KEY (employee_id) REFERENCES employees(employee_id),
-    FOREIGN KEY (pay_head_id) REFERENCES pay_head(pay_head_id),
+    FOREIGN KEY (employee_id) REFERENCES employees(employee_id) ON DELETE CASCADE,
+    FOREIGN KEY (pay_head_id) REFERENCES pay_heads(pay_head_id) ON DELETE CASCADE,
     FOREIGN KEY (user_id) REFERENCES users(user_id) ON DELETE CASCADE,
     UNIQUE (employee_id, pay_head_id)
 );
@@ -52,7 +52,7 @@ CREATE TABLE payroll (
     status ENUM('Draft', 'Pending', 'Issued') DEFAULT 'Draft',
     pay_period_start DATE NOT NULL,
     pay_period_end DATE NOT NULL,
-    FOREIGN KEY (employee_id) REFERENCES employees(employee_id),
+    FOREIGN KEY (employee_id) REFERENCES employees(employee_id) ON DELETE CASCADE,
     FOREIGN KEY (user_id) REFERENCES users(user_id) ON DELETE CASCADE
 );
 
@@ -64,7 +64,7 @@ CREATE TABLE payroll_details (
     total_deductions DECIMAL(12,2) DEFAULT 0,
     net_pay DECIMAL(12,2) DEFAULT 0,
     notes VARCHAR(255),
-    FOREIGN KEY (payroll_id) REFERENCES payroll(payroll_id),
+    FOREIGN KEY (payroll_id) REFERENCES payroll(payroll_id) ON DELETE CASCADE,
     FOREIGN KEY (user_id) REFERENCES users(user_id) ON DELETE CASCADE
 );
 

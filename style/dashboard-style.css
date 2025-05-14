@@ -54,10 +54,10 @@
             transition: all 0.3s ease;
         }
 
-        .sidebar-menu a:hover, .sidebar-menu a.active {
+        /* .sidebar-menu a:hover, .sidebar-menu a.active {
             background-color: #262626;
             color: #ffffff;
-        }
+        } */
 
         .sidebar-menu i {
             margin-right: 10px;
@@ -275,7 +275,7 @@
             margin-bottom: 10px;
         }
 
-        .sidebar-menu a {
+        /* .sidebar-menu a {
             display: flex;
             align-items: center;
             padding: 12px 15px;
@@ -283,12 +283,12 @@
             text-decoration: none;
             border-radius: 8px;
             transition: all 0.3s ease;
-        }
+        } */
 
-        .sidebar-menu a:hover, .sidebar-menu a.active {
+        /* .sidebar-menu a:hover, .sidebar-menu a.active {
             background-color: #262626;
             color: #ffffff;
-        }
+        } */
 
         .sidebar-menu i {
             margin-right: 10px;
@@ -461,3 +461,54 @@
                 display: none;
             }
         }
+
+        #dashboardNav, #employeeNav, #payheadNav, #payrollNav, #about_usNav{
+            display: flex;
+            align-items: center;
+            padding: 12px 15px;
+            color: #aaaaaa;
+            text-decoration: none;
+            border-radius: 8px;
+            transition: all 0.3s ease;
+            cursor: pointer;
+        }
+
+        #dashboardNav:hover, #employeeNav:hover, #payheadNav:hover, #payrollNav:hover, #about_usNav:hover, #dashboardNav.active, #employeeNav.active, #payheadNav.active, #payrollNav.active, #about_usNav.active{
+            background-color: #262626;
+            color: #ffffff;
+        }
+
+        /* Webkit (Chrome, Safari, newer versions of Edge) Scrollbar */
+::-webkit-scrollbar {
+    width: 8px; /* Thin scrollbar */
+    height: 8px; /* For horizontal scrollbars */
+}
+
+/* Scrollbar Track */
+::-webkit-scrollbar-track {
+    background: #383838; /* Dark background matching the theme */
+    border-radius: 10px;
+}
+
+/* Scrollbar Handle */
+::-webkit-scrollbar-thumb {
+    background: #1E88E5; /* Blue accent color */
+    border-radius: 10px;
+    transition: background 0.3s ease;
+}
+
+/* Scrollbar Handle on hover */
+::-webkit-scrollbar-thumb:hover {
+    background: #2196F3; /* Lighter blue on hover */
+}
+
+/* For Firefox */
+* {
+    scrollbar-width: thin;
+    scrollbar-color: #1E88E5 #383838;
+}
+
+/* Optional: Smooth scrolling */
+html {
+    scroll-behavior: smooth;
+}

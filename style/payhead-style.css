@@ -235,7 +235,7 @@ tr:hover {
 
 /* Modal Styles */
 .modal {
-    display: none;
+    display: flex;
     position: fixed;
     z-index: 1;
     left: 0;
@@ -244,7 +244,17 @@ tr:hover {
     height: 100%;
     background-color: rgba(0, 0, 0, 0.5);
     overflow: auto;
+    opacity: 0;
+    visibility: hidden;
+    transition: .25s opacity ease-in-out, .25s visibility ease-in-out;
 }
+
+.modal.show{
+    opacity: 1;
+    visibility: visible;
+}
+
+
 
 .modal-content {
     background-color: #1e1e1e;
@@ -409,4 +419,55 @@ tr:hover {
     .modal-content {
         width: 80%;
     }
+}
+
+        #dashboardNav, #employeeNav, #payheadNav, #payrollNav, #about_usNav{
+            display: flex;
+            align-items: center;
+            padding: 12px 15px;
+            color: #aaaaaa;
+            text-decoration: none;
+            border-radius: 8px;
+            transition: all 0.3s ease;
+            cursor: pointer;
+        }
+
+        #dashboardNav:hover, #employeeNav:hover, #payheadNav:hover, #payrollNav:hover, #about_usNav:hover, #dashboardNav.active, #employeeNav.active, #payheadNav.active, #payrollNav.active, #about_usNav.active{
+            background-color: #262626;
+            color: #ffffff;
+        }
+
+        /* Webkit (Chrome, Safari, newer versions of Edge) Scrollbar */
+::-webkit-scrollbar {
+    width: 8px; /* Thin scrollbar */
+    height: 8px; /* For horizontal scrollbars */
+}
+
+/* Scrollbar Track */
+::-webkit-scrollbar-track {
+    background: #383838; /* Dark background matching the theme */
+    border-radius: 10px;
+}
+
+/* Scrollbar Handle */
+::-webkit-scrollbar-thumb {
+    background: #1E88E5; /* Blue accent color */
+    border-radius: 10px;
+    transition: background 0.3s ease;
+}
+
+/* Scrollbar Handle on hover */
+::-webkit-scrollbar-thumb:hover {
+    background: #2196F3; /* Lighter blue on hover */
+}
+
+/* For Firefox */
+* {
+    scrollbar-width: thin;
+    scrollbar-color: #1E88E5 #383838;
+}
+
+/* Optional: Smooth scrolling */
+html {
+    scroll-behavior: smooth;
 }

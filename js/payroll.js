@@ -1,13 +1,22 @@
 document.addEventListener('DOMContentLoaded', function() {
 
-    document.getElementById("edit").addEventListener("click", function(event){
-        event.preventDefault();
-        document.getElementById("modalIssue").classList.add("show");
-    });
+    const url = new URL(window.location.href);
+    const userId = url.searchParams.get("userId");
 
-    document.getElementById("closeModal").addEventListener("click", function(event){
-        event.preventDefault();
-        document.getElementById("modalIssue").classList.remove("show");
+    document.getElementById("dashboardNav").addEventListener("click", () => {
+        window.location.href = `dashboard.php?userId=${userId}`;
+    });
+    document.getElementById("employeeNav").addEventListener("click", () => {
+        window.location.href = `employee.php?userId=${userId}`;
+    });
+    document.getElementById("payheadNav").addEventListener("click", () => {
+        window.location.href = `payhead.php?userId=${userId}`;
+    });
+    document.getElementById("payrollNav").addEventListener("click", () => {
+        window.location.href = `payroll.php?userId=${userId}`;
+    });
+    document.getElementById("about_usNav").addEventListener("click", () => {
+        window.location.href = `about_us.php?userId=${userId}`;
     });
 
     const tabButtons = document.querySelectorAll('.tab-btn');

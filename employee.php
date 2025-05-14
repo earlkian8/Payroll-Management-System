@@ -1,3 +1,12 @@
+<?php
+
+    session_start();
+
+    if(!$_SESSION["userId"]){
+        header("Location: index.php");
+    }
+?>
+
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -14,11 +23,11 @@
         </div>
         <div class="sidebar-menu">
             <ul>
-                <li><a href="dashboard.php"><i class="fas fa-tachometer-alt"></i><span>Dashboard</span></a></li>
-                <li><a href="employee.php" class="active"><i class="fas fa-users"></i><span>Employees</span></a></li>
-                <li><a href="payhead.php"><i class="fas fa-file-invoice-dollar"></i><span>Pay Heads</span></a></li>
-                <li><a href="payroll.php"><i class="fas fa-wallet"></i><span>Payroll</span></a></li>
-                <li><a href="about_us.php"><i class="fas fa-info-circle"></i><span>About Us</span></a></li>
+                <li id="dashboardNav"><i class="fas fa-tachometer-alt"></i><span>Dashboard</span></li>
+                <li id="employeeNav" class="active"><i class="fas fa-users"></i><span>Employees</span></li>
+                <li id="payheadNav"><i class="fas fa-file-invoice-dollar"></i><span>Pay Heads</span></li>
+                <li id="payrollNav"><i class="fas fa-wallet"></i><span>Payroll</span></li>
+                <li id="about_usNav"><i class="fas fa-info-circle"></i><span>About Us</span></li>
             </ul>
         </div>
         <button class="logout-btn"><i class="fas fa-sign-out-alt"></i><span>Logout</span></button>
@@ -27,10 +36,6 @@
     <div class="main-content">
         <div class="header">
             <h1>Employees</h1>
-            <div class="user-profile">
-                <img src="https://via.placeholder.com/40" alt="User Profile">
-                <span>John Doe</span>
-            </div>
         </div>
 
         <div class="employee-actions">
@@ -56,7 +61,7 @@
                         <th>Actions</th>
                     </tr>
                 </thead>
-                <tbody>
+                <tbody id="tableContent">
                     <tr>
                         <td>1</td>
                         <td>John</td>
@@ -114,23 +119,23 @@
             <h2>Add Employee</h2>
             <form id="addEmployeeForm">
                 <label for="firstName">First Name:</label>
-                <input type="text" id="firstName" name="firstName" required>
+                <input type="text" id="firstName" name="firstName" required autocomplete="off">
 
                 <label for="middleName">Middle Name:</label>
-                <input type="text" id="middleName" name="middleName">
+                <input type="text" id="middleName" name="middleName" autocomplete="off">
 
                 <label for="lastName">Last Name:</label>
-                <input type="text" id="lastName" name="lastName" required>
+                <input type="text" id="lastName" name="lastName" required autocomplete="off">
 
                 <label for="employmentType">Employment Type:</label>
-                <select id="employmentType" name="employmentType" required>
+                <select id="employmentType" name="employmentType" required autocomplete="off">
                     <option value="Full Time">Full Time</option>
                     <option value="Part Time">Part Time</option>
                     <option value="Freelance">Freelance</option>
                 </select>
 
                 <label for="designation">Designation:</label>
-                <input type="text" id="designation" name="designation" required>
+                <input type="text" id="designation" name="designation" required autocomplete="off">
 
                 <label for="hireDate">Hire Date:</label>
                 <input type="date" id="hireDate" name="hireDate" required>
@@ -153,29 +158,28 @@
             <span class="close" id="editClose">&times;</span>
             <h2>Edit Employee</h2>
             <form id="editEmployeeForm">
-                <input type="hidden" id="editEmployeeId" name="employeeId">
 
                 <label for="editFirstName">First Name:</label>
-                <input type="text" id="editFirstName" name="firstName" required>
+                <input type="text" id="editFirstName" name="firstName" required autocomplete="off">
 
                 <label for="editMiddleName">Middle Name:</label>
-                <input type="text" id="editMiddleName" name="middleName">
+                <input type="text" id="editMiddleName" name="middleName" autocomplete="off">
 
                 <label for="editLastName">Last Name:</label>
-                <input type="text" id="editLastName" name="lastName" required>
+                <input type="text" id="editLastName" name="lastName" required autocomplete="off">
 
                 <label for="editEmploymentType">Employment Type:</label>
-                <select id="editEmploymentType" name="employmentType" required>
+                <select id="editEmploymentType" name="employmentType" required autocomplete="off">
                     <option value="Full Time">Full Time</option>
                     <option value="Part Time">Part Time</option>
                     <option value="Freelance">Freelance</option>
                 </select>
 
                 <label for="editDesignation">Designation:</label>
-                <input type="text" id="editDesignation" name="designation" required>
+                <input type="text" id="editDesignation" name="designation" required autocomplete="off">
 
                 <label for="editHireDate">Hire Date:</label>
-                <input type="date" id="editHireDate" name="hireDate" required>
+                <input type="date" id="editHireDate" name="hireDate" required autocomplete="off">
 
                 <label for="editPayFrequency">Pay Frequency:</label>
                 <select id="editPayFrequency" name="payFrequency" required>
@@ -218,8 +222,7 @@
             <h2>Delete Employee</h2>
             <p>Are you sure you want to delete this employee?</p>
             <form id="deleteEmployeeForm">
-                <input type="hidden" id="deleteEmployeeId" name="employeeId">
-                <button type="submit" class="btn-submit">Delete Employee</button>
+                <button type="submit" class="btn-submit" id="deleteButton">Delete Employee</button>
             </form>
         </div>
     </div>

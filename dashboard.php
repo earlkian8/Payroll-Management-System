@@ -1,3 +1,12 @@
+
+<?php
+
+    session_start();
+
+    if(!$_SESSION["userId"]){
+        header("Location: index.php");
+    }
+?>
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -14,11 +23,11 @@
         </div>
         <div class="sidebar-menu">
             <ul>
-                <li><a href="dashboard.php" class="active"><i class="fas fa-tachometer-alt"></i><span>Dashboard</span></a></li>
-                <li><a href="employee.php"><i class="fas fa-users"></i><span>Employees</span></a></li>
-                <li><a href="payhead.php"><i class="fas fa-file-invoice-dollar"></i><span>Pay Heads</span></a></li>
-                <li><a href="payroll.php"><i class="fas fa-wallet"></i><span>Payroll</span></a></li>
-                <li><a href="about_us.php"><i class="fas fa-info-circle"></i><span>About Us</span></a></li>
+                <li id="dashboardNav" class="active"><i class="fas fa-tachometer-alt"></i><span>Dashboard</span></li>
+                <li id="employeeNav"><i class="fas fa-users"></i><span>Employees</span></li>
+                <li id="payheadNav"><i class="fas fa-file-invoice-dollar"></i><span>Pay Heads</span></li>
+                <li id="payrollNav"><i class="fas fa-wallet"></i><span>Payroll</span></li>
+                <li id="about_usNav"><i class="fas fa-info-circle"></i><span>About Us</span></li>
             </ul>
         </div>
         <button class="logout-btn"><i class="fas fa-sign-out-alt"></i><span>Logout</span></button>
@@ -27,10 +36,6 @@
     <div class="main-content">
         <div class="header">
             <h1>Dashboard</h1>
-            <div class="user-profile">
-                <img src="https://via.placeholder.com/40" alt="User Profile">
-                <span>John Doe</span>
-            </div>
         </div>
 
         <div class="dashboard-cards">
@@ -112,5 +117,6 @@
             </table>
         </div>
     </div>
+    <script src="js/dashboard.js"></script>
 </body>
 </html>

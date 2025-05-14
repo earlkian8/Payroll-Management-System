@@ -1,4 +1,4 @@
-document.addEventListener('DOMContentLoaded', function() {
+document.addEventListener("DOMContentLoaded", () => {
     const url = new URL(window.location.href);
     const userId = url.searchParams.get("userId");
 
@@ -17,14 +17,5 @@ document.addEventListener('DOMContentLoaded', function() {
     document.getElementById("about_usNav").addEventListener("click", () => {
         window.location.href = `about_us.php?userId=${userId}`;
     });
-
-    document.getElementById("addPayHeadBtn").addEventListener("click", function(event){
-        event.preventDefault();
-        document.getElementById("addPayHeadModal").classList.add("show");
-    });
-
-    document.getElementById("addClose").addEventListener("click", function(event){
-        event.preventDefault();
-        document.getElementById("addPayHeadModal").classList.remove("show");
-    });
 });
+
