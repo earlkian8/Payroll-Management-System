@@ -25,15 +25,23 @@
             $postData = file_get_contents("php://input");
             $data = json_decode($postData, true);
 
-
+            $payHead->addPayHead($data["userId"], $data["name"], $data["description"], $data["type"]);
+            echo json_encode(["status" => "success"]);
+            break;
         case 'PUT':
             $putData = file_get_contents("php://input");
             $data = json_decode($putData, true);
 
-
+            $payHead->updatePayHead($data["payHeadId"], $data["userId"], $data["name"], $data["description"], $data["type"]);
+            echo json_encode(["status" => "success"]);
+            break;
         case 'DELETE':
             $delData = file_get_contents("php://input");
             $data = json_decode($delData, true);
+
+            $payHead->deletePayHead($data["payHeadId"]);
+            echo json_encode(["status" => "success"]);
+            break;
     }
 
 ?>

@@ -16,9 +16,11 @@
 
     switch($method){
         case 'GET':
-            $employees = $employee->getAllEmployees($_GET["userId"]);
-            echo json_encode(["status" => "success", "employees" => $employees]);
-            break;
+            if(isset($_GET["userId"])){
+                $employees = $employee->getAllEmployees($_GET["userId"]);
+                echo json_encode(["status" => "success", "employees" => $employees]);
+                break;
+            }
         case 'POST':
             $postData = file_get_contents("php://input");
             $data = json_decode($postData, true);

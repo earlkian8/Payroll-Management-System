@@ -2,7 +2,7 @@
 
     session_start();
 
-    if(!$_SESSION["userId"]){
+    if(empty($_SESSION["userId"])){
         header("Location: index.php");
     }
 ?>
@@ -62,7 +62,7 @@
                     </tr>
                 </thead>
                 <tbody id="tableContent">
-                    <tr>
+                    <!-- <tr>
                         <td>1</td>
                         <td>John</td>
                         <td>A</td>
@@ -106,7 +106,7 @@
                             <button class="btn-edit" data-id="3"><i class="fas fa-edit"></i></button>
                             <button class="btn-delete" data-id="3"><i class="fas fa-trash"></i></button>
                         </td>
-                    </tr>
+                    </tr> -->
                 </tbody>
             </table>
         </div>

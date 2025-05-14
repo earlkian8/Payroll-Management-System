@@ -33,10 +33,10 @@
             $stmt->execute([":payHeadId" => $payHeadId, ":userId" => $userId, ":name" => $name, ":description" => $description, ":type" => $type]);
         }
 
-        public function deletePayHead($payHeadId, $userId){
-            $query = "DELETE FROM " . $this->table . " WHERE pay_head_id = :payHeadId AND user_id = :userId";
+        public function deletePayHead($payHeadId){
+            $query = "DELETE FROM " . $this->table . " WHERE pay_head_id = :payHeadId";
             $stmt = $this->conn->prepare($query);
-            $stmt->execute([":payHeadId" => $payHeadId, ":userId" => $userId]);
+            $stmt->execute([":payHeadId" => $payHeadId]);
         }
     }
 ?>

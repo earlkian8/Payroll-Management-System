@@ -82,7 +82,7 @@ function getEmployees(id){
             document.getElementById("tableContent").innerHTML = "";
 
             data.employees.forEach(employee => {
-                document.getElementById("tableContent").innerHTML = `
+                document.getElementById("tableContent").innerHTML += `
                     <tr>
                         <td>${employee.employee_id}</td>
                         <td>${employee.first_name}</td>

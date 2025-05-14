@@ -68,7 +68,14 @@ CREATE TABLE payroll_details (
     FOREIGN KEY (user_id) REFERENCES users(user_id) ON DELETE CASCADE
 );
 
--- Trigger 1: Create default payroll record when a new employee is inserted
+
+
+
+
+
+
+Trigger 1:
+
 DELIMITER //
 CREATE TRIGGER after_employee_insert
 AFTER INSERT ON employees
@@ -76,7 +83,6 @@ FOR EACH ROW
 BEGIN
     DECLARE period_end DATE;
 
-    -- Calculate pay_period_end based on pay_frequency
     IF NEW.pay_frequency = 'Monthly' THEN
         SET period_end = DATE_ADD(NEW.hire_date, INTERVAL 1 MONTH);
     ELSEIF NEW.pay_frequency = 'Bi-weekly' THEN
@@ -85,7 +91,6 @@ BEGIN
         SET period_end = DATE_ADD(NEW.hire_date, INTERVAL 7 DAY);
     END IF;
 
-    -- Insert default payroll record
     INSERT INTO payroll (
         user_id,
         employee_id,
@@ -104,18 +109,16 @@ BEGIN
 END //
 DELIMITER ;
 
--- Stored Procedure for Trigger 2: Update payroll status to Pending when pay_period_end is reached
-DELIMITER //
-CREATE PROCEDURE update_payroll_status_to_pending()
-BEGIN
-    UPDATE payroll
-    SET status = 'Pending'
-    WHERE status = 'Draft'
-    AND pay_period_end <= CURRENT_DATE;
-END //
-DELIMITER ;
 
--- Trigger 3: Update payroll status to Issued and create new draft payroll when payroll_details is inserted
+
+
+
+
+
+
+
+Trigger 2:
+
 DELIMITER //
 CREATE TRIGGER after_payroll_details_insert
 AFTER INSERT ON payroll_details
@@ -125,19 +128,16 @@ BEGIN
     DECLARE period_end DATE;
     DECLARE pay_freq ENUM('Monthly', 'Bi-weekly', 'Weekly');
 
-    -- Update the payroll status to Issued
     UPDATE payroll
     SET status = 'Issued'
     WHERE payroll_id = NEW.payroll_id;
 
-    -- Get the employee’s pay_frequency and current pay_period_end
     SELECT pay_frequency, pay_period_end
     INTO pay_freq, period_start
     FROM payroll p
     JOIN employees e ON p.employee_id = e.employee_id
     WHERE p.payroll_id = NEW.payroll_id;
 
-    -- Calculate new pay_period_start and pay_period_end
     SET period_start = DATE_ADD(period_start, INTERVAL 1 DAY);
     IF pay_freq = 'Monthly' THEN
         SET period_end = DATE_ADD(period_start, INTERVAL 1 MONTH);
@@ -147,7 +147,6 @@ BEGIN
         SET period_end = DATE_ADD(period_start, INTERVAL 7 DAY);
     END IF;
 
-    -- Insert new draft payroll for the next period
     INSERT INTO payroll (
         user_id,
         employee_id,
@@ -167,3 +166,78 @@ BEGIN
     WHERE p.payroll_id = NEW.payroll_id;
 END //
 DELIMITER ;
+
+
+
+
+
+
+
+Trigger 3:
+DELIMITER //
+
+CREATE TRIGGER after_user_insert
+AFTER INSERT ON users
+FOR EACH ROW
+BEGIN
+
+    INSERT INTO pay_heads (user_id, name, description, type) VALUES
+        (NEW.user_id, 'Basic Salary', 'Fixed monthly salary', 'Earnings'),
+        (NEW.user_id, 'Bonus', 'Performance-based incentive', 'Earnings'),
+        (NEW.user_id, 'Overtime Pay', 'Additional pay for extra hours', 'Earnings');
+
+    INSERT INTO pay_heads (user_id, name, description, type) VALUES
+        (NEW.user_id, 'Income Tax', 'Tax deduction on earnings', 'Deductions'),
+        (NEW.user_id, 'Absences', 'Deduction for unpaid leave', 'Deductions');
+END//
+
+DELIMITER ;
+
+
+
+
+
+
+Event 1:
+
+SET GLOBAL event_scheduler = ON;
+
+DELIMITER //
+
+CREATE EVENT IF NOT EXISTS update_payroll_status
+ON SCHEDULE EVERY 1 DAY
+STARTS CURRENT_TIMESTAMP
+DO
+BEGIN
+    UPDATE payroll
+    SET status = 'Pending'
+    WHERE pay_period_end <= CURRENT_DATE
+    AND status = 'Draft';
+END//
+
+DELIMITER ;
+
+
+
+
+
+
+Test purposes:
+DELIMITER //
+
+CREATE PROCEDURE TestPayrollStatusUpdate(
+    IN p_employee_id INT,
+    IN p_test_date DATE
+)
+BEGIN
+    UPDATE payroll
+    SET status = 'Pending'
+    WHERE employee_id = p_employee_id
+    AND pay_period_end <= p_test_date
+    AND status = 'Draft';
+END//
+
+DELIMITER ;
+
+
+call TestPayrollStatusUpdate();

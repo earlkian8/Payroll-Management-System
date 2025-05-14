@@ -2,7 +2,7 @@
 
     session_start();
 
-    if(!$_SESSION["userId"]){
+    if(empty($_SESSION["userId"])){
         header("Location: index.php");
     }
 ?>
@@ -36,10 +36,6 @@
     <div class="main-content">
         <div class="header">
             <h1>Payroll</h1>
-            <div class="user-profile">
-                <img src="https://via.placeholder.com/40" alt="User Profile">
-                <span>John Doe</span>
-            </div>
         </div>
 
         <div class="payroll-actions">
@@ -66,13 +62,13 @@
                             <th>Pay Frequency</th>
                         </tr>
                     </thead>
-                    <tbody>
-                        <tr>
+                    <tbody id="draftContent">
+                        <!-- <tr>
                             <td>Amanda Nicole Martinez</td>
                             <td>2023-04-01</td>
                             <td>2023-04-30</td>
                             <td>Monthly</td>
-                        </tr>
+                        </tr> -->
                         <!-- Add more rows as needed -->
                     </tbody>
                 </table>
@@ -91,16 +87,16 @@
                             <th>Actions</th>
                         </tr>
                     </thead>
-                    <tbody>
-                        <tr>
+                    <tbody id="pendingContent">
+                        <!-- <tr>
                             <td>Amanda Nicole Martinez</td>
                             <td>2023-04-01</td>
                             <td>2023-04-30</td>
                             <td>Monthly</td>
                             <td>
-                                <button class="btn-issue" data-employee-id="1" id="edit"><i class="fas fa-check"></i></button>
+                                <button class="btn-issue" data-employee-id="1" id="edit"><i class="fa-solid fa-wallet"></i></button>
                             </td>
-                        </tr>
+                        </tr> -->
                         <!-- Add more rows as needed -->
                     </tbody>
                 </table>
@@ -117,7 +113,7 @@
                             <th>Total Net</th>
                         </tr>
                     </thead>
-                    <tbody>
+                    <tbody id="issuedContent">
                         <tr>
                             <td>Amanda Nicole Martinez</td>
                             <td>Monthly</td>
@@ -133,18 +129,13 @@
     <div class="overlay" id="modalIssue">
         <div class="add-pay-heads-modal">
             <div class="modal-header">
-                <h2>Add Employee Pay Heads</h2>
+                <h2>Issue</h2>
                 <button class="close-btn" id="closeModal">&times;</button>
             </div>
             <div class="modal-content">
                 <div class="left-section">
                     <div class="select-employee">
-                        <select id="employeeSelect">
-                            <option>-- Select Employee --</option>
-                            <option value="emp1">John Doe</option>
-                            <option value="emp2">Jane Smith</option>
-                            <option value="emp3">Mike Johnson</option>
-                        </select>
+                        <h3 id="issueName"></h3>
                     </div>
                     <div class="add-pay-head">
                         <div class="pay-head-inputs">
@@ -159,7 +150,7 @@
                             <input type="text" id="payHeadAmount" placeholder="Amount">
                         </div>
                         <div class="pay-head-container" id="payHeadContainer">
-                            <div class="pay-head-card">
+                            <!-- <div class="pay-head-card">
                                 <span>Basic Salary: $3,000.00</span>
                                 <button class="remove-btn"><i class="fas fa-trash"></i></button>
                             </div>
@@ -178,7 +169,7 @@
                             <div class="pay-head-card">
                                 <span>Professional Tax: -$150.00</span>
                                 <button class="remove-btn"><i class="fas fa-trash"></i></button>
-                            </div>
+                            </div> -->
                         </div>
                         <button class="add-btn" id="addPayHeadBtn">Add</button>
                     </div>
@@ -188,21 +179,20 @@
                         <h3>Payment Summary</h3>
                         <div class="summary-row">
                             <span>Total Earnings:</span>
-                            <span id="totalEarnings">$4,000.00</span>
+                            <span id="totalEarnings">₱0</span>
                         </div>
                         <div class="summary-row">
                             <span>Total Deductions:</span>
-                            <span id="totalDeductions">$350.00</span>
+                            <span id="totalDeductions">₱0</span>
                         </div>
                         <div class="summary-row total">
                             <span>Net Salary:</span>
-                            <span id="netSalary">$3,650.00</span>
+                            <span id="netSalary">₱0</span>
                         </div>
                     </div>
                     <div class="payment-details">
-                        <h3>Payment Details</h3>
+                        <h3>Notes</h3>
                         <div class="payment-period">
-                            <input type="text" id="paymentDate" placeholder="mm/dd/yyyy" style="width: 100%; background-color: #262626; color: #ffffff; border: 1px solid #1E88E5; padding: 10px; border-radius: 5px;">
                             <textarea id="paymentNotes" placeholder="Additional Notes" style="width: 100%; background-color: #262626; color: #ffffff; border: 1px solid #1E88E5; padding: 10px; border-radius: 5px; margin-top: 10px; min-height: 100px;"></textarea>
                         </div>
                     </div>

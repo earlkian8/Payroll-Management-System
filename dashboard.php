@@ -1,9 +1,8 @@
-
 <?php
 
     session_start();
 
-    if(!$_SESSION["userId"]){
+    if(empty($_SESSION["userId"])){
         header("Location: index.php");
     }
 ?>

@@ -2,7 +2,7 @@
 
     session_start();
 
-    if(!$_SESSION["userId"]){
+    if(empty($_SESSION["userId"])){
         header("Location: index.php");
     }
 ?>
@@ -57,8 +57,8 @@
                         <th>Actions</th>
                     </tr>
                 </thead>
-                <tbody>
-                    <tr>
+                <tbody id="content">
+                    <!-- <tr>
                         <td>1</td>
                         <td>Basic Salary</td>
                         <td>Base monthly salary for employees</td>
@@ -97,7 +97,7 @@
                             <button class="btn-edit"><i class="fas fa-edit"></i></button>
                             <button class="btn-delete"><i class="fas fa-trash"></i></button>
                         </td>
-                    </tr>
+                    </tr> -->
                 </tbody>
             </table>
         </div>
@@ -122,6 +122,29 @@
                 </select>
 
                 <button type="submit" class="btn-submit">Add Pay Head</button>
+            </form>
+        </div>
+    </div>
+
+    <!-- Edit Pay Head Modal -->
+    <div id="editPayHeadModal" class="modal">
+        <div class="modal-content">
+            <span class="close" id="editClose">&times;</span>
+            <h2>Edit Pay Head</h2>
+            <form id="editPayHeadForm">
+                <label for="editName">Name:</label>
+                <input type="text" id="editName" name="editName" required autocomplete="off">
+
+                <label for="editDescription">Description:</label>
+                <textarea id="editDescription" name="editDescription" autocomplete="off"></textarea>
+
+                <label for="editType">Type:</label>
+                <select id="editType" name="editType" required>
+                    <option value="Earnings">Earnings</option>
+                    <option value="Deductions">Deductions</option>
+                </select>
+
+                <button type="submit" class="btn-submit">Edit Pay Head</button>
             </form>
         </div>
     </div>
