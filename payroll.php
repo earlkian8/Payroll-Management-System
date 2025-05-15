@@ -19,7 +19,7 @@
 <body>
     <div class="sidebar">
         <div class="logo">
-            <i class="fas fa-money-bill-wave"></i> <span>Payroll</span>
+            <span>WageFlow</span>
         </div>
         <div class="sidebar-menu">
             <ul>
@@ -40,8 +40,7 @@
 
         <div class="payroll-actions">
             <div class="search-bar">
-                <input type="text" placeholder="Search payroll...">
-                <button><i class="fas fa-search"></i></button>
+                <input type="text" placeholder="Search payroll..." id="searchInput" oninput="searchPayroll()">
             </div>
         </div>
 

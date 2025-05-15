@@ -14,7 +14,7 @@
                 <div class="logo">
                     <i class="fas fa-money-check-alt"></i>
                 </div>
-                <h1>Payroll Management System</h1>
+                <h1>WageFlow</h1>
                 <p>Create your account to get started</p>
             </div>
             

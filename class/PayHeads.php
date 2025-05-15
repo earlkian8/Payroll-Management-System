@@ -38,5 +38,12 @@
             $stmt = $this->conn->prepare($query);
             $stmt->execute([":payHeadId" => $payHeadId]);
         }
+
+        public function getTotalPayHeads($userId){
+            $query = "SELECT count(pay_head_id) as pHCount FROM " . $this->table . " WHERE user_id = :id";
+            $stmt = $this->conn->prepare($query);
+            $stmt->execute([":id" => $userId]);
+            return $stmt->fetch(PDO::FETCH_ASSOC);
+        }
     }
 ?>

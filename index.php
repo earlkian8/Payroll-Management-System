@@ -23,7 +23,7 @@
                 <div class="logo">
                     <i class="fas fa-money-check-alt"></i>
                 </div>
-                <h1>Payroll Management System</h1>
+                <h1>WageFlow</h1>
                 <p>Sign in to access your dashboard</p>
             </div>
             
@@ -39,7 +39,7 @@
                 <div class="input-group">
                     <div class="label-row">
                         <label for="password">Password</label>
-                        <a href="#" class="forgot-link">Forgot password?</a>
+                        <a href="forgot_password/prompt_email.php" class="forgot-link">Forgot password?</a>
                     </div>
                     <div class="input-with-icon">
                         <i class="fas fa-lock"></i>

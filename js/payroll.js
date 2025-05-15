@@ -56,6 +56,11 @@ let totalEarnings = 0;
 let totalDeductions = 0;
 
 let netSalary = 0;
+
+
+let allDraftPayroll = [];
+let allPendingPayroll = [];
+let allIssuedPayroll = [];
 function getDraftPayroll(){
     fetch("api/store_session.php")
     .then(response => response.json())
@@ -69,7 +74,7 @@ function getDraftPayroll(){
     .then(data => {
         if(data.status === "success"){
             document.getElementById("draftContent").innerHTML = "";
-
+            allDraftPayroll = data.draftPayroll;
             data.draftPayroll.forEach(payroll => {
                 document.getElementById("draftContent").innerHTML += `
                     <tr>
@@ -97,12 +102,13 @@ function getIssuedPayroll(){
     .then(data => {
         if(data.status === "success"){
             document.getElementById("issuedContent").innerHTML = "";
+            allIssuedPayroll = data.issuedPayroll;
             data.issuedPayroll.forEach(p => {
                 document.getElementById("issuedContent").innerHTML += `
                         <tr>
                             <td>${p.first_name} ${p.middle_name ? p.middle_name + " " : ""} ${p.last_name}</td>
                             <td>${p.pay_frequency}</td>
-                            <td>₱${p.net_pay}</td>
+                            <td>₱${Math.abs(p.net_pay).toLocaleString('en-US', { minimumFractionDigits: 2, maximumFractionDigits: 2 })}</td>
                         </tr>`;
             });
         }
@@ -123,7 +129,7 @@ function getPendingPayroll(){
     .then(data => {
         if(data.status === "success"){
             document.getElementById("pendingContent").innerHTML = "";
-
+            allPendingPayroll = data.pendingPayroll;
             data.pendingPayroll.forEach(payroll => {
                 document.getElementById("pendingContent").innerHTML += `
                     <tr>
@@ -149,7 +155,7 @@ function getPendingPayroll(){
 
                             document.getElementById("savePayHeadsBtn").addEventListener("click", function(event) {
                                 event.preventDefault();
-                                insertEmployeePayHeads();
+
                                 addPayrollDetails(employeeData.payroll_id, userId);
                                 alert("Added Successfully!");
                                 window.location.reload();
@@ -250,48 +256,7 @@ function updatePaymentSummary() {
 }
 
 function insertEmployeePayHeads() {
-    const payHeadCards = document.querySelectorAll(".pay-head-card");
-    const employeeId = document.querySelector(".btn-issue[data-employee-id]").getAttribute("data-employee-id");
-
-    if (payHeadCards.length === 0) {
-        alert("Please add at least one pay head.");
-        return;
-    }
-
-    const payHeads = Array.from(payHeadCards).map(card => {
-        const text = card.querySelector("span").textContent;
-        const amount = parseFloat(text.match(/\₱([\d.]+)/)[1]);
-        const isDeduction = text.toLowerCase().includes("deduction") || text.toLowerCase().includes("tax");
-        return {
-            payHeadId: card.getAttribute("data-pay-head-id"),
-            amount: isDeduction ? -amount : amount
-        };
-    });
-
-    const payload = {
-        userId: userId,
-        employeeId: employeeId,
-        payHeads: payHeads
-    };
-
-    fetch("api/employee_pay_heads.php", {
-        method: "POST",
-        headers: {
-            "Content-Type": "application/json"
-        },
-        body: JSON.stringify(payload)
-    })
-    .then(response => response.json())
-    .then(data => {
-        if (data.status === "success") {
-        } else {
-            alert("Error adding pay heads: " + data.message);
-        }
-    })
-    .catch(error => {
-        console.error("Error:", error);
-        alert("An error occurred while adding pay heads.");
-    });
+    
 }
 
 function addPayrollDetails(payrollIdV, userIdV){
@@ -312,7 +277,155 @@ function addPayrollDetails(payrollIdV, userIdV){
     .then(response => response.json())
     .then(data => {
         if(data.status === "success"){
+            const payHeadCards = document.querySelectorAll(".pay-head-card");
+            const employeeId = document.querySelector(".btn-issue[data-employee-id]").getAttribute("data-employee-id");
+
+            if (payHeadCards.length === 0) {
+                alert("Please add at least one pay head.");
+                return;
+            }
+
+            const payHeads = Array.from(payHeadCards).map(card => {
+                const text = card.querySelector("span").textContent;
+                const amount = parseFloat(text.match(/\₱([\d.]+)/)[1]);
+                const isDeduction = text.toLowerCase().includes("deduction") || text.toLowerCase().includes("tax");
+                return {
+                    payHeadId: card.getAttribute("data-pay-head-id"),
+                    amount: isDeduction ? -amount : amount
+                };
+            });
+
+            const payload = {
+                userId: userId,
+                employeeId: employeeId,
+                payrollDetailsId: data.id,
+                payHeads: payHeads
+            };
+
+            return fetch("api/employee_pay_heads.php", {
+                method: "POST",
+                headers: {
+                    "Content-Type": "application/json"
+                },
+                body: JSON.stringify(payload)
+            })
         }
     })
+    .then(response => response.json())
+    .then(data => {
+        if(data.status === "success");
+    })
     .catch(error => console.error(error));
+}
+
+
+function searchPayroll() {
+    const searchInput = document.getElementById("searchInput").value.toLowerCase();
+    const activeTab = document.querySelector('.tab-btn.active').getAttribute('data-tab');
+    let contentId, allPayroll;
+
+    // Determine the active tab and corresponding content/array
+    switch (activeTab) {
+        case 'draft':
+            contentId = 'draftContent';
+            allPayroll = allDraftPayroll;
+            break;
+        case 'pending':
+            contentId = 'pendingContent';
+            allPayroll = allPendingPayroll;
+            break;
+        case 'issued':
+            contentId = 'issuedContent';
+            allPayroll = allIssuedPayroll;
+            break;
+    }
+
+    const content = document.getElementById(contentId);
+
+    if (!searchInput) {
+        // If search is empty, reload the active tab's payroll
+        switch (activeTab) {
+            case 'draft':
+                getDraftPayroll();
+                break;
+            case 'pending':
+                getPendingPayroll();
+                break;
+            case 'issued':
+                getIssuedPayroll();
+                break;
+        }
+        return;
+    }
+
+    // Filter payroll based on search input
+    const filteredPayroll = allPayroll.filter(payroll => {
+        const fullName = `${payroll.first_name} ${payroll.middle_name || ''} ${payroll.last_name}`.toLowerCase();
+        return fullName.includes(searchInput) ||
+               payroll.pay_period_start.toLowerCase().includes(searchInput) ||
+               payroll.pay_period_end.toLowerCase().includes(searchInput) ||
+               payroll.pay_frequency.toLowerCase().includes(searchInput) ||
+               (payroll.net_pay && payroll.net_pay.toString().toLowerCase().includes(searchInput));
+    });
+
+    // Display filtered payroll
+    content.innerHTML = "";
+    filteredPayroll.forEach(payroll => {
+        switch (activeTab) {
+            case 'draft':
+                content.innerHTML += `
+                    <tr>
+                        <td>${payroll.first_name} ${payroll.middle_name ? payroll.middle_name + " " : ""} ${payroll.last_name}</td>
+                        <td>${payroll.pay_period_start}</td>
+                        <td>${payroll.pay_period_end}</td>
+                        <td>${payroll.pay_frequency}</td>
+                    </tr>
+                `;
+                break;
+            case 'pending':
+                content.innerHTML += `
+                    <tr>
+                        <td>${payroll.first_name} ${payroll.middle_name ? payroll.middle_name + " " : ""} ${payroll.last_name}</td>
+                        <td>${payroll.pay_period_start}</td>
+                        <td>${payroll.pay_period_end}</td>
+                        <td>${payroll.pay_frequency}</td>
+                        <td>
+                            <button class="btn-issue" data-employee-id="${payroll.employee_id}" id="edit"><i class="fa-solid fa-wallet"></i></button>
+                        </td>
+                    </tr>
+                `;
+                break;
+            case 'issued':
+                content.innerHTML += `
+                    <tr>
+                        <td>${payroll.first_name} ${payroll.middle_name ? payroll.middle_name + " " : ""} ${payroll.last_name}</td>
+                        <td>${payroll.pay_frequency}</td>
+                        <td>₱${Math.abs(payroll.net_pay).toLocaleString('en-US', { minimumFractionDigits: 2, maximumFractionDigits: 2 })}</td>
+                    </tr>
+                `;
+                break;
+        }
+    });
+
+    // Reattach event listeners for Pending tab (btn-issue)
+    if (activeTab === 'pending') {
+        document.querySelectorAll(".btn-issue").forEach(button => {
+            button.addEventListener("click", function(event) {
+                event.preventDefault();
+                const employeeId = this.getAttribute("data-employee-id");
+                const employeeData = allPendingPayroll.find(p => p.employee_id == employeeId);
+                if (employeeData) {
+                    document.getElementById("modalIssue").classList.add("show");
+                    document.getElementById("issueName").textContent = `${employeeData.first_name} ${employeeData.middle_name ? employeeData.middle_name + " " : ""} ${employeeData.last_name}`;
+
+                    document.getElementById("savePayHeadsBtn").addEventListener("click", function(event) {
+                        event.preventDefault();
+                        addPayrollDetails(employeeData.payroll_id, userId);
+                        alert("Added Successfully!");
+                        window.location.reload();
+                    });
+                }
+            });
+        });
+    }
 }

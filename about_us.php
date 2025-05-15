@@ -19,7 +19,7 @@
 <body>
     <div class="sidebar">
         <div class="logo">
-            <i class="fas fa-money-bill-wave"><span>Payroll</span></i>
+            <span>WageFlow</span></i>
         </div>
         <div class="sidebar-menu">
             <ul>
@@ -38,7 +38,6 @@
         <div class="container">
             <!-- Header Section -->
             <div class="header">
-                <img src="/api/placeholder/150/150" alt="WageFlow Logo" class="logo">
                 <h1>WageFlow</h1>
                 <p class="header-description">
                     Our Payroll Management System is designed to simplify and streamline employee salary processing for businesses of all sizes. 

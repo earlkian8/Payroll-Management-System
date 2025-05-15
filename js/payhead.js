@@ -33,6 +33,7 @@ document.addEventListener('DOMContentLoaded', function() {
     
 });
 let userId = null;
+let allPayHeads = [];
 function getPayHeads(){
 
     
@@ -48,7 +49,7 @@ function getPayHeads(){
     .then(data => {
         if(data.status === "success"){
             document.getElementById("content").innerHTML = "";
-
+            allPayHeads = data.payHeads;
             data.payHeads.forEach(payHead => {
                 document.getElementById("content").innerHTML += `
                     <tr>
@@ -183,4 +184,88 @@ function deletePayHead(id){
         }
     })
     .catch(error => console.error(error));
+}
+
+function searchPayHeads() {
+    const searchInput = document.getElementById("searchInput").value.toLowerCase();
+    const content = document.getElementById("content");
+    
+    if (!searchInput) {
+        // If search is empty, reload all pay heads
+        getPayHeads();
+        return;
+    }
+    
+    // Filter pay heads based on search input
+    const filteredPayHeads = allPayHeads.filter(payHead => {
+        const payHeadDetails = `${payHead.name} ${payHead.description || ''} ${payHead.type}`.toLowerCase();
+        return payHeadDetails.includes(searchInput) || 
+               payHead.pay_head_id.toString().toLowerCase().includes(searchInput);
+    });
+    
+    // Display filtered pay heads
+    content.innerHTML = "";
+    filteredPayHeads.forEach(payHead => {
+        content.innerHTML += `
+            <tr>
+                <td>${payHead.pay_head_id}</td>
+                <td>${payHead.name}</td>
+                <td>${payHead.description}</td>
+                <td>${payHead.type}</td>
+                <td>
+                    <button class="btn-edit" data-id="${payHead.pay_head_id}"><i class="fas fa-edit"></i></button>
+                    <button class="btn-delete" data-id="${payHead.pay_head_id}"><i class="fas fa-trash"></i></button>
+                </td>
+            </tr>
+        `;
+    });
+    
+    // Reattach event listeners to the buttons
+    document.querySelectorAll(".btn-edit").forEach(button => {
+        button.addEventListener("click", function(event) {
+            event.preventDefault();
+            const payHeadId = this.getAttribute("data-id");
+            const payHeadData = allPayHeads.find(p => p.pay_head_id == payHeadId);
+            if (payHeadData) {
+                document.getElementById("editPayHeadModal").classList.add("show");
+
+                document.getElementById("editClose").addEventListener("click", function(event) {
+                    event.preventDefault();
+                    document.getElementById("editPayHeadModal").classList.remove("show");
+                });
+
+                document.getElementById("editName").value = payHeadData.name;
+                document.getElementById("editDescription").value = payHeadData.description;
+                document.getElementById("editType").value = payHeadData.type;
+
+                document.getElementById("editPayHeadForm").addEventListener("submit", function(event) {
+                    event.preventDefault();
+                    updatePayHead(userId, payHeadData.pay_head_id);
+                });
+            }
+        });
+    });
+
+    document.querySelectorAll(".btn-delete").forEach(button => {
+        button.addEventListener("click", function(event) {
+            event.preventDefault();
+            const payHeadId = this.getAttribute("data-id");
+            const payHeadData = allPayHeads.find(p => p.pay_head_id == payHeadId);
+            if (payHeadData) {
+                document.getElementById("deleteModal").classList.add("show");
+                
+                document.getElementById("deleteItemName").textContent = payHeadData.name;
+
+                document.getElementById("cancelDelete").addEventListener("click", function(event) {
+                    event.preventDefault();
+                    document.getElementById("deleteModal").classList.remove("show");
+                });
+
+                document.getElementById("confirmDelete").addEventListener("click", function(event) {
+                    event.preventDefault();
+                    deletePayHead(payHeadId);
+                });
+            }
+        });
+    });
 }

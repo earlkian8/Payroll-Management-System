@@ -21,8 +21,8 @@
             $postData = file_get_contents("php://input");
             $data = json_decode($postData, true);
 
-            $p->addPayrollDetails($data["payrollId"], $data["userId"], $data["totalEarnings"], $data["totalDeductions"], $data["netPay"], $data["notes"]);
-            echo json_encode(["status" => "success"]);
+            $id = $p->addPayrollDetails($data["payrollId"], $data["userId"], $data["totalEarnings"], $data["totalDeductions"], $data["netPay"], $data["notes"]);
+            echo json_encode(["status" => "success", "id" => $id]);
             break;
     }
 ?>

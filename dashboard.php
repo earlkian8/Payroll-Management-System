@@ -18,7 +18,7 @@
 <body>
     <div class="sidebar">
         <div class="logo">
-            <i class="fas fa-money-bill-wave"></i> <span>Payroll</span>
+             <span>WageFlow</span>
         </div>
         <div class="sidebar-menu">
             <ul>
@@ -43,8 +43,8 @@
                     <span class="card-title">Total Employees</span>
                     <i class="fas fa-users card-icon"></i>
                 </div>
-                <div class="card-value">48</div>
-                <div class="card-description">Active employees in the system</div>
+                <div class="card-value" id="totalEmployees"></div>
+                <div class="card-description">Employees in the system</div>
             </div>
 
             <div class="card">
@@ -52,7 +52,7 @@
                     <span class="card-title">Payroll Processed</span>
                     <i class="fas fa-wallet card-icon"></i>
                 </div>
-                <div class="card-value">12</div>
+                <div class="card-value" id="payrollProcessed"></div>
                 <div class="card-description">This month's processed payrolls</div>
             </div>
 
@@ -61,7 +61,7 @@
                     <span class="card-title">Total Pay Heads</span>
                     <i class="fas fa-file-invoice-dollar card-icon"></i>
                 </div>
-                <div class="card-value">18</div>
+                <div class="card-value" id="totalPayHeads"></div>
                 <div class="card-description">Configured pay heads</div>
             </div>
         </div>
@@ -73,14 +73,14 @@
                     <tr>
                         <th>Employee</th>
                         <th>Pay Period</th>
-                        <th>Gross Pay</th>
+                        <th>Earnings</th>
                         <th>Deductions</th>
                         <th>Net Pay</th>
                         <th>Status</th>
                     </tr>
                 </thead>
-                <tbody>
-                    <tr>
+                <tbody id="content">
+                    <!-- <tr>
                         <td>John Smith</td>
                         <td>May 1-15, 2025</td>
                         <td>$3,200.00</td>
@@ -111,7 +111,7 @@
                         <td>$580.00</td>
                         <td>$2,320.00</td>
                         <td><span style="color: #4CAF50;">Issued</span></td>
-                    </tr>
+                    </tr> -->
                 </tbody>
             </table>
         </div>

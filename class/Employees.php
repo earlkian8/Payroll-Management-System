@@ -38,5 +38,12 @@
             $stmt = $this->conn->prepare($query);
             $stmt->execute([":employeeId" => $employeeId]);
         }
+
+        public function getTotalEmployee($userId){
+            $query = "SELECT count(employee_id) as empCount FROM " . $this->table . " WHERE user_id = :id";
+            $stmt = $this->conn->prepare($query);
+            $stmt->execute([":id" => $userId]);
+            return $stmt->fetch(PDO::FETCH_ASSOC);
+        }
     }
 ?>

@@ -17,9 +17,12 @@
     <link rel="stylesheet" href="style/employee-style.css">
 </head>
 <body>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/html2canvas/1.3.2/html2canvas.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.4.0/jspdf.umd.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/html2pdf.js/0.10.1/html2pdf.bundle.min.js"></script>
     <div class="sidebar">
         <div class="logo">
-            <i class="fas fa-money-bill-wave"></i> <span>Payroll</span>
+            <span>WageFlow</span>
         </div>
         <div class="sidebar-menu">
             <ul>
@@ -40,8 +43,7 @@
 
         <div class="employee-actions">
             <div class="search-bar">
-                <input type="text" placeholder="Search employees...">
-                <button><i class="fas fa-search"></i></button>
+                <input type="text" placeholder="Search employees..." id="searchInput" oninput="searchEmployee()">
             </div>
             <button id="addEmployeeBtn" class="btn-add"><i class="fas fa-plus"></i> Add Employee</button>
         </div>
@@ -194,22 +196,160 @@
     </div>
 
     <!-- View Employee Modal -->
-    <div id="viewEmployeeModal" class="modal">
-        <div class="modal-content">
-            <span class="close" id="viewClose">&times;</span>
-            <h2>Employee Details</h2>
-            <div class="view-employee-details">
-                <div class="employee-info">
-                    <h3>Employee Information</h3>
-                    <div id="viewEmployeeDetails">
-                        <!-- Employee details will be inserted here by JavaScript -->
+    <div class="employeeDetailModal" id="employeeDetailModal">
+        <div class="employee-modal">
+            <div class="employee-modal-header">
+                <h2>Employee Information</h2>
+                <button class="employee-close-button" id="employeeCloseButton">×</button>
+            </div>
+            <div class="employee-modal-content">
+                <div class="employee-left-panel">
+                    <h1 class="employee-name" id="employeeNameDetails">Earl Kian Anastacio Bancayrin</h1>
+                    <div class="employee-position">
+                        <span id="employeeDesignationDetails">Senior Software Engineer</span>
+                    </div>
+
+                    <div class="employee-tab-navigation">
+                        <div class="employee-tab employee-active" style="font-size:1rem;">Personal Info</div>
+                    </div>
+                    <h3 class="employee-section-title">Employment Details</h3>
+                    <div class="employee-info-grid">
+                        <div class="employee-info-item">
+                            <label>Employee ID</label>
+                            <span id="employeeIdDetails">EMP-2025-042</span>
+                        </div>
+                        <div class="employee-info-item">
+                            <label>Employment Type</label>
+                            <span id="employmentTypeDetails">Full Time</span>
+                        </div>
+                        <div class="employee-info-item">
+                            <label>Designation</label>
+                            <span id="designationDetails">Senior Software Engineer</span>
+                        </div>
+                        <div class="employee-info-item">
+                            <label>Date Hired</label>
+                            <span id="dateHiredDetails">2025-04-11</span>
+                        </div>
+                        <div class="employee-info-item">
+                            <label>Pay Frequency</label>
+                            <span id="payFrequencyDetails">Monthly</span>
+                        </div>
+                    </div>
+
+                </div>
+
+                <div class="employee-right-panel">
+                    <div class="employee-salary-header">
+                        <h3 class="employee-section-title">Salary Payslips</h3>
+                    </div>
+
+                    <div class="employee-payslip-cards" id="employeePayslipCards">
+                        <div class="employee-payslip-card">
+                            <div class="employee-month">
+                                <span>April 2025</span>
+                                <span class="employee-paid-badge">Paid</span>
+                            </div>
+                            <div class="employee-net-amount">$6,775.00</div>
+                            <div class="employee-net-label">Net Salary</div>
+                            <a href="#" class="employee-download-button">Download →</a>
+                        </div>
+
+                        <div class="employee-payslip-card">
+                            <div class="employee-month">
+                                <span>March 2025</span>
+                                <span class="employee-paid-badge">Paid</span>
+                            </div>
+                            <div class="employee-net-amount">$6,775.00</div>
+                            <div class="employee-net-label">Net Salary</div>
+                            <a href="#" class="employee-download-button">Download →</a>
+                        </div>
+
+                        <div class="employee-payslip-card">
+                            <div class="employee-month">
+                                <span>February 2025</span>
+                                <span class="employee-paid-badge">Paid</span>
+                            </div>
+                            <div class="employee-net-amount">$6,775.00</div>
+                            <div class="employee-net-label">Net Salary</div>
+                            <a href="#" class="employee-download-button">Download →</a>
+                        </div>
                     </div>
                 </div>
-                <div class="salary-slip">
-                    <h3>Salary Slip</h3>
-                    <div id="viewSalarySlip">
-                        <!-- Salary slip details will be inserted here by JavaScript -->
+            </div>
+        </div>
+    </div>
+
+
+
+
+    <!-- View Salary Modal -->
+    <div class="view-modal-overlay" id="viewModal">
+        <div class="view-modal">
+            <div class="view-modal-header">
+                <h2>Salary Slip</h2>
+                
+                <button class="view-close-button" id="aviewCloseButton">×</button>
+            </div>
+            <div class="view-modal-body">
+                <div class="view-company-details">
+                    <div class="view-company-logo">
+                        <span class="view-company-name">WageFlow</span>
+                        <i class="fa-solid fa-download" style="font-size: 0.8em; margin-left: 5px; cursor:pointer;" id="downloadPDFId"></i>
                     </div>
+                    <div class="view-payroll-info">
+                        <p id="payDateSalary"></p>
+                        <p id="payrollIdSalary"></p>
+                        <p id="statusSalary"></p>
+                    </div>
+                </div>
+
+                <div class="view-employee-details">
+                    <p id="nameSalary"></p>
+                </div>
+
+                <div class="view-salary-details">
+                    <div class="view-earnings" id="earningRow">
+                        <h3>EARNINGS</h3>
+                        <div class="view-amount-row">
+                            <span>Basic Salary</span>
+                            <span>51000.00</span>
+                        </div>
+                    </div>
+
+                    <div class="view-deductions" id="deductionRow">
+                        <h3>DEDUCTIONS</h3>
+                        <div class="view-amount-row">
+                            <span>SSS Contribution</span>
+                            <span>1000.00</span>
+                        </div>
+                        <div class="view-amount-row">
+                            <span>Income Tax</span>
+                            <span>100.00</span>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="view-total-section">
+                    <div class="view-total-row">
+                        <span>Total Earnings</span>
+                        <span id="totalEarningsDetails">₱37000.00</span>
+                    </div>
+                    <div class="view-total-row">
+                        <span>Total Deductions</span>
+                        <span id="totalDeductionDetails">₱4536.00</span>
+                    </div>
+                    <div class="view-total-row view-net-total">
+                        <span>Total Net</span>
+                        <span id="totalNetDetails">₱32464.00</span>
+                    </div>
+                </div>
+
+                <div class="view-notes">
+                    <p id="notesDetails"><strong>Notes:</strong> Just a quick reminder—please try to be on time moving forward. It helps everything run smoother for everyone. If there's something causing the delays, feel free to let me know so we can work it out. Appreciate it!</p>
+                </div>
+
+                <div class="view-footer">
+                    © 2025 WageFlow. All rights reserved.
                 </div>
             </div>
         </div>

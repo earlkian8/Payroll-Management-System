@@ -15,6 +15,13 @@
             return $stmt->fetch(PDO::FETCH_ASSOC);
         }
 
+        public function getUserByEmail($email){
+            $query = "SELECT * FROM " . $this->table . " WHERE email = :email";
+            $stmt = $this->conn->prepare($query);
+            $stmt->execute([":email" => $email]);
+            return $stmt->fetch(PDO::FETCH_ASSOC);
+        }
+
         public function addUser($email, $password){
             $hashed_password = password_hash($password, PASSWORD_BCRYPT);
             
@@ -29,6 +36,14 @@
             $query = "UPDATE " . $this->table . " SET email = :email, password_hash = :password WHERE user_id = :id";
             $stmt = $this->conn->prepare($query);
             $stmt->execute([":id" => $id, ":email" => $email, ":password" => $hashed_password]);
+        }
+
+        public function updateUserPassword($email, $password){
+            $hashed_password = password_hash($password, PASSWORD_BCRYPT);
+            
+            $query = "UPDATE " . $this->table . " SET password_hash = :password WHERE email = :email";
+            $stmt = $this->conn->prepare($query);
+            $stmt->execute([":email" => $email, ":password" => $hashed_password]);
         }
 
         public function deleteUser($id){
@@ -48,7 +63,6 @@
             }
             return false;
         }
-
 
     
 

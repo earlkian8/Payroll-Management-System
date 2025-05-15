@@ -27,6 +27,7 @@
                     $result = $e->addEmployeePayHeads(
                         $data["userId"],
                         $data["employeeId"],
+                        $data["payrollDetailsId"],
                         $payHead["payHeadId"],
                         $payHead["amount"]
                     );
