@@ -11,9 +11,6 @@
     <div class="container">
         <div class="register-card">
             <div class="register-header">
-                <div class="logo">
-                    <i class="fas fa-money-check-alt"></i>
-                </div>
                 <h1>WageFlow</h1>
                 <p>Create your account to get started</p>
             </div>

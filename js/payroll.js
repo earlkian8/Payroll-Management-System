@@ -49,6 +49,11 @@ document.addEventListener('DOMContentLoaded', function() {
     //     event.preventDefault();
     //     insertEmployeePayHeads();
     // });
+
+    document.getElementById("closeModal").addEventListener("click", function(event){
+        event.preventDefault();
+        document.getElementById("modalIssue").classList.remove("show");
+    });
 });
 
 let userId = null;
@@ -168,6 +173,7 @@ function getPendingPayroll(){
     .catch(error => console.error(error));
 }
 
+let allPayHeads = [];
 function getPayHeads(id){
     fetch("api/pay_heads_api.php?userId=" + id)
     .then(response => response.json())
@@ -176,6 +182,7 @@ function getPayHeads(id){
             document.getElementById("payHeadSelect").innerHTML = "";
             document.getElementById("payHeadSelect").innerHTML += `<option value="">-- Select Pay Head --</option>`;
 
+            allPayHeads = data.payHeads;
             data.payHeads.forEach(p => {
                 document.getElementById("payHeadSelect").innerHTML += `
                     <option value="${p.pay_head_id}">${p.name}</option>
@@ -191,11 +198,11 @@ function addPayHead() {
     const payHeadAmount = document.getElementById("payHeadAmount");
     const payHeadContainer = document.getElementById("payHeadContainer");
 
-    const selectedPayHead = payHeadSelect.options[payHeadSelect.selectedIndex].text;
     const payHeadId = payHeadSelect.value;
+    const selectedPayHead = payHeadSelect.options[payHeadSelect.selectedIndex].text;
     let amount = payHeadAmount.value.trim();
 
-    if (!selectedPayHead || selectedPayHead === "-- Select Pay Head --") {
+    if (!payHeadId || selectedPayHead === "-- Select Pay Head --") {
         alert("Please select a pay head.");
         return;
     }
@@ -204,7 +211,9 @@ function addPayHead() {
         return;
     }
 
-    const isDeduction = selectedPayHead.toLowerCase().includes("deduction") || selectedPayHead.toLowerCase().includes("tax");
+    const payHead = allPayHeads.find(p => p.pay_head_id == payHeadId);
+    const isDeduction = payHead.type == "Deductions" ? true : false;
+
     amount = parseFloat(amount);
     if (isDeduction) {
         amount = -amount;
@@ -212,7 +221,7 @@ function addPayHead() {
 
     payHeadContainer.innerHTML += `
         <div class="pay-head-card" data-pay-head-id="${payHeadId}">
-            <span>${selectedPayHead}: ₱${Math.abs(amount).toFixed(2)}${isDeduction ? " (Deduction)" : " (Earnings)"}</span>
+            <span>${selectedPayHead}: ₱${Math.abs(amount).toFixed(2)}${isDeduction ? " (Deduction)" : " (Earning)"}</span>
             <button class="remove-btn"><i class="fas fa-trash"></i></button>
         </div>
     `;

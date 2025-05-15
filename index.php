@@ -20,9 +20,6 @@
     <div class="container">
         <div class="login-card">
             <div class="login-header">
-                <div class="logo">
-                    <i class="fas fa-money-check-alt"></i>
-                </div>
                 <h1>WageFlow</h1>
                 <p>Sign in to access your dashboard</p>
             </div>

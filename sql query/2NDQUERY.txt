@@ -75,7 +75,7 @@ CREATE TABLE employee_pay_heads (
 
 
 
-Trigger 1:
+Trigger 1: after creating an employee
 
 DELIMITER //
 CREATE TRIGGER after_employee_insert
@@ -118,7 +118,7 @@ DELIMITER ;
 
 
 
-Trigger 2:
+Trigger 2: after issuing a payroll
 
 DELIMITER //
 CREATE TRIGGER after_payroll_details_insert
@@ -174,7 +174,7 @@ DELIMITER ;
 
 
 
-Trigger 3:
+Trigger 3: after creating an account
 DELIMITER //
 
 CREATE TRIGGER after_user_insert
@@ -196,7 +196,7 @@ DELIMITER ;
 
 
 
-Trigger 4:
+Trigger 4: update on employee
 DELIMITER //
 
 CREATE TRIGGER after_employee_pay_frequency_update

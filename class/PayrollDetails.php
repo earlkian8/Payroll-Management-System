@@ -22,11 +22,18 @@
             return $stmt->fetch(PDO::FETCH_ASSOC);
         }
 
+        public function getSalary($userId, $employeeId){
+            $query = "SELECT * FROM " . $this->table . " JOIN payroll ON payroll_details.payroll_id = payroll.payroll_id JOIN employees ON payroll.employee_id = employees.employee_id WHERE payroll_details.user_id = :userId AND payroll.employee_id = :employeeId";
+            $stmt = $this->conn->prepare($query);
+            $stmt->execute([":userId" => $userId, ":employeeId" => $employeeId]);
+            return $stmt->fetchAll(PDO::FETCH_ASSOC);
+        }
+
         public function getRecentPayroll($userId){
             $query = "SELECT * FROM " . $this->table . " JOIN payroll ON payroll_details.payroll_id = payroll.payroll_id JOIN employees ON payroll.employee_id = employees.employee_id WHERE payroll_details.user_id = :userId ORDER BY payroll_details.payroll_details_id DESC LIMIT 10";
             $stmt = $this->conn->prepare($query);
             $stmt->execute([":userId" => $userId]);
-            return $stmt->fetchaLL(PDO::FETCH_ASSOC);
+            return $stmt->fetchAll(PDO::FETCH_ASSOC);
         }
     }
 ?>
