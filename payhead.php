@@ -49,7 +49,6 @@
             <table id="payHeadsTable">
                 <thead>
                     <tr>
-                        <th>ID</th>
                         <th>Name</th>
                         <th>Description</th>
                         <th>Type</th>

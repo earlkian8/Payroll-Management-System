@@ -76,7 +76,7 @@
                             <h3 class="h2Class">Earl Kian Bancayrin</h3>
                             <p class="role">Full Stack Developer</p>
                             <p class="description">Our leader plays a vital role in our team's success. He consistently guides us with clarity and purpose, ensuring that everyone stays on track and works together effectively.</p>
-                            <a href="#" class="portfolio-link">
+                            <a href="../Portfolio/index.php" target="_blank" class="portfolio-link">
                                 <i class="fas fa-external-link-alt"></i>
                                 View Portfolio
                             </a>
@@ -89,7 +89,7 @@
                             <h3 class="h2Class">Francis John Miravilla</h3>
                             <p class="role">Full Stack Developer</p>
                             <p class="description">The team relies heavily on his technical expertise. Each responsibility was handled with focus and precision, ensuring high-quality results in every task.</p>
-                            <a href="#" class="portfolio-link">
+                            <a href="../Francis/view/view.php" target="_blank" class="portfolio-link">
                                 <i class="fas fa-external-link-alt"></i>
                                 View Portfolio
                             </a>
@@ -102,7 +102,7 @@
                             <h3 class="h2Class">Albriane Jay Usman</h3>
                             <p class="role">Full Stack Developer</p>
                             <p class="description">A dedicated team member who brings innovative solutions to complex challenges. His attention to detail and problem-solving skills are invaluable to the team.</p>
-                            <a href="#" class="portfolio-link">
+                            <a href="../Albriane/portfolio.php" target="_blank" class="portfolio-link">
                                 <i class="fas fa-external-link-alt"></i>
                                 View Portfolio
                             </a>
@@ -116,7 +116,7 @@
                             <h3 class="h2Class">Paolo Eijansantos</h3>
                             <p class="role">Full Stack Developer</p>
                             <p class="description">An exceptional problem solver with a keen eye for detail. His contributions to the project have been fundamental in achieving our goals.</p>
-                            <a href="#" class="portfolio-link">
+                            <a href="../Paolo/mainpage.php" target="_blank" class="portfolio-link">
                                 <i class="fas fa-external-link-alt"></i>
                                 View Portfolio
                             </a>
@@ -130,7 +130,7 @@
                             <h3 class="h2Class">Charles Gumondas</h3>
                             <p class="role">Full Stack Developer</p>
                             <p class="description">Brings creative solutions and technical expertise to the team. His dedication to quality and efficiency has greatly improved our workflow.</p>
-                            <a href="#" class="portfolio-link">
+                            <a href="../Charles/portfolio.php" target="_blank" class="portfolio-link">
                                 <i class="fas fa-external-link-alt"></i>
                                 View Portfolio
                             </a>
@@ -144,7 +144,7 @@
                             <h3 class="h2Class">Cydrick Amparan</h3>
                             <p class="role">Full Stack Developer</p>
                             <p class="description">A valuable team member who consistently delivers high-quality work. His technical skills and collaborative nature enhance our team's capabilities.</p>
-                            <a href="#" class="portfolio-link">
+                            <a href="../Cydrick/INDEX.php" target="_blank" class="portfolio-link">
                                 <i class="fas fa-external-link-alt"></i>
                                 View Portfolio
                             </a>
@@ -158,7 +158,7 @@
                             <h3 class="h2Class">Ameer Sabtal</h3>
                             <p class="role">Full Stack Developer</p>
                             <p class="description">Demonstrates exceptional problem-solving abilities and technical expertise. His contributions have been essential to the project's success.</p>
-                            <a href="#" class="portfolio-link">
+                            <a href="../Ameer/index.php" target="_blank" class="portfolio-link">
                                 <i class="fas fa-external-link-alt"></i>
                                 View Portfolio
                             </a>
@@ -170,7 +170,7 @@
     </div>
 
     <script>
-        // Sidebar Link Activation
+
         document.querySelectorAll('.sidebar-menu ul li a').forEach(link => {
             link.addEventListener('click', function() {
                 document.querySelector('.sidebar-menu ul li a.active').classList.remove('active');
@@ -178,9 +178,8 @@
             });
         });
 
-        // Logout Button (Demo)
         document.querySelector('.logout-btn').addEventListener('click', function() {
-            // Implement logout logic (e.g., redirect to logout endpoint)
+
             alert('Logging out...');
         });
     </script>

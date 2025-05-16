@@ -53,7 +53,6 @@ function getPayHeads(){
             data.payHeads.forEach(payHead => {
                 document.getElementById("content").innerHTML += `
                     <tr>
-                        <td>${payHead.pay_head_id}</td>
                         <td>${payHead.name}</td>
                         <td>${payHead.description}</td>
                         <td>${payHead.type}</td>

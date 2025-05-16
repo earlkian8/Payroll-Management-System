@@ -85,7 +85,6 @@ function getEmployees(id){
             data.employees.forEach(employee => {
                 document.getElementById("tableContent").innerHTML += `
                     <tr>
-                        <td>${employee.employee_id}</td>
                         <td>${employee.first_name}</td>
                         <td>${employee.middle_name}</td>
                         <td>${employee.last_name}</td>
@@ -237,7 +236,6 @@ function getSalary(userId, employeeId){
                         </div>
                         <div class="employee-net-amount">₱${Math.abs(p.net_pay).toLocaleString('en-US', { minimumFractionDigits: 2, maximumFractionDigits: 2 })}</div>
                         <div class="employee-net-label">Net Salary</div>
-                        <a href="#" class="employee-download-button" onclick="downloadPDF(${p.payroll_details_id})">Download →</a>
                     </div>
                 `;
             });
