@@ -40,6 +40,9 @@ document.addEventListener("DOMContentLoaded", function(){
     });
 
     getEmployees(userId);
+    document.getElementById("logoutButton").addEventListener("click", () => {
+        window.location.href = "api/logout.php";
+    });
 });
 
 function addEmployee(){

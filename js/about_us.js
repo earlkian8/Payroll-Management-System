@@ -17,4 +17,8 @@ document.addEventListener("DOMContentLoaded", function(){
     document.getElementById("about_usNav").addEventListener("click", () => {
         window.location.href = `about_us.php?userId=${userId}`;
     });
+
+    document.getElementById("logoutButton").addEventListener("click", () => {
+        window.location.href = "api/logout.php";
+    });
 });

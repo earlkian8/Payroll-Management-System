@@ -12,7 +12,6 @@
     $conn = $db->getConnection();
 
     $p = new PayrollDetails($conn);
-    $e = new EmployeePayHeads($conn);
 
     $method = $_SERVER["REQUEST_METHOD"];
 

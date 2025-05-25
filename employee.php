@@ -33,7 +33,7 @@
                 <li id="about_usNav"><i class="fas fa-info-circle"></i><span>About Us</span></li>
             </ul>
         </div>
-        <button class="logout-btn"><i class="fas fa-sign-out-alt"></i><span>Logout</span></button>
+        <a href="api/logout.php" class="logout-btn" id="logoutButton"><i class="fas fa-sign-out-alt"></i><span>Logout</span></a>
     </div>
 
     <div class="main-content">

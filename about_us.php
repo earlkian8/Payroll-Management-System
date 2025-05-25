@@ -30,7 +30,7 @@
                 <li id="about_usNav" class="active"><i class="fas fa-info-circle"></i><span>About Us</span></li>
             </ul>
         </div>
-        <button class="logout-btn"><i class="fas fa-sign-out-alt"></i><span>Logout</span></button>
+        <a href="api/logout.php" class="logout-btn" id="logoutButton"><i class="fas fa-sign-out-alt"></i><span>Logout</span></a>
     </div>
 
     <!-- Content Area -->
@@ -87,7 +87,7 @@
                         </div>
                         <div class="team-member-info">
                             <h3 class="h2Class">Francis John Miravilla</h3>
-                            <p class="role">Full Stack Developer</p>
+                            <p class="role">Front End Developer</p>
                             <p class="description">The team relies heavily on his technical expertise. Each responsibility was handled with focus and precision, ensuring high-quality results in every task.</p>
                             <a href="../Francis/view/view.php" target="_blank" class="portfolio-link">
                                 <i class="fas fa-external-link-alt"></i>
@@ -114,7 +114,7 @@
                         </div>
                         <div class="team-member-info">
                             <h3 class="h2Class">Paolo Eijansantos</h3>
-                            <p class="role">Full Stack Developer</p>
+                            <p class="role">Designer</p>
                             <p class="description">An exceptional problem solver with a keen eye for detail. His contributions to the project have been fundamental in achieving our goals.</p>
                             <a href="../Paolo/mainpage.php" target="_blank" class="portfolio-link">
                                 <i class="fas fa-external-link-alt"></i>
@@ -128,7 +128,7 @@
                         </div>
                         <div class="team-member-info">
                             <h3 class="h2Class">Charles Gumondas</h3>
-                            <p class="role">Full Stack Developer</p>
+                            <p class="role">Designer</p>
                             <p class="description">Brings creative solutions and technical expertise to the team. His dedication to quality and efficiency has greatly improved our workflow.</p>
                             <a href="../Charles/portfolio.php" target="_blank" class="portfolio-link">
                                 <i class="fas fa-external-link-alt"></i>
@@ -142,7 +142,7 @@
                         </div>
                         <div class="team-member-info">
                             <h3 class="h2Class">Cydrick Amparan</h3>
-                            <p class="role">Full Stack Developer</p>
+                            <p class="role">Project Manager/Quality Assurance</p>
                             <p class="description">A valuable team member who consistently delivers high-quality work. His technical skills and collaborative nature enhance our team's capabilities.</p>
                             <a href="../Cydrick/INDEX.php" target="_blank" class="portfolio-link">
                                 <i class="fas fa-external-link-alt"></i>
@@ -156,7 +156,7 @@
                         </div>
                         <div class="team-member-info">
                             <h3 class="h2Class">Ameer Sabtal</h3>
-                            <p class="role">Full Stack Developer</p>
+                            <p class="role">Designer</p>
                             <p class="description">Demonstrates exceptional problem-solving abilities and technical expertise. His contributions have been essential to the project's success.</p>
                             <a href="../Ameer/index.php" target="_blank" class="portfolio-link">
                                 <i class="fas fa-external-link-alt"></i>

@@ -30,7 +30,9 @@ document.addEventListener('DOMContentLoaded', function() {
 
     getPayHeads();
 
-    
+    document.getElementById("logoutButton").addEventListener("click", () => {
+        window.location.href = "api/logout.php";
+    });
 });
 let userId = null;
 let allPayHeads = [];

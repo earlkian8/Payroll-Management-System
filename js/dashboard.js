@@ -18,6 +18,11 @@ document.addEventListener("DOMContentLoaded", () => {
         window.location.href = `about_us.php?userId=${userId}`;
     });
     getDashboard(userId);
+
+
+    document.getElementById("logoutButton").addEventListener("click", () => {
+        window.location.href = "api/logout.php";
+    });
 });
 
 function getDashboard(id){

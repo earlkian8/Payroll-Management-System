@@ -54,6 +54,10 @@ document.addEventListener('DOMContentLoaded', function() {
         event.preventDefault();
         document.getElementById("modalIssue").classList.remove("show");
     });
+
+    document.getElementById("logoutButton").addEventListener("click", () => {
+        window.location.href = "api/logout.php";
+    });
 });
 
 let userId = null;
